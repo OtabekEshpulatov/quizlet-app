@@ -1,6 +1,6 @@
 package com.nooglers.dao;
 
-import com.nooglers.domains.Users;
+import com.nooglers.domains.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -12,16 +12,15 @@ public abstract class BaseDao<T> {
     EntityManager entityManager = entityManagerFactory.createEntityManager();
 
 
-    {
-        Users bookBook = entityManager.createQuery("select b from mybook b where b.id = :id" , Users.class)
-                .setParameter("id" , 9).getSingleResult();
-    }
 
-    protected abstract void save(Users users);
+
+
+
+    protected abstract void save(User users);
 
     protected abstract void save(T t);
 
-    protected abstract int update(T t);
+    protected abstract void update(T t);
 
     protected abstract boolean delete(T t);
 

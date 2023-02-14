@@ -1,14 +1,14 @@
 package com.nooglers;
 
 import com.nooglers.dao.UserDao;
-import com.nooglers.domains.Users;
+import com.nooglers.domains.User;
 
 public class Main {
     public static void main(String[] args) {
 
         UserDao dao=new UserDao();
 
-        Users users = Users.builder()
+        User users = User.builder()
                 .email("email@gmail.com")
                 .password("123")
                 .username("someName")

@@ -1,30 +1,43 @@
 package com.nooglers.dao;
 
-import com.nooglers.domains.Users;
+import com.nooglers.domains.User;
+import jakarta.persistence.EntityTransaction;
 
 import java.util.List;
 
-public class UserDao extends BaseDao<Users> {
+public class UserDao extends BaseDao<User> {
 
 
     @Override
-    public void save(Users users) {
+    public void save(User users) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
         entityManager.persist(users);
+        transaction.commit();
     }
 
 
     @Override
-    public int update(Users o) {
-        return 0;
+    public void update(User o) {
+
+
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        transaction.begin();
+        User user = entityManager.find(User.class , o.getId());
+        if ( o.getPassword() != null ) user.setPassword(user.getPassword());
+        if ( o.getUsername() != null ) user.setUsername(user.getUsername());
+        transaction.commit();
+
     }
 
     @Override
-    public boolean delete(Users o) {
+    public boolean delete(User o) {
         return false;
     }
 
     @Override
-    public List<Users> getAll() {
+    public List<User> getAll() {
         return null;
     }
 }
