@@ -27,5 +27,7 @@ public abstract class BaseDomain {
     @Column( name = "updated_by" )
     @OneToOne
     private User updatedBy;
+
+
 }
 

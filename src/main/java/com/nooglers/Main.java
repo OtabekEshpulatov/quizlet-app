@@ -4,6 +4,8 @@ import com.nooglers.dao.UserDao;
 import com.nooglers.domains.User;
 import com.nooglers.domains.test.Question;
 
+import java.util.HashMap;
+
 public class Main {
     public static void main(String[] args) {
 
