@@ -2,6 +2,7 @@ package com.nooglers.domains.test;
 
 import com.nooglers.domains.User;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -15,8 +16,10 @@ public class QuizHistory {
     private Integer id;
 
     @Column( name = "created_at", columnDefinition = "timestamp with time zone default current_timestamp" )
+    @CreationTimestamp
     private LocalDateTime createdAt;
     @Column( name = "updated_at", columnDefinition = "timestamp with time zone" )
+    @CreationTimestamp
     private LocalDateTime updatedAt;
 
     @Column( name = "started_at", columnDefinition = "timestamp with time zone" )

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,14 +19,15 @@ import java.util.List;
 public class Module extends BaseDomain {
 
     @Column( name = "created_at", columnDefinition = "timestamp with time zone default current_timestamp", nullable = false )
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column( name = "updated_at", columnDefinition = "timestamp with time zone" )
+
     private LocalDateTime updatedAt;
     @Column( columnDefinition = "smallint default 0" )
     private short deleted;
     @OneToOne
-
     private User createdBy;
     @ManyToMany
     private List<Folder> folder;

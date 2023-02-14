@@ -2,6 +2,7 @@ package com.nooglers.domains;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class User extends BaseDomain {
 
+    @CreationTimestamp
     @Column( columnDefinition = "timestamp with time zone default current_timestamp", name = "created_at" )
     private LocalDateTime createdAt;
 

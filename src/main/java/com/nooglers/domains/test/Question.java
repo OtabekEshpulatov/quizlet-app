@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -21,9 +22,11 @@ public class Question {
     @Column( nullable = false )
     private String body;
     @Column( columnDefinition = "timestamp with time zone default current_timestamp", name = "created_at" )
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column( columnDefinition = "timestamp with time zone", name = "updated_at" )
+    @CreationTimestamp
     private LocalDateTime updatedAt;
     @Column( columnDefinition = "smallint default 0" )
     private short deleted;

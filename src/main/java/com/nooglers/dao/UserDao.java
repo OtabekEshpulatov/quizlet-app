@@ -2,22 +2,23 @@ package com.nooglers.dao;
 
 import com.nooglers.domains.User;
 import com.nooglers.utils.Encrypt;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityTransaction;
 
+import java.nio.file.LinkOption;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserDao extends BaseDao<User, Integer> {
 
 
     @Override
-    public Integer save(User user) {
+    public User save(User user) {
         user.setPassword(Encrypt.decodePassword(user.getPassword()));
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.persist(user);
         transaction.commit();
-        return user.getId();
+        return user;
     }
 
 
@@ -31,7 +32,7 @@ public class UserDao extends BaseDao<User, Integer> {
         if ( user.getPassword() != null ) edittingUser.setPassword(Encrypt.decodePassword(user.getPassword()));
         if ( user.getUsername() != null ) edittingUser.setUsername(user.getUsername());
         if ( user.getEmail() != null ) edittingUser.setEmail(user.getEmail());
-
+        edittingUser.setUpdatedAt(LocalDateTime.now());
         transaction.commit();
         return edittingUser;
     }

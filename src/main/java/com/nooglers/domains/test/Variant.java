@@ -2,6 +2,7 @@ package com.nooglers.domains.test;
 
 import com.nooglers.domains.User;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -25,9 +26,11 @@ public class Variant {
     @OneToOne
     private User createdBy;
     @Column( columnDefinition = "timestamp with time zone default current_timestamp", name = "created_at" )
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column( columnDefinition = "timestamp with time zone", name = "updated_at" )
+    @CreationTimestamp
     private LocalDateTime updatedAt;
 
     //    @Column( name = "updated_by" )

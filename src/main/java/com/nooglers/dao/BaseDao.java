@@ -12,7 +12,7 @@ public abstract class BaseDao<T, ID> {
     EntityManager entityManager = entityManagerFactory.createEntityManager();
 
 
-    protected abstract ID save(T t);
+    protected abstract T save(T t);
 
 
     protected abstract T update(T t);
