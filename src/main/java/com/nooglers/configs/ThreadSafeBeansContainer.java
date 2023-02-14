@@ -2,8 +2,6 @@ package com.nooglers.configs;
 
 import com.nooglers.services.UserService;
 
-import java.util.function.Supplier;
-
 public class ThreadSafeBeansContainer {
 
 
