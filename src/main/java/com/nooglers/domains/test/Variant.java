@@ -13,25 +13,24 @@ public class Variant {
     private Integer id;
 
     @ManyToOne
-//    @Column( name = "question_id" )
     private Question question;
 
-    @Column( nullable = false, columnDefinition = "varchar check(length(trim(body))>0)" )
+    @Column( nullable = false )
     private String body;
 
     @Column( name = "is_correct", nullable = false, columnDefinition = "bool default false" )
     private boolean isCorrect;
 
-//    @Column( name = "created_by" )
+    //    @Column( name = "created_by" )
     @OneToOne
     private User createdBy;
-    @Column( columnDefinition = "timestamp with timezone default current_timestamp", name = "created_at" )
+    @Column( columnDefinition = "timestamp with time zone default current_timestamp", name = "created_at" )
     private LocalDateTime createdAt;
 
     @Column( columnDefinition = "timestamp with time zone", name = "updated_at" )
     private LocalDateTime updatedAt;
 
-//    @Column( name = "updated_by" )
+    //    @Column( name = "updated_by" )
     @OneToOne
     private User updatedBy;
 

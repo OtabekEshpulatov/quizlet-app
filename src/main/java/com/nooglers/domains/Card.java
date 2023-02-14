@@ -23,6 +23,8 @@ public class Card extends BaseDomain {
     @Column( columnDefinition = "smallint default 0" )
     private short deleted;
     @Id
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @OneToOne
     private User createdBy;

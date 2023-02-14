@@ -28,14 +28,14 @@ public class QuizHistory {
     @Column( columnDefinition = "smallint default 0", nullable = false )
     private short deleted;
 
-//    @Column( columnDefinition = "created_by", nullable = false )
+ 
     @OneToOne
     private User createdBy;
 
-    @Column( columnDefinition = "smallint default 0", nullable = false )
+    @Column( columnDefinition = "smallint default 0", nullable = false, name = "total_question_count" )
     private int totalQuestionCount;
 
-    @Column( columnDefinition = "smallint default 0", nullable = false )
+    @Column( columnDefinition = "smallint default 0", nullable = false,name = "total_answer_count")
     private int correctAnswerCount;
 
 

@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class User extends BaseDomain {
 
-    @Column(columnDefinition = "timestamp with time zone default current_timestamp", nullable = true)
+    @Column( columnDefinition = "timestamp with time zone default current_timestamp", name = "created_at" )
     private LocalDateTime createdAt;
+
+    @Column( columnDefinition = "timestamp with time zone", name = "updated_at" )
     private LocalDateTime updatedAt;
 
-    @Column(columnDefinition = "smallint default 0")
+    @Column( columnDefinition = "smallint default 0", nullable = false )
     private short deleted;
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )

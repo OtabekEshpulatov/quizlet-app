@@ -17,11 +17,15 @@ import java.util.List;
 @AllArgsConstructor
 public class Module extends BaseDomain {
 
+    @Column( name = "created_at", columnDefinition = "timestamp with time zone default current_timestamp", nullable = false )
     private LocalDateTime createdAt;
+
+    @Column( name = "updated_at", columnDefinition = "timestamp with time zone" )
     private LocalDateTime updatedAt;
     @Column( columnDefinition = "smallint default 0" )
     private short deleted;
     @OneToOne
+
     private User createdBy;
     @ManyToMany
     private List<Folder> folder;
@@ -30,6 +34,8 @@ public class Module extends BaseDomain {
     private Integer id;
     @Column( nullable = false )
     private String name;
+
+    @Column( name = "is_public", columnDefinition = "bool default true", nullable = false )
     private boolean isPublic;
 
 }

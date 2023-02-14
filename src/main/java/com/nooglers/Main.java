@@ -2,6 +2,7 @@ package com.nooglers;
 
 import com.nooglers.dao.UserDao;
 import com.nooglers.domains.User;
+import com.nooglers.domains.test.Question;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,16 +13,18 @@ public class Main {
 //
 //        dao.save(users);
 
-        User name = User.builder()
-                .id(1)
-                .username("otash")
-                .password("8182040615")
-                .email("otabekeshpulatov123@gmail.com")
-                .build();
+//        User name = User.builder()
+//                .id(1)
+//                .username("otash")
+//                .password("8182040615")
+//                .email("otabekeshpulatov123@gmail.com")
+//                .build();
 
 
-        dao.update(name);
+//        dao.update(name);
 
+
+        Question.builder().build();
 
     }
 }

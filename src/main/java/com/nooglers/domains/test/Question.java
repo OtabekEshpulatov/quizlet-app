@@ -20,7 +20,7 @@ public class Question {
     private Integer id;
     @Column( nullable = false )
     private String body;
-    @Column( columnDefinition = "timestamp with timezone default current_timestamp", name = "created_at" )
+    @Column( columnDefinition = "timestamp with time zone default current_timestamp", name = "created_at" )
     private LocalDateTime createdAt;
 
     @Column( columnDefinition = "timestamp with time zone", name = "updated_at" )
@@ -29,7 +29,7 @@ public class Question {
     private short deleted;
 
 
-    //    @Column( name = "created_by" )
+    @PrimaryKeyJoinColumn( name = "created_by" )
     @OneToOne
     private User createdBy;
 
