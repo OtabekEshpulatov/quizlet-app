@@ -1,9 +1,6 @@
 package com.nooglers.domains;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,13 +17,12 @@ import java.time.LocalDateTime;
 public class Folder extends BaseDomain {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    @Column(columnDefinition = "smallint default 0")
+    @Column( columnDefinition = "smallint default 0" )
     private short deleted;
     @Id
     private Integer id;
     private String name;
-
-    private Integer createdBy;
+    @OneToOne
+    private User createdBy;
 
 }

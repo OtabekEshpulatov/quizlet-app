@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity()
 @Table( name = "card" )
@@ -19,19 +20,18 @@ public class Card extends BaseDomain {
     @Column( columnDefinition = "timestamp default current_timestamp" )
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-
     @Column( columnDefinition = "smallint default 0" )
     private short deleted;
     @Id
     private Integer id;
-
-
-    //    @Column( columnDefinition = "references users(id)" )
-    private Integer createdBy;
+    @OneToOne
+    private User createdBy;
+    @ManyToOne
+    private Module module;
 
     @Column( nullable = false )
     private String title;
+    @Column( nullable = false )
     private String description;
 
 }

@@ -19,9 +19,10 @@ public class Module extends BaseDomain {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    @Column(columnDefinition = "smallint default 0")
+    @Column( columnDefinition = "smallint default 0" )
     private short deleted;
-    private Integer createdBy;
+    @OneToOne
+    private User createdBy;
     @ManyToMany
     private List<Folder> folder;
     @Id

@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 
 
 public abstract class BaseDomain {
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private short deleted;
-    @Id
-    private Integer id;
+//    private LocalDateTime createdAt;
+//    private LocalDateTime updatedAt;
+//    private short deleted;
+//    @Id
+//    private Integer id;
 
 }
