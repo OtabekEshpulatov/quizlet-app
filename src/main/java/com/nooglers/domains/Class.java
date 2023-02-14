@@ -50,4 +50,6 @@ public class Class extends BaseDomain {
     private String invitationLink;
 
 
+
+
 }

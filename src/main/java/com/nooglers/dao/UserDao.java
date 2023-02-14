@@ -13,6 +13,7 @@ public class UserDao extends BaseDao<User, Integer> {
 
     @Override
     public User save(User user) {
+
         user.setPassword(Encrypt.decodePassword(user.getPassword()));
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
