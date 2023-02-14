@@ -19,21 +19,28 @@ public class UserDao extends BaseDao<User> {
 
     @Override
     public void update(User o) {
-
-
         EntityTransaction transaction = entityManager.getTransaction();
 
         transaction.begin();
         User user = entityManager.find(User.class , o.getId());
-        if ( o.getPassword() != null ) user.setPassword(user.getPassword());
-        if ( o.getUsername() != null ) user.setUsername(user.getUsername());
-        transaction.commit();
 
+//        user.setUsername(o.getUsername());
+//        user.setPassword(o.getPassword());
+//        user.setEmail(o.getEmail());
+
+        entityManager.merge(o);
+        transaction.commit();
     }
 
     @Override
-    public boolean delete(User o) {
-        return false;
+    public boolean delete(Integer id) {
+        try {
+            entityManager.remove(entityManager.find(User.class , id));
+        } catch ( Exception ex ) {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override

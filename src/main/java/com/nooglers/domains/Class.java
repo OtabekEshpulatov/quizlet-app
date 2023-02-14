@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Entity( name = "User" )
+@Entity( )
 @Table( name = "class" )
 @Builder
 @Data
@@ -23,7 +23,7 @@ public class Class extends BaseDomain {
     @Column( columnDefinition = "timestamp default current_timestamp" )
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    @Column( columnDefinition = "short default 0" )
+    @Column( columnDefinition = "smallint default 0" )
     private short deleted;
     @Id
     private Integer id;
