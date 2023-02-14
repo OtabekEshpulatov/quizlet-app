@@ -38,4 +38,7 @@ public class Module extends BaseDomain {
     @Column( name = "is_public", columnDefinition = "bool default true", nullable = false )
     private boolean isPublic;
 
+
+    private String description;
+
 }

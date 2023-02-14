@@ -30,6 +30,10 @@ public class Folder extends BaseDomain {
     private String name;
 
 
+    @Column(nullable = false)
+    private String description;
+
+
     @OneToOne
     private User createdBy;
 

@@ -30,4 +30,23 @@ public class Class extends BaseDomain {
     @OneToOne
     private User createdBy;
 
+    @Column( nullable = false )
+    private String name;
+
+    @Column
+    private String description;
+
+    @Column( name = "permission_to_invite", nullable = false, columnDefinition = "boolean default true" )
+    private boolean permissionToInvite;
+
+    @Column( name = "permission_to_update_sets", nullable = false, columnDefinition = "boolean default true" )
+    private boolean permissionToUpdateSets;
+
+    @Column( name = "school_name", nullable = false )
+    private String schoolName;
+
+    @Column( nullable = false, name = "invitation_link" )
+    private String invitationLink;
+
+
 }

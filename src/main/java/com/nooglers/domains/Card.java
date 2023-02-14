@@ -26,6 +26,7 @@ public class Card extends BaseDomain {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @OneToOne
     private User createdBy;
     @ManyToOne
