@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity()
-@Table( name = "card" )
+@Table(name = "card")
 @Builder
 @Data
 @NoArgsConstructor
@@ -19,13 +19,13 @@ import java.util.List;
 public class Card extends BaseDomain {
 
     @CreationTimestamp
-    @Column( columnDefinition = "timestamp default current_timestamp" )
+    @Column(columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime createdAt;
 
 
     @Column( columnDefinition = "timestamp with time zone", name = "updated_at" )
     private LocalDateTime updatedAt;
-    @Column( columnDefinition = "smallint default 0" )
+    @Column(columnDefinition = "smallint default 0")
     private short deleted;
     @Id
 
@@ -37,9 +37,9 @@ public class Card extends BaseDomain {
     @ManyToOne
     private Module module;
 
-    @Column( nullable = false )
+    @Column(nullable = false)
     private String title;
-    @Column( nullable = false )
+    @Column(nullable = false)
     private String description;
 
 }

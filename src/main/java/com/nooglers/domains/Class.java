@@ -10,7 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity()
-@Table( name = "class" )
+@Table(name = "class")
 @Builder
 @Data
 @NoArgsConstructor
@@ -18,15 +18,15 @@ import java.time.LocalDateTime;
 public class Class extends BaseDomain {
 
     @CreationTimestamp
-    @Column( columnDefinition = "timestamp default current_timestamp", name = "created_at", nullable = false )
+    @Column(columnDefinition = "timestamp default current_timestamp", name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column( name = "updated_at" )
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    @Column( columnDefinition = "smallint default 0" )
+    @Column(columnDefinition = "smallint default 0")
     private short deleted;
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @OneToOne
     private User createdBy;

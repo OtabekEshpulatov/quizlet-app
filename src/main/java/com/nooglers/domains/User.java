@@ -6,8 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-@Entity( name = "Users" )
-@Table( name = "users" )
+@Entity(name = "Users")
+@Table(name = "users")
 @Builder
 @Data
 @NoArgsConstructor
@@ -15,22 +15,22 @@ import java.time.LocalDateTime;
 public class User extends BaseDomain {
 
     @CreationTimestamp
-    @Column( columnDefinition = "timestamp with time zone default current_timestamp", name = "created_at" )
+    @Column(columnDefinition = "timestamp with time zone default current_timestamp", name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column( columnDefinition = "timestamp with time zone", name = "updated_at" )
+    @Column(columnDefinition = "timestamp with time zone", name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column( columnDefinition = "smallint default 0", nullable = false )
+    @Column(columnDefinition = "smallint default 0", nullable = false)
     private short deleted;
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column( unique = true, nullable = false )
+    @Column(unique = true, nullable = false)
     private String email;
-    @Column( unique = true, nullable = false )
+    @Column(unique = true, nullable = false)
     private String username;
-    @Column( nullable = false )
+    @Column(nullable = false)
     private String password;
 
 
