@@ -7,20 +7,21 @@ import jakarta.persistence.Persistence;
 
 import java.util.List;
 
-public abstract class BaseDao<T> {
+public abstract class BaseDao<T, ID> {
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence_unit");
     EntityManager entityManager = entityManagerFactory.createEntityManager();
 
 
-    protected abstract void save(User users);
+    protected abstract ID save(T t);
 
-    protected abstract void save(T t);
 
-    protected abstract void update(T t);
+    protected abstract T update(T t);
 
-    protected abstract boolean delete(Integer id);
+    protected abstract T delete(ID id);
 
     protected abstract List<T> getAll();
+
+    protected abstract T get(ID id);
 
 
 }

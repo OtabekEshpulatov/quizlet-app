@@ -1,50 +1,60 @@
 package com.nooglers.dao;
 
 import com.nooglers.domains.User;
+import com.nooglers.utils.Encrypt;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityTransaction;
 
 import java.util.List;
 
-public class UserDao extends BaseDao<User> {
+public class UserDao extends BaseDao<User, Integer> {
 
 
     @Override
-    public void save(User users) {
+    public Integer save(User user) {
+        user.setPassword(Encrypt.decodePassword(user.getPassword()));
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        entityManager.persist(users);
+        entityManager.persist(user);
         transaction.commit();
+        return user.getId();
     }
 
 
     @Override
-    public void update(User o) {
+    public User update(User user) {
         EntityTransaction transaction = entityManager.getTransaction();
 
         transaction.begin();
-        User user = entityManager.find(User.class , o.getId());
+        User edittingUser = entityManager.find(User.class , user.getId());
 
-//        user.setUsername(o.getUsername());
-//        user.setPassword(o.getPassword());
-//        user.setEmail(o.getEmail());
+        if ( user.getPassword() != null ) edittingUser.setPassword(Encrypt.decodePassword(user.getPassword()));
+        if ( user.getUsername() != null ) edittingUser.setUsername(user.getUsername());
+        if ( user.getEmail() != null ) edittingUser.setEmail(user.getEmail());
 
-        entityManager.merge(o);
         transaction.commit();
+        return edittingUser;
     }
 
     @Override
-    public boolean delete(Integer id) {
-        try {
-            entityManager.remove(entityManager.find(User.class , id));
-        } catch ( Exception ex ) {
-            ex.printStackTrace();
-            return false;
-        }
-        return true;
+    public User delete(Integer id) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        User user = entityManager.find(User.class , id);
+        user.setDeleted(( short ) 1);
+        transaction.commit();
+        return user;
+    }
+
+    @Override
+    protected User get(Integer id) {
+        return entityManager.find(User.class , id);
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return entityManager.createQuery("select u from Users u" , User.class).getResultList();
     }
+
+
 }
