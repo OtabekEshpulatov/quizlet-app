@@ -1,15 +1,13 @@
 package com.nooglers.domains.test;
 
-import com.nooglers.domains.User;
+import com.nooglers.domains.Card;
+import com.nooglers.enums.QuizType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
-
-@Entity
+@Entity( name = "question" )
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,27 +19,39 @@ public class Question {
     private Integer id;
     @Column( nullable = false )
     private String body;
-    @Column( columnDefinition = "timestamp with time zone default current_timestamp", name = "created_at" )
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 
-    @Column( columnDefinition = "timestamp with time zone", name = "updated_at" )
-    @CreationTimestamp
-    private LocalDateTime updatedAt;
-    @Column( columnDefinition = "smallint default 0" )
-    private short deleted;
+    @Column( nullable = false, name = "correct_answers" )
+    private String correctAnswers; // separated by the DELIM
 
 
-    @PrimaryKeyJoinColumn( name = "created_by" )
-    @OneToOne
-    private User createdBy;
+    @Column( nullable = false, name = "wrong_answers" )
+    private String wrongAnswers; // split by the DELIM;
+
+    @Column( name = "user_answers" )
+    private String userAnswers; // split by the DELIM;
+
+    @Enumerated( EnumType.STRING )
+    @Column( name = "quiz_type" )
+    private QuizType quizType;
+
+    @ManyToOne
+    private Card card;
+
+    @ManyToOne
+    @Column( name = "quiz_history", nullable = false )
+    private QuizHistory quizHistory;
 
 
-    @PrimaryKeyJoinColumn( name = "updated_by" )
-    @OneToOne
-    private User updatedBy;
+//    @PrimaryKeyJoinColumn( name = "created_by" )
+//    @OneToOne
+//    private User createdBy;
 
-    @Column( name = "correct_answer_count", columnDefinition = "smallint default 0" )
-    private int correctAnswerCount;
+
+//    @PrimaryKeyJoinColumn( name = "updated_by" )
+//    @OneToOne
+//    private User updatedBy;
+
+//    @Column( name = "correct_answer_count", columnDefinition = "smallint default 0" )
+//    private int correctAnswerCount;
 
 }

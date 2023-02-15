@@ -43,6 +43,9 @@ public class Module extends BaseDomain {
     @ManyToMany
     private List<Class> moduleClass;
 
+    @Column( name = "last_seen" )
+    private LocalDateTime lastSeen;
+
 
     private String description;
 
