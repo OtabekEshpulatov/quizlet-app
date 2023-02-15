@@ -8,7 +8,7 @@ import java.nio.file.LinkOption;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class UserDao extends BaseDao<User, Integer> {
+public class UserDao extends BaseDao<User, Integer> implements EntityProvider {
 
 
     @Override

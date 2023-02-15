@@ -8,8 +8,6 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 
 public abstract class BaseDao<T, ID> {
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence_unit");
-    EntityManager entityManager = entityManagerFactory.createEntityManager();
 
 
     protected abstract T save(T t);

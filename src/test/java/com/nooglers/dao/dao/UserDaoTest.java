@@ -2,7 +2,7 @@ package com.nooglers.dao.dao;
 
 import com.nooglers.domains.User;
 
-public class UserDao {
+public class UserDaoTest {
     public static void main(String[] args) {
 
 

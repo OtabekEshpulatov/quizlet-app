@@ -1,8 +1,6 @@
 package com.nooglers;
 
 import com.nooglers.dao.UserDao;
-import com.nooglers.domains.User;
-import com.nooglers.domains.test.Question;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,7 +22,7 @@ public class Main {
 //        dao.update(name);
 
 
-        Question.builder().build();
+//        Definition.builder().build();
 
     }
 }

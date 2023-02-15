@@ -2,12 +2,18 @@ package com.nooglers.domains.test;
 
 import com.nooglers.domains.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table( name = "quiz_history" )
+@Entity( name = "quiz_history" )
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 public class QuizHistory {
 
 
@@ -31,14 +37,15 @@ public class QuizHistory {
     @Column( columnDefinition = "smallint default 0", nullable = false )
     private short deleted;
 
- 
+
     @OneToOne
+    @Column( nullable = false )
     private User createdBy;
 
     @Column( columnDefinition = "smallint default 0", nullable = false, name = "total_question_count" )
     private int totalQuestionCount;
 
-    @Column( columnDefinition = "smallint default 0", nullable = false,name = "total_answer_count")
+    @Column( columnDefinition = "smallint default 0", nullable = false, name = "correct_answer_count" )
     private int correctAnswerCount;
 
 
