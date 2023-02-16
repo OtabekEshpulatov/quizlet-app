@@ -29,7 +29,7 @@ public class UserProgress {
     private Card card;
 
     @Enumerated( EnumType.STRING )
-    @Column( columnDefinition = "default NOT_STUDIED" )
+    @Column( columnDefinition = "varchar default 'NOT_STUDIED'" )
     private LearningStatus status;
 
     @Column( columnDefinition = "smallint default 0" )

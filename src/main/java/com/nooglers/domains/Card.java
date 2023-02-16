@@ -34,7 +34,7 @@ public class Card extends BaseDomain {
 
     @OneToOne
     private User createdBy;
-    @ManyToOne
+    @ManyToOne( fetch = FetchType.LAZY )
     private Module module;
 
     @Column( nullable = false )

@@ -2,9 +2,9 @@ package com.nooglers.dao;
 
 import com.nooglers.domains.User;
 import com.nooglers.utils.Encrypt;
+import com.nooglers.utils.EntityProvider;
 import jakarta.persistence.EntityTransaction;
 
-import java.nio.file.LinkOption;
 import java.time.LocalDateTime;
 import java.util.List;
 
