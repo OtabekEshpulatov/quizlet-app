@@ -32,8 +32,8 @@ public class Question {
 //    @Column( nullable = false, name = "wrong_answers" )
 //    private String wrongAnswers; // split by the DELIM;
 
-    @Column( name = "user_answers" )
-    private int[] userAnswers;
+    @Column( name = "user_answer" )
+    private String userAnswer;
 
     @Enumerated( EnumType.STRING )
     @Column( name = "quiz_type" )
@@ -46,7 +46,7 @@ public class Question {
     private QuizHistory quizHistory;
 
 
-    @OneToMany( fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     List<Variant> variants;
 
 
