@@ -11,15 +11,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--<%@ taglib prefix="c" uri="jakarta.tags.core" %>--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ include file="/fragments/css.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--<%@ include file="/fragments/css.jsp" %>--%>
+
 <html>
 <head>
     <title>Test</title>
-    <style>
-        .buttons {
-            display: inline-block;
-        }
-    </style>
+    <link rel="stylesheet" href="/utils/css/bootstrap.min.css">
+
 </head>
 <body>
 
@@ -40,7 +39,7 @@
     <%--                    </div>--%>
     <%--                </div>--%>
 
-    <div class="card" style="width: 40rem; margin:20px 50%">
+    <div class="card" style="width: 40rem; margin:50px">
         <form method="post" action="/test">
 
             <input type="hidden" name="questionId" value="${question.id()}">
@@ -48,11 +47,12 @@
                 <%if ( question.quizType().equals("TRUE_FALSE") ) {%>
                 <div class="card-body">
                     <%
-                        if ( question.variants().size() > 1 ) {
-                            final Variant incorrectVar = question.variants().get(0);
+                        System.out.println(question.variants());
+                        if ( question.variants().size() == 1 ) {
+                            final Variant answer = question.variants().stream().filter(Variant::isCorrect).findAny().get();
                     %>
                     <div class="card-title">
-                        <p><i><b>Term</b></i>:   <%=incorrectVar.getTerm()%>
+                        <p><i><b>Term</b></i>:   <%=answer.getTerm()%>
                         </p>
                         <p><i><b>Definition</b></i>:   <%=question.definition()%>
                         </p>
@@ -61,6 +61,22 @@
                             True <input type="radio" name="value" value="false">False
                         </div>
                     </div>
+                    <%
+                    } else {
+                        final Variant incorrectAnswer = question.variants().stream().filter(variant -> !variant.isCorrect()).findAny().get();
+                        System.out.println("incorrect answer=" + incorrectAnswer);
+                    %>
+                    <div class="card-title">
+                        <p><i><b>Term</b></i>:   <%=incorrectAnswer.getTerm()%>
+                        </p>
+                        <p><i><b>Definition</b></i>:   <%=question.definition()%>
+                        </p>
+                        <div class="card-text">
+                            <input type="radio" name="value" value="true">
+                            True <input type="radio" name="value" value="false">False
+                        </div>
+                    </div>
+
                     <%}%>
                 </div>
 
@@ -87,19 +103,18 @@
                         <input type="radio" name="value" value="<%=variant.getId()%>"> <%=variant.getTerm()%>
                     </div>
                     <%}%>
-
                 </div>
                 <%}%>
 
-
             </label>
-            <div class="buttons">
+            <div>
                 <button href="/test" type="submit" class="btn-success">Next</button>
             </div>
+
         </form>
 
         <form method="post" action="/test/finish">
-            <div class="card-header">
+            <div>
                 <input type="hidden" name="questionId" value="${question.id()}">
                 <button class="btn-danger">Finish</button>
             </div>

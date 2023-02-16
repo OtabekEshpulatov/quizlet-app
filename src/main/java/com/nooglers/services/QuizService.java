@@ -2,7 +2,9 @@ package com.nooglers.services;
 
 import com.nooglers.dao.test.QuestionDao;
 import com.nooglers.domains.test.Question;
+import com.nooglers.domains.test.QuizHistory;
 import com.nooglers.dto.SolveQuestionDto;
+import com.nooglers.dto.SubmitQuestionDto;
 import lombok.NonNull;
 
 import static com.nooglers.configs.ThreadSafeBeansContainer.QUESTION_DAO;
@@ -35,5 +37,17 @@ public class QuizService {
 //        System.out.println(question);
 
 
+    }
+
+    public void submit(@NonNull Integer questionId , String answer) {
+        dao.submit(questionId , answer);
+    }
+
+    public int questionLeft(Integer userId) {
+        return dao.questionLeft(userId);
+    }
+
+    public QuizHistory finish(Integer userId) {
+        return dao.finish(userId);
     }
 }

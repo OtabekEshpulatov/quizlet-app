@@ -9,15 +9,12 @@ import com.nooglers.domains.progress.UserProgress;
 import com.nooglers.domains.test.Question;
 import com.nooglers.domains.test.QuizHistory;
 import com.nooglers.enums.QuizType;
-import com.nooglers.utils.ApplicationUtils;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.criteria.JoinType;
-import lombok.NonNull;
+import jakarta.persistence.NoResultException;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 import static com.nooglers.utils.ApplicationUtils.*;
 
@@ -26,8 +23,8 @@ public class QuestionDao implements EntityProvider {
 
     public SolveQuestionDto generateTest(Integer userId) {
 
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
+        entityManager.getTransaction().begin();
+
 
         var quizHistoryBuilder = QuizHistory.builder();
         User createdBy = entityManager.find(User.class , userId);
@@ -66,10 +63,10 @@ public class QuestionDao implements EntityProvider {
             if ( randomInt == 0 ) { // true-false
 
                 Question question = questionBuilder.definition(description).quizType(QuizType.TRUE_FALSE).build();
-                final Card randomCard = resultList.get(random.nextInt(resultList.size())).getCard();
+                final Card randomCard = getRandomCard(card , resultList);
 
                 if ( !random.nextBoolean() ) {
-                    question.setDefinition(randomCard.getDescription());
+//                    question.setDefinition(randomCard.getDescription());
                     var variant = Variant.builder().isCorrect(false).term(randomCard.getTitle()).question(question).build();
                     entityManager.persist(variant);
                 }
@@ -96,22 +93,26 @@ public class QuestionDao implements EntityProvider {
         }
 
 
-        transaction.commit();
+        entityManager.getTransaction().commit();
 
         return next(userId);
 
     }
 
+    private Card getRandomCard(Card currentCard , List<UserProgress> resultList) {
+        return resultList.stream().filter(up -> up.getCard() != currentCard).findAny().get().getCard();
+    }
+
     public SolveQuestionDto next(Integer userId) {
         try {
-            final Question singleResult = entityManager.createQuery("from question q  join quiz_history  qh on qh.id=q.quizHistory.id where qh.deleted=0 and qh.createdBy.id=?1 and q.userAnswers = null" , Question.class).setParameter(1 , userId).setMaxResults(1).getSingleResult();
-            final List<Variant> resultList = entityManager.createQuery("from variant v where v.question=?1" , Variant.class).setParameter(1,singleResult).getResultList();
-            return new SolveQuestionDto(singleResult.getQuizType().name() , singleResult.getDefinition() , resultList,singleResult.getId());
+            final Question question = entityManager.createQuery("from question q  join quiz_history  qh on qh.id=q.quizHistory.id where qh.deleted=0 and qh.createdBy.id=?1 and q.userAnswer = null" , Question.class).setParameter(1 , userId).setMaxResults(1).getSingleResult();
+            return new SolveQuestionDto(question.getQuizType().name() , question.getDefinition() , variants(question.getId()) , question.getId());
         } catch ( Exception ex ) {
             ex.printStackTrace();
             return null;
         }
     }
+
 
     private void createWrongAnswers(String correctTitle , Question question , List<UserProgress> resultList) {
 
@@ -123,5 +124,54 @@ public class QuestionDao implements EntityProvider {
                 entityManager.persist(variant);
             }
         }
+    }
+
+    public void submit(Integer questionId , String answer) {
+        entityManager.getTransaction().begin();
+        final int i = entityManager.createQuery("update question q set q.userAnswer=?1 where q.id=?2").setParameter(1 , answer).setParameter(2 , questionId).executeUpdate();
+        System.out.println("updated= " + i);
+        entityManager.getTransaction().commit();
+    }
+
+    public int questionLeft(Integer userId) {
+        try {
+            return entityManager.createQuery("select count(*) from question q where q.quizHistory.createdBy.id=?1 and q.userAnswer=null" , Long.class).setParameter(1 , userId).getSingleResult().intValue();
+        } catch ( NoResultException ex ) {
+            return 0;
+        }
+    }
+
+    @Transactional()
+    public QuizHistory finish(Integer userId) {
+
+        entityManager.getTransaction().begin();
+
+        final List<Question> resultList = entityManager
+                .createNativeQuery("select q from question q where q.quizHistory.createdBy.id=?1 and q.quizHistory.finishedAt =null" , Question.class).setParameter(1 , userId).getResultList();
+        final QuizHistory quizHistory = resultList.get(0).getQuizHistory();
+
+        for ( Question question : resultList ) {
+            final Variant variant = variants(question.getId()).stream().filter(Variant::isCorrect).findAny().get();
+            String correctAnswer = variant.getTerm();
+            int score = 0;
+
+            final String userAnswer = question.getUserAnswer();
+            System.out.println(userAnswer);
+            if ( question.getQuizType().equals(QuizType.TEST) ) {
+                if ( Integer.valueOf(userAnswer).equals(variant.getId()) ) score = 1;
+            } else {
+                if ( correctAnswer.equals(userAnswer) ) score = 1;
+            }
+
+            quizHistory.setCorrectAnswerCount(quizHistory.getCorrectAnswerCount() + score);
+        }
+
+        quizHistory.setFinishedAt(LocalDateTime.now());
+        entityManager.getTransaction().commit();
+        return quizHistory;
+    }
+
+    private List<Variant> variants(Integer questionId) {
+        return entityManager.createQuery("from variant v where v.question.id=?1" , Variant.class).setParameter(1 , questionId).getResultList();
     }
 }
