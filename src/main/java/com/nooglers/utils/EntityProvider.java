@@ -1,4 +1,4 @@
-package com.nooglers.dao;
+package com.nooglers.utils;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

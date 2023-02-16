@@ -5,12 +5,17 @@ import com.nooglers.enums.QuizType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity( name = "question" )
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class Question {
 
 
@@ -18,28 +23,31 @@ public class Question {
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Integer id;
     @Column( nullable = false )
-    private String body;
+    private String definition;
 
-    @Column( nullable = false, name = "correct_answers" )
-    private String correctAnswers; // separated by the DELIM
+//    @Column( nullable = false, name = "correct_answers" )
+//    private String correctAnswers; // separated by the DELIM
 
 
-    @Column( nullable = false, name = "wrong_answers" )
-    private String wrongAnswers; // split by the DELIM;
+//    @Column( nullable = false, name = "wrong_answers" )
+//    private String wrongAnswers; // split by the DELIM;
 
     @Column( name = "user_answers" )
-    private String userAnswers; // split by the DELIM;
+    private int[] userAnswers;
 
     @Enumerated( EnumType.STRING )
     @Column( name = "quiz_type" )
     private QuizType quizType;
 
-    @ManyToOne
+    @ManyToOne( fetch = FetchType.LAZY )
     private Card card;
 
-    @ManyToOne
-    @Column( name = "quiz_history", nullable = false )
+    @ManyToOne( fetch = FetchType.LAZY )
     private QuizHistory quizHistory;
+
+
+    @OneToMany( fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    List<Variant> variants;
 
 
 //    @PrimaryKeyJoinColumn( name = "created_by" )
