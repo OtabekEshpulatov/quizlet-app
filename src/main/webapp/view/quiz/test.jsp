@@ -40,6 +40,9 @@
     <%--                </div>--%>
 
     <div class="card" style="width: 40rem; margin:50px">
+
+        <span style="margin-left: 1px">${question.totalQuestionCount()-question.currentQuestionCount()+1}/${question.totalQuestionCount()}</span>
+
         <form method="post" action="/test">
 
             <input type="hidden" name="questionId" value="${question.id()}">

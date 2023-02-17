@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity( name = "question" )
 @NoArgsConstructor
@@ -48,6 +47,9 @@ public class Question {
 
     @OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     List<Variant> variants;
+
+    @Column( columnDefinition = "bool default false", name = "is_correct" )
+    private boolean isCorrect;
 
 
 //    @PrimaryKeyJoinColumn( name = "created_by" )

@@ -42,12 +42,13 @@ public class TestServlet extends HttpServlet {
         Integer userId = ( Integer ) req.getSession(false).getAttribute("remember_me");
         quizService.submit(questionId , answer);
 
-        final int i = quizService.questionLeft(userId);
-        System.out.println("questions left="+i);
-        if ( i == 0 ) {
+        final int questionLeft = quizService.questionLeft(userId);
+
+        System.out.println("questions left=" + questionLeft);
+        if ( questionLeft == 0 ) {
             resp.getWriter().write(quizService.finish(userId).toString());
-//            req.setAttribute("quizHistory" , quizService.finish(userId));
-//            req.getRequestDispatcher("/test/finish").forward(req , resp);
+            req.setAttribute("quizHistory" , quizService.finish(userId));
+            req.getRequestDispatcher("/test/finish").forward(req , resp);
         } else {
             final SolveQuestionDto next = quizService.next(userId);
             req.setAttribute("question" , next);
