@@ -12,12 +12,13 @@
 <%--<%@ taglib prefix="c" uri="jakarta.tags.core" %>--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--<%@ include file="/fragments/css.jsp" %>--%>
+<%@ include file="/fragments/css.jsp" %>
+<%@ page errorPage="/utils/error.jsp" %>
 
 <html>
 <head>
     <title>Test</title>
-    <link rel="stylesheet" href="/utils/css/bootstrap.min.css">
+    <%--    <link rel="stylesheet" href="/utils/css/bootstrap.min.css">--%>
 
 </head>
 <body>
@@ -111,17 +112,17 @@
 
             </label>
             <div>
-                <button href="/test" type="submit" class="btn-success">Next</button>
+                <button href="/test" type="submit" class="btn-success" >Next</button>
             </div>
 
         </form>
 
-        <form method="post" action="/test/finish">
-            <div>
-                <input type="hidden" name="questionId" value="${question.id()}">
-                <button class="btn-danger">Finish</button>
-            </div>
-        </form>
+
+        <div>
+            <a class="btn-danger" href="/test/result">Finish</a>
+        </div>
+
+
     </div>
 
 

@@ -23,45 +23,21 @@ public class Question {
     private Integer id;
     @Column( nullable = false )
     private String definition;
-
-//    @Column( nullable = false, name = "correct_answers" )
-//    private String correctAnswers; // separated by the DELIM
-
-
-//    @Column( nullable = false, name = "wrong_answers" )
-//    private String wrongAnswers; // split by the DELIM;
-
     @Column( name = "user_answer" )
     private String userAnswer;
 
     @Enumerated( EnumType.STRING )
     @Column( name = "quiz_type" )
     private QuizType quizType;
-
     @ManyToOne( fetch = FetchType.LAZY )
     private Card card;
 
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     private QuizHistory quizHistory;
-
-
     @OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     List<Variant> variants;
-
     @Column( columnDefinition = "bool default false", name = "is_correct" )
     private boolean isCorrect;
-
-
-//    @PrimaryKeyJoinColumn( name = "created_by" )
-//    @OneToOne
-//    private User createdBy;
-
-
-//    @PrimaryKeyJoinColumn( name = "updated_by" )
-//    @OneToOne
-//    private User updatedBy;
-
-//    @Column( name = "correct_answer_count", columnDefinition = "smallint default 0" )
-//    private int correctAnswerCount;
+    private String correctAnswer;
 
 }
