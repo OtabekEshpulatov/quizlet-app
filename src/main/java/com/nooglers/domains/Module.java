@@ -29,7 +29,7 @@ public class Module extends BaseDomain {
     private short deleted;
     @OneToOne
     private User createdBy;
-    @ManyToMany
+    @ManyToMany()
     private List<Folder> folder;
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )

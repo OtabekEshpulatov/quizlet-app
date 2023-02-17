@@ -34,4 +34,5 @@ public class UserProgress {
 
     @Column( columnDefinition = "smallint default 0" )
     private short score;
+
 }

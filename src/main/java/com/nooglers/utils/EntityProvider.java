@@ -7,5 +7,5 @@ import jakarta.persistence.Persistence;
 public interface EntityProvider {
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence_unit");
-    EntityManager entityManager = entityManagerFactory.createEntityManager();
+    ThreadLocal<EntityManager> entityManager = ThreadLocal.withInitial(entityManagerFactory::createEntityManager);
 }

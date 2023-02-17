@@ -22,7 +22,8 @@ public class TestServlet extends HttpServlet {
 
 
         Integer userId = ( Integer ) Objects.requireNonNullElse(req.getSession().getAttribute("sessionID") , 1);
-        final SolveQuestionDto solveQuestionDto = quizService.generateTest(userId);
+        Integer setId = Integer.valueOf(Objects.requireNonNullElse(req.getParameter("setId") , 1).toString());
+        final SolveQuestionDto solveQuestionDto = quizService.generateTest(userId , setId);
         System.out.println(solveQuestionDto);
         req.setAttribute("question" , solveQuestionDto);
         req.setAttribute("hasNext" , true);
@@ -39,21 +40,22 @@ public class TestServlet extends HttpServlet {
         req.getSession(false).setAttribute("remember_me" , 1);
         Integer questionId = Integer.valueOf(req.getParameter("questionId"));
         String answer = req.getParameter("value");
-        Integer userId = ( Integer ) req.getSession(false).getAttribute("remember_me");
+        Integer userId = ( Integer ) req.getSession().getAttribute("remember_me");
         quizService.submit(questionId , answer);
 
         final int questionLeft = quizService.questionLeft(userId);
 
         System.out.println("questions left=" + questionLeft);
         if ( questionLeft == 0 ) {
-            resp.getWriter().write(quizService.finish(userId).toString());
-            req.setAttribute("quizHistory" , quizService.finish(userId));
-            req.getRequestDispatcher("/test/finish").forward(req , resp);
+//            req.setAttribute("result" , quizService.finish(userId));
+            resp.sendRedirect("/test/result");
         } else {
             final SolveQuestionDto next = quizService.next(userId);
             req.setAttribute("question" , next);
             req.getRequestDispatcher("/view/quiz/test.jsp").forward(req , resp);
         }
 
+
+//        Duration.ofHours(ChronoUnit.HOURS.between(LocalDateTime.now() , LocalDateTime.now().plusHours(10))).toHours()
     }
 }
