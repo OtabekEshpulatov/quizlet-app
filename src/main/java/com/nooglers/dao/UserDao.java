@@ -48,7 +48,7 @@ public class UserDao extends BaseDao<User, Integer> {
     }
 
     @Override
-    protected User get(Integer id) {
+    public User get(Integer id) {
         return entityManager.find(User.class , id);
     }
 

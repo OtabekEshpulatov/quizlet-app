@@ -4,7 +4,27 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
     <welcome-file-list>
-        <welcome-file>/views/home.jsp</welcome-file>
-        <welcome-file>/views/main.jsp</welcome-file>
+        <welcome-file>/delete.jsp</welcome-file>
+        <welcome-file>/folder/add.jsp</welcome-file>
+        <welcome-file>/main.jsp</welcome-file>
     </welcome-file-list>
+<!--    <servlet>-->
+<!--        <servlet-name>folderServlet</servlet-name>-->
+<!--        <servlet-class>com.nooglers.servlets.folders.FolderServlet</servlet-class>-->
+<!--    </servlet>-->
+
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>folderServlet</servlet-name>-->
+<!--        <url-pattern>/</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>HelloWorld</servlet-name>-->
+<!--        <servlet-class>com.nooglers.servlets.HelloWorld</servlet-class>-->
+<!--    </servlet>-->
+
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>HelloWorld</servlet-name>-->
+<!--        <url-pattern>/HelloWorld</url-pattern>-->
+<!--    </servlet-mapping>-->
 </web-app>
