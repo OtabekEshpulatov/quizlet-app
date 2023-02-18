@@ -35,7 +35,7 @@
 --%>
 
 <div class="container col-lg-10 col-md-8 col-sm-6">
-    <form method="post" action="/class/add" style="width: 60%;margin-left: 20%;margin-top: 5%">
+    <form method="post" action="/group/add" style="width: 60%;margin-left: 20%;margin-top: 5%">
         <div class="mb-3">
             <label for="exampleInputName" class="form-label">Enter class name</label>
             <input type="text" class="form-control" id="exampleInputName" aria-describedby="emailHelp" name="classname"

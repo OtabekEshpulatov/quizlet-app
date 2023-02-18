@@ -1,7 +1,6 @@
 package com.nooglers.dao;
 
 import com.nooglers.domains.Class;
-import jakarta.persistence.TypedQuery;
 
 import java.time.LocalDateTime;
 import java.util.List;
