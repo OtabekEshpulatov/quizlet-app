@@ -8,8 +8,15 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 
 public abstract class BaseDao<T, ID> {
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence_unit");
-    EntityManager entityManager = entityManagerFactory.createEntityManager();
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence_unit");
+    protected static final EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+    protected static void begin() {
+        entityManager.getTransaction().begin();
+    }
+    protected static void commit() {
+        entityManager.getTransaction().commit();
+    }
 
 
     protected abstract T save(T t);

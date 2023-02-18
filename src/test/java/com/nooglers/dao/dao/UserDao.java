@@ -2,7 +2,7 @@ package com.nooglers.dao.dao;
 
 import com.nooglers.domains.User;
 
-public class UserDao {
+/*/public class UserDao {
     public static void main(String[] args) {
 
 
@@ -12,7 +12,7 @@ public class UserDao {
     }
 
     private static void updateTest() {
-        com.nooglers.dao.UserDao dao = new com.nooglers.dao.UserDao();
+       UserDao.getInstance();
 
         User polarBear = dao.update(User.builder()
                 .username("polarBear")
@@ -23,7 +23,7 @@ public class UserDao {
     }
 
     private static void saveTest() {
-        com.nooglers.dao.UserDao dao = new com.nooglers.dao.UserDao();
+       UserDao.getInstance();
 
 
         User user = dao.save(User.builder()
@@ -36,4 +36,4 @@ public class UserDao {
     }
 
 
-}
+}*/

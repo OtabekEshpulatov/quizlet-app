@@ -1,4 +1,4 @@
-package com.nooglers.servlets;
+package com.nooglers.servlets.aclass;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -6,12 +6,12 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "HomeServlet", value = "/home")
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "ClassUpdateServlet", value = "/class/update")
+public class ClassUpdateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/header.jsp");
-        dispatcher.forward(request, response);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/class/update.jsp");
+        requestDispatcher.forward(request,response);
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.nooglers.domains.test.Question;
 public class Main {
     public static void main(String[] args) {
 
-        UserDao dao = new UserDao();
+//        UserDao dao = new UserDao();
 //
 //        User users = User.builder().email("email@gmail.com").password("123").username("someName").build();
 //
