@@ -20,8 +20,8 @@ public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException, IOException {
 
-
-        Integer userId = ( Integer ) Objects.requireNonNullElse(req.getSession().getAttribute("sessionID") , 1);
+        req.getSession().setAttribute("user_id" , 1);
+        Integer userId = ( Integer ) Objects.requireNonNullElse(req.getSession().getAttribute("user_id") , 1);
         Integer setId = Integer.valueOf(Objects.requireNonNullElse(req.getParameter("setId") , 1).toString());
         final SolveQuestionDto solveQuestionDto = quizService.generateTest(userId , setId);
         System.out.println(solveQuestionDto);
@@ -37,10 +37,9 @@ public class TestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req , HttpServletResponse resp) throws ServletException, IOException {
 
 
-        req.getSession(false).setAttribute("remember_me" , 1);
         Integer questionId = Integer.valueOf(req.getParameter("questionId"));
         String answer = req.getParameter("value");
-        Integer userId = ( Integer ) req.getSession().getAttribute("remember_me");
+        Integer userId = ( Integer ) req.getSession().getAttribute("user_id");
         quizService.submit(questionId , answer);
 
         final int questionLeft = quizService.questionLeft(userId);

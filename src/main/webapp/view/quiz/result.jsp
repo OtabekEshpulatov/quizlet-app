@@ -1,31 +1,30 @@
 <jsp:useBean id="quizHistory" scope="request" type="com.nooglers.domains.test.QuizHistory"/>
-
-<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.time.temporal.ChronoUnit" %>
 <%@ page import="java.time.Duration" %>
-<%@ page import="com.nooglers.utils.ApplicationUtils" %><%--
+<%@ page import="com.nooglers.utils.ApplicationUtils" %>
+<%@ page import="com.nooglers.configs.ThreadSafeBeansContainer" %>
+<%@ include file="/fragments/css.jsp" %>
+<%--
   Created by IntelliJ IDEA.
   User: otash
   Date: 2/17/23
   Time: 7:06 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>Result</title>
-    <style>
-        .key {
-            font-style: italic;
-            text-decoration: underline;
-        }
-    </style>
+
 </head>
 <body>
 
 <div class="container">
 
-    <div class="text-bg-info">
+    <div class="text-info-emphasis">
+
+        <c:set var="quizService" scope="application" value="${ThreadSafeBeansContainer.QUIZ_SERVICE.get()}"/>
 
         <p>Questions count: ${quizHistory.getTotalQuestionCount()}
         </p>
@@ -44,27 +43,43 @@
 
     <div class="text-body">
         <c:set var="i" scope="session" value="${1}"/>
-        <c:forEach items="${questions}" var="question">
-        <p>${i}.
-            <span class="key">Definition: </span> ${question.getDefinition()}<br/>
-            <span class="key">Term: </span> ${question.getCorrectAnswer()}<br/>
-            <c:if test="${question.isCorrect()}">
-                <span class="key"> Your answer: </span>${question.getCorrectAnswer()} ✅<br/>
-            </c:if>
-            <c:if test="${!question.isCorrect()}">
-                <span class="key"> Your answer: </span>${question.getUserAnswer()==null?"did not answer":question.getUserAnswer()}
-                ❌ <br/>
-                <span class="key"> Correct answer: </span>${question.getCorrectAnswer()} ✅<br/>
-            </c:if>
-            <span class="key">Test type: </span> ${question.getQuizType()}<br/>
-        </p>
-        <c:set var="i" scope="session" value="${i+1}"/>
-        </c:forEach>
+        <jsp:useBean id="questions" scope="request" type="java.util.List"/>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Definition</th>
+                <th scope="col">Term</th>
+                <th scope="col">Your answer</th>
+                <th scope="col">Test type</th>
+                <th scope="col">Correct answer</th>
+                <th scope="col">Correct</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${questions}" var="question">
+                <c:set var="term" value="${quizService.getTerm(question)}"/>
+                <c:set var="userAnswer" value="${quizService.getUserAnswer(question)}"/>
 
+                <tr>
+                    <th scope="row">${i}</th>
+                    <td>${question.getDefinition()}</td>
+                    <td>${question.getDisplayTerm()}</td>
+                    <td>${userAnswer}</td>
+                    <td>${question.getQuizType()}</td>
+                    <td>${term}</td>
+                    <td>${question.isCorrect()?"✅":"❌"}</td>
+                </tr>
+                <c:set var="i" scope="session" value="${i+1}"/>
+            </c:forEach>
+
+            <div>
+                <a type="button" class="btn btn-success" href="/test">Try again</a>
+                <a type="button" class="btn btn-warning" href="/home">Back</a>
+            </div>
+            </tbody>
+        </table>
     </div>
-
 </div>
-
-
 </body>
 </html>

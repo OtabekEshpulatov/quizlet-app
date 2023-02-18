@@ -14,10 +14,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.nooglers.utils.ApplicationUtils.*;
 
@@ -68,25 +65,25 @@ public class QuestionDao implements EntityProvider {
 
             if ( randomInt == 0 ) { // true-false
 
-                Question question = questionBuilder.definition(description).correctAnswer(term).quizType(QuizType.TRUE_FALSE).build();
+                Question question = questionBuilder.definition(description).displayTerm(term).quizType(QuizType.TRUE_FALSE).build();
                 Card randomCard = getRandomCard(card , resultList);
 
                 if ( !random.nextBoolean() ) {
-                    question.setCorrectAnswer(randomCard.getTitle());
+                    question.setDisplayTerm(randomCard.getTitle());
                     final Variant variant = Variant.builder().isCorrect(false).term(randomCard.getTitle()).question(question).build();
                     em.persist(variant);
                 }
                 em.persist(Variant.builder().isCorrect(true).term(term).question(question).build());
 
             } else if ( randomInt == 1 ) {
-                Question question = questionBuilder.quizType(QuizType.WRITING).correctAnswer(term).definition(description).build();
+                Question question = questionBuilder.quizType(QuizType.WRITING).displayTerm(term).definition(description).build();
                 Variant variant = Variant.builder().question(question).term(term).isCorrect(true).build();
                 em.persist(variant);
 
 
             } else { // if ( randomInt == 2 )
                 questionBuilder.definition(description).quizType(QuizType.TEST).build();
-                Question question = questionBuilder.correctAnswer(term).build();
+                Question question = questionBuilder.displayTerm(term).build();
                 List<Variant> wrongAnswers = createWrongAnswersForTest(term , question , resultList);
                 wrongAnswers.add(Variant.builder().question(question).isCorrect(true).term(term).build());
                 Collections.shuffle(wrongAnswers);
@@ -225,11 +222,23 @@ public class QuestionDao implements EntityProvider {
         return ( size == 1 && userAnswer.equals("true") ) || ( size == 2 && userAnswer.equals("false") );
     }
 
-    private List<Variant> variants(Integer questionId) {
+    public List<Variant> variants(Integer questionId) {
         return entityManager.get().createQuery("from variant v where v.question.id=?1" , Variant.class).setParameter(1 , questionId).getResultList();
     }
 
     public List<Question> getQuestions(Integer quizHistoryId) {
         return entityManager.get().createQuery("from question  q where q.quizHistory.id=?1" , Question.class).setParameter(1 , quizHistoryId).getResultList();
+    }
+
+    public String getTerm(Integer questionId) {
+        return entityManager.get().createQuery("from variant v where v.question.id=?1 and v.isCorrect" , Variant.class).setParameter(1 , questionId).getSingleResult().getTerm();
+    }
+
+    public Variant getVariantById(Integer variantId) {
+        return entityManager.get().createQuery("from variant v where v.id=?1" , Variant.class).setParameter(1 , variantId).getSingleResult();
+    }
+
+    public void refresh(Object entity) {
+        entityManager.get().refresh(entity);
     }
 }

@@ -38,6 +38,8 @@ public class Question {
     List<Variant> variants;
     @Column( columnDefinition = "bool default false", name = "is_correct" )
     private boolean isCorrect;
-    private String correctAnswer;
+
+    @Column( name = "display_term" )
+    private String displayTerm;
 
 }
