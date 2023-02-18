@@ -58,7 +58,7 @@
         }
     </style>
 
-    <jsp:include page="/home/utils/header.jsp"/>
+
     <jsp:include page="/fragments/css.jsp"/>
 </head>
 <body style="background-color: #EFFDFD">
