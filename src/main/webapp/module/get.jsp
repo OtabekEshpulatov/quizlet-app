@@ -56,9 +56,7 @@
             box-shadow: 0 5px #666;
             transform: translateY(4px);
         }
-    </style>
-
-
+    </style
     <jsp:include page="/fragments/css.jsp"/>
 </head>
 <body style="background-color: #EFFDFD">
