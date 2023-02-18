@@ -12,9 +12,9 @@
         <class>com.nooglers.domains.User</class>
         <properties>
             <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:postgresql://localhost:5432/quizlet"/>
+                      value="jdbc:postgresql://localhost:5432/quizlet_app"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="123"/>
+            <property name="jakarta.persistence.jdbc.password" value="9999"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
         </properties>

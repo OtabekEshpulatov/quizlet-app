@@ -11,6 +11,7 @@ import java.util.List;
 public class UserDao extends BaseDao<User, Integer> {
 
 
+
     @Override
     public User save(User user) {
         user.setPassword(Encrypt.decodePassword(user.getPassword()));
