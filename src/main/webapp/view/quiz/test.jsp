@@ -11,7 +11,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--<%@ taglib prefix="c" uri="jakarta.tags.core" %>--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/fragments/css.jsp" %>
 <%@ page errorPage="/utils/error.jsp" %>
 
@@ -19,7 +18,13 @@
 <head>
     <title>Test</title>
     <%--    <link rel="stylesheet" href="/utils/css/bootstrap.min.css">--%>
-
+    <style>
+        .key {
+            font-style: italic;
+            text-decoration: underline;
+            font-weight: bolder;
+        }
+    </style>
 </head>
 <body>
 
@@ -28,21 +33,13 @@
 
         <%final SolveQuestionDto question = ( SolveQuestionDto ) request.getAttribute("question");%>
 
+    <div class="card" style="width: 50rem; margin: 50px auto; background-color: #eefdff">
 
-    <%--                <div class="card" style="width: 18rem;">--%>
-    <%--                    <div class="card-body">--%>
-    <%--                        <h5 class="card-title">Card title</h5>--%>
-    <%--                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>--%>
-    <%--                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the--%>
-    <%--                            card's content.</p>--%>
-    <%--                        <a href="#" class="card-link">Card link</a>--%>
-    <%--                        <a href="#" class="card-link">Another link</a>--%>
-    <%--                    </div>--%>
-    <%--                </div>--%>
+        <span style="margin: 2px">${question.totalQuestionCount()-question.currentQuestionCount()+1}/${question.totalQuestionCount()}</span>
 
-    <div class="card" style="width: 40rem; margin:50px">
-
-        <span style="margin-left: 1px">${question.totalQuestionCount()-question.currentQuestionCount()+1}/${question.totalQuestionCount()}</span>
+        <div>
+            <a type="button" class="btn btn-danger" style="margin-left: 90%" href="/test/result">Finish</a>
+        </div>
 
         <form method="post" action="/test">
 
@@ -56,9 +53,9 @@
                             final Variant answer = question.variants().stream().filter(Variant::isCorrect).findAny().get();
                     %>
                     <div class="card-title">
-                        <p><i><b>Term</b></i>:   <%=answer.getTerm()%>
+                        <p><span class="key">Term:   </span> <%=answer.getTerm()%>
                         </p>
-                        <p><i><b>Definition</b></i>:   <%=question.definition()%>
+                        <p><span class="key">Definition:   </span> ${question.definition()}
                         </p>
                         <div class="card-text">
                             <input type="radio" name="value" value="true">
@@ -71,9 +68,9 @@
                         System.out.println("incorrect answer=" + incorrectAnswer);
                     %>
                     <div class="card-title">
-                        <p><i><b>Term</b></i>:   <%=incorrectAnswer.getTerm()%>
+                        <p><span class="key">Term:   </span> <%=incorrectAnswer.getTerm()%>
                         </p>
-                        <p><i><b>Definition</b></i>:   <%=question.definition()%>
+                        <p><span class="key">Definition:  </span> ${question.definition()}
                         </p>
                         <div class="card-text">
                             <input type="radio" name="value" value="true">
@@ -88,7 +85,7 @@
 
                 <div class="card-body">
                     <div class="card-title">
-                        <p><%=question.definition()%>
+                        <p class="key">${question.definition()}
                     </div>
                     <div class="card-text">
                         <input type="text" placeholder="your answer" name="value">
@@ -99,7 +96,9 @@
                 <%} else if ( question.quizType().equals("TEST") ) {%>
 
                 <div class="card-body">
-                    <div class="card-title"><%=question.definition()%>
+                    <div class="card-title">
+                        <p class="key">${question.definition()}
+                        </p>
                     </div>
                     <%
                         for ( Variant variant : question.variants() ) {%>
@@ -112,16 +111,10 @@
 
             </label>
             <div>
-                <button href="/test" type="submit" class="btn-success" >Next</button>
+                <button href="/test" type="submit" class="btn btn-success m-3">Next</button>
             </div>
 
         </form>
-
-
-        <div>
-            <a class="btn-danger" href="/test/result">Finish</a>
-        </div>
-
 
     </div>
 
