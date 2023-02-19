@@ -306,7 +306,7 @@
 
                     <div class="tab-pane fade in" id="login">
                         <h2 class="text-uppercase text-center"> Log in Page</h2>
-                        <form id="login" method="post" action="/login">
+                        <form id="login" method="post" action="/login?next=${next}">
                             <div class="form-group">
                                 <label> Your Email<span class="req">*</span> </label>
                                 <input type="email" class="form-control" id="email" required

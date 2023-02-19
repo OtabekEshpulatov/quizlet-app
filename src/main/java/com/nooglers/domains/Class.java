@@ -44,6 +44,7 @@ public class Class extends BaseDomain {
     @Column(columnDefinition = "smallint default 0")
     private short deleted;
 
-    @ManyToMany(mappedBy = "classes")
+    @ManyToMany(mappedBy = "classes",cascade = CascadeType.ALL)
+    @Builder.Default
     private Set<User> users = new HashSet<>();
 }

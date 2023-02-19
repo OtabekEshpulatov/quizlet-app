@@ -22,11 +22,11 @@
             </tr>
             </thead>
             <tbody>
-            <%--            <%int i = 0;%>--%>
+            <c:set var="i" value="${1}"/>
             <c:if test="${classes.size()>0}">
                 <c:forEach items="${classes}" var="group">
                     <tr>
-                        <td>1</td>
+                        <td>${i}</td>
                         <td>${group.getSchoolName()}</td>
                         <td>${group.getName()}</td>
                         <td>${group.getUsers().size()+1}</td>
@@ -38,16 +38,20 @@
                             <a href="/group/delete?groupId=${group.getId()}" class="btn btn-danger">
                                 Delete
                             </a>
+                            ||
+                            <a href="/group/member?groupId=${group.getId()}" class="btn btn-success">
+                                Add member
+                            </a>
                         </td>
                     </tr>
+                    <c:set var="i" value="${i+1}"/>
                 </c:forEach>
             </c:if>
             </tbody>
         </table>
-        <div style="margin-left: 80%;margin-top: 20px">
-            <a class="btn btn-success" href="#">List add</a>
-            <a class="btn btn-success" href="/group/member/add">Add member</a>
-            <a class="btn btn-success" href="/group/add">Create class</a>
+        <div style="margin-left: 74.5%;margin-top: 20px">
+            <a class="btn btn-light" href="#">Add set</a>
+            <a class="btn btn-success" href="/group/add" style="margin-left: 5px">Create class</a>
         </div>
     </div>
 </div>

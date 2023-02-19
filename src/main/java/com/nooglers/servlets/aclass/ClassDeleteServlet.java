@@ -2,26 +2,26 @@ package com.nooglers.servlets.aclass;
 
 import com.nooglers.dao.ClassDao;
 import com.nooglers.domains.Class;
+import com.nooglers.domains.User;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Set;
 
 @WebServlet(name = "ClassDeleteServlet", value = "/group/delete")
 public class ClassDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("groupId");
-        System.out.println(id);
         if (Objects.isNull(id)) {
             response.sendRedirect("/group");
         } else {
             Integer groupId = Integer.valueOf(id);
             Class aClass = ClassDao.getInstance().get(groupId);
             request.setAttribute("group", aClass);
-            System.out.println(aClass);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/group/delete.jsp");
             dispatcher.forward(request, response);
         }

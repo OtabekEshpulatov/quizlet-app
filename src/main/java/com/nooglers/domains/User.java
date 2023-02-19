@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = "Users")
 @Table(name = "users")
 @Builder
@@ -35,8 +36,9 @@ public class User extends BaseDomain {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @Column
+    @Builder.Default
     private Set<Class> classes = new HashSet<>();
 
 }

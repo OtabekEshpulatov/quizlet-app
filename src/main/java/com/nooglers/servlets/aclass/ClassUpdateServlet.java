@@ -2,12 +2,15 @@ package com.nooglers.servlets.aclass;
 
 import com.nooglers.dao.ClassDao;
 import com.nooglers.domains.Class;
+import com.nooglers.domains.User;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @WebServlet(name = "ClassUpdateServlet", value = "/group/update")
@@ -35,7 +38,8 @@ public class ClassUpdateServlet extends HttpServlet {
             Class aClass = classDao.get(groupId);
             HttpSession session = request.getSession();
             Integer userId = (Integer) (session.getAttribute("user_id"));
-            if (userId.equals(aClass.getCreatedBy())) {
+            List<Class> classList = classDao.getAll(userId);
+            if (classList.contains(aClass)) {
                 String classname = request.getParameter("classname");
                 String schoolname = request.getParameter("schoolname");
                 String description = request.getParameter("description");

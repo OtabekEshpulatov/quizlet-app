@@ -14,13 +14,13 @@ import java.util.Scanner;
 
 public class AES {
     private static final String SECRET_KEY = "1234567891011121314151617181920";
-    private static final String SALTVALUE = "abcdefgkjhgffghjkl;lkjhgfdghjkl";
+    private static final String SALT_VALUE = "abcdefgkjhgffghjkl;lkjhgfdghjkl";
     private static final byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    private static final IvParameterSpec ivspec = new IvParameterSpec(iv);
     public static String encrypt(String strToEncrypt) {
         try {
-            IvParameterSpec ivspec = new IvParameterSpec(iv);
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALTVALUE.getBytes(), 65536, 256);
+            KeySpec spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALT_VALUE.getBytes(), 65536, 256);
             SecretKey tmp = factory.generateSecret(spec);
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -32,11 +32,10 @@ public class AES {
             throw new RuntimeException(e);
         }
     }
-    public static String decrypt(String strToDecrypt) {
+    public static String decrypt(String strToDecrypt){
         try {
-            IvParameterSpec ivspec = new IvParameterSpec(iv);
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALTVALUE.getBytes(), 65536, 256);
+            KeySpec spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALT_VALUE.getBytes(), 65536, 256);
             SecretKey tmp = factory.generateSecret(spec);
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
@@ -48,16 +47,16 @@ public class AES {
         }
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Malumot kiriting: ");
-        String original = scanner.nextLine();
-        String encryptedval = encrypt(original);
-
-        String decryptedval = decrypt(encryptedval);
-        System.out.println("Original value: " + original);
-        System.out.println("Encrypted value: " + encryptedval);
-        System.out.println("Decrypted value: " + decryptedval);
-
-    }
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("Malumot kiriting: ");
+//        String original = scanner.nextLine();
+//        String encryptedval = encrypt(original);
+//
+//        String decryptedval = decrypt(encryptedval);
+//        System.out.println("Original value: " + original);
+//        System.out.println("Encrypted value: " + encryptedval);
+//        System.out.println("Decrypted value: " + decryptedval);
+//
+//    }
 }

@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.Vector;
 
 @WebServlet(name = "ClassAddServlet", value = "/group/add")
 public class ClassAddServlet extends HttpServlet {
@@ -31,8 +32,7 @@ public class ClassAddServlet extends HttpServlet {
         String invitepermission = request.getParameter("invitepermission");
 
         HttpSession session = request.getSession();
-        Object userId1 = session.getAttribute("user_id");
-        Integer userId = (Integer) (userId1);
+        Integer userId = (Integer) (session.getAttribute("user_id"));
         Class aClass = Class.builder()
                 .createdBy(userId)
                 .name(classname)

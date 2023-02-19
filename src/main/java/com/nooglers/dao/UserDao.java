@@ -77,6 +77,12 @@ public class UserDao extends BaseDao<User, Integer> {
         return entityManager.createQuery("select u from Users u", User.class).getResultList();
     }
 
+    public List<User> getAll(String search) {
+        return getAll().stream()
+                .filter(user -> user.getUsername().contains(search))
+                .toList();
+    }
+
 
     public static UserDao getInstance() {
         return USER_DAO_THREAD_LOCAL.get();
