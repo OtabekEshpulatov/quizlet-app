@@ -1,6 +1,7 @@
 package com.nooglers.servlets.aclass;
 
 import com.nooglers.dao.ClassDao;
+import com.nooglers.domains.Class;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -18,7 +19,7 @@ public class ClassServlet extends HttpServlet {
         ClassDao classDao = ClassDao.getInstance();
         List<Class> classes = classDao.getAll(userId);
         request.setAttribute("classes", classes);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/class/class.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/class/class.jsp");
         dispatcher.forward(request, response);
     }
 

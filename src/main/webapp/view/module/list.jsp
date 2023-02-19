@@ -1,4 +1,4 @@
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: lady
@@ -21,16 +21,16 @@
 </p>
 <hr>
 <div class="row">
-    <c:If test="${modules.isEmpty()}">
+    <c:if test="${modules.isEmpty()}">
         <%
-            request.setAttribute("message1", "OOPPSS");
-            request.setAttribute("message2", "You don have any modules Yet((");
-            request.setAttribute("message3", " addModule");
-            request.setAttribute("url", "/addModule");
-            request.getRequestDispatcher("/utils/error.jsp").forward(request, response);
+            request.setAttribute("message1" , "OOPPSS");
+            request.setAttribute("message2" , "You don have any modules Yet((");
+            request.setAttribute("message3" , " addModule");
+            request.setAttribute("url" , "/addModule");
+            request.getRequestDispatcher("/utils/error.jsp").forward(request , response);
         %>
-    </c:If>
-    <c:If test="${!modules.isEmpty()}">
+    </c:if>
+    <c:if test="${!modules.isEmpty()}">
         <c:forEach items="${modules}" var="module">
             <div class="col-lg-4 col-md-5 col-sm-8" style="margin-top: 5px">
                 <div class="card" style="height: 200px; width: 200px">
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </c:forEach>
-    </c:If>
+    </c:if>
 </div>
 <%--<jsp:include page="/fragments/js.jsp"/>--%>
 </body>

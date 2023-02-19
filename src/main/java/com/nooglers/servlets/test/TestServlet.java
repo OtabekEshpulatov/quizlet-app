@@ -23,9 +23,8 @@ public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException, IOException {
 
-        req.getSession().setAttribute("user_id" , 1);
-        Integer userId = ( Integer ) Objects.requireNonNullElse(req.getSession().getAttribute("user_id") , 1);
-        Integer moduleId = Integer.valueOf(Objects.requireNonNullElse(req.getParameter("m_id") , 1).toString());
+        Integer userId = ( Integer ) req.getSession().getAttribute("user_id");
+        Integer moduleId = Integer.valueOf(req.getParameter("m_id") );
 
         if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
             String m1 = "Opps! You did something Wrong";

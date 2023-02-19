@@ -32,7 +32,7 @@ public class LoginFilter implements Filter {
 
         if (LOGIN_FILTER.size() > 0) {
             request.setAttribute("login_credentials", LOGIN_FILTER);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/auth/login.jsp");
             dispatcher.forward(request, response);
         } else {
             chain.doFilter(req, res);

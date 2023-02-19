@@ -1,9 +1,11 @@
 package com.nooglers.dao;
 
+import com.nooglers.domains.Class;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ClassDao extends BaseDao<Class, Integer> {
+public class ClassDao extends BaseDAO<Class, Integer> {
     private static final ThreadLocal<ClassDao> CLASS_DAO_THREAD_LOCAL = ThreadLocal.withInitial(ClassDao::new);
 
     @Override
@@ -16,27 +18,23 @@ public class ClassDao extends BaseDao<Class, Integer> {
 
 
     @Override
-    public Class update(Class aClass) {
+    public boolean update(Class aClass) {
         begin();
         aClass.setUpdatedAt(LocalDateTime.now());
         entityManager.merge(aClass);
         commit();
-        return aClass;
+        return true;
     }
 
     @Override
-    public Class delete(Integer id) {
+    public boolean deleteById(Integer id) {
         begin();
-        Class aClass = entityManager.find(Class.class, id);
-        aClass.setDeleted((short) 1);
+        Class aClass = entityManager.find(Class.class , id);
+        aClass.setDeleted(( short ) 1);
         commit();
-        return aClass;
+        return true;
     }
 
-    @Override
-    public Class get(Integer id) {
-        return entityManager.find(Class.class, id);
-    }
 
     public List<Class> search(String schoolOrClassName) {
 //        begin();
@@ -48,18 +46,18 @@ public class ClassDao extends BaseDao<Class, Integer> {
 
         return getAll().stream()
                 .filter(aClass -> aClass.getName().contains(schoolOrClassName)
-                        || aClass.getSchoolName().contains(schoolOrClassName))
+                                  || aClass.getSchoolName().contains(schoolOrClassName))
                 .toList();
     }
 
-    @Override
+
     public List<Class> getAll() {
-        return entityManager.createQuery("select u from Class u where u.deleted = 0", Class.class).getResultList();
+        return entityManager.createQuery("select u from Class u where u.deleted = 0" , Class.class).getResultList();
     }
 
     public List<Class> getAll(Integer userId) {
-        return entityManager.createQuery("select u from Class u where u.deleted = 0 and u.createdBy = :userId", Class.class)
-                .setParameter("userId", userId)
+        return entityManager.createQuery("select u from Class u where u.deleted = 0 and u.createdBy = :userId" , Class.class)
+                .setParameter("userId" , userId)
                 .getResultList();
 
     }

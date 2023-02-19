@@ -14,7 +14,7 @@ import java.io.IOException;
 public class SignUpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/register.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/auth/register.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -37,11 +37,11 @@ public class SignUpServlet extends HttpServlet {
             Cookie cookie = new Cookie("remember_me", encrypt);
             cookie.setMaxAge(5 * 60 * 60);
             response.addCookie(cookie);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/main.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
             dispatcher.forward(request, response);
         } catch (RuntimeException e) {
             request.setAttribute("credentials", e.getMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/signup.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/auth/signup.jsp");
             dispatcher.forward(request, response);
         }
     }

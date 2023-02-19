@@ -7,7 +7,7 @@
     <style>
         body, html {
             height: 100%;
-            background: #1c1e21;
+            background: #437acc;
             overflow-x: hidden;
             font-family: 'Dosis', sans-serif;
         }
@@ -23,7 +23,7 @@
 
         .btn-larger {
             padding: 15px 40px !important;
-            border: 2px solid #F7CA18 !important;;
+            border: 2px solid #18f7c3 !important;;
             border-radius: 0px !important;;
             text-transform: uppercase;
             font-family: 'Dosis', sans-serif;

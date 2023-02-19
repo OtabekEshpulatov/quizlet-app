@@ -41,7 +41,7 @@ public class SignUpFilter implements Filter {
 
         if (SIGN_UP_FILTER.size() > 0) {
             request.setAttribute("signup_credentials", SIGN_UP_FILTER);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/register.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/auth/register.jsp");
             dispatcher.forward(request, response);
             SIGN_UP_FILTER = new ConcurrentHashMap<>();
         } else {

@@ -13,8 +13,8 @@
     <title>Title</title>
 </head>
 <body>
-<%
-    response.sendRedirect("/home");
-%>
+<%--<%--%>
+<%--    response.sendRedirect("/home");--%>
+<%--%>--%>
 </body>
 </html>

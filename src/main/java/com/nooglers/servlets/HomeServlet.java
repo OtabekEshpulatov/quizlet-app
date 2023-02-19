@@ -6,17 +6,17 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "HomeServlet", value = "/home")
+@WebServlet( name = "HomeServlet", value = "/home" )
 public class HomeServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/home.jsp").
-                forward(request, response);
+    protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/utils/header.jsp").
+                forward(request , response);
 
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
+        response.sendError(405 , "Method not allowed");
     }
 }

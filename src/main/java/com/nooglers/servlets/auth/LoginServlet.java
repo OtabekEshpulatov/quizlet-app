@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String next = request.getParameter("next");
         request.setAttribute("next", next);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/auth/login.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
         } catch (RuntimeException e) {
             e.printStackTrace();
             request.setAttribute("login_credentials", e.getMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/auth/login.jsp");
             dispatcher.forward(request, response);
         }
     }

@@ -16,7 +16,7 @@ public class ModuleListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
         ModuleDao moduleDao = ModuleDao.getInstance();
 
-        final Integer userId = Objects.requireNonNullElse(( Integer ) request.getSession().getAttribute("user_id") , 1);
+        final Integer userId = ( Integer ) request.getSession().getAttribute("user_id");
         final List<Module> modules = moduleDao.getAll(userId);
         request.setAttribute("modules" , modules);
 

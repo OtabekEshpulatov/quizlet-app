@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ include file="/fragments/css.jsp" %>
+
 <html>
 <head>
     <title>FlashCard</title>
@@ -46,7 +46,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/addModule">Module</a></li>
-                        <li><a class="dropdown-item" href="/addClass">Class</a></li>
+                        <li><a class="dropdown-item" href="/class/add">Class</a></li>
                         <li><a class="dropdown-item" href="/addFolder">Folder</a></li>
                     </ul>
                 </li>

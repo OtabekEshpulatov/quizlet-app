@@ -1,6 +1,10 @@
 package com.nooglers.configs;
 
+import com.nooglers.dao.test.QuestionDao;
+import com.nooglers.services.ModuleService;
+import com.nooglers.services.QuizService;
 import com.nooglers.services.UserService;
+import com.nooglers.services.userprogress.UserProgressService;
 
 import java.util.concurrent.ConcurrentHashMap;
 

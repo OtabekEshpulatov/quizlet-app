@@ -16,7 +16,7 @@ public class LogOutServlet extends HttpServlet {
                 cookie.setMaxAge(0);
             }
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/auth/login.jsp");
         dispatcher.forward(request, response);
     }
 

@@ -10,7 +10,7 @@ import java.io.IOException;
 public class ClassUpdateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/class/update.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/class/update.jsp");
         requestDispatcher.forward(request,response);
     }
 
