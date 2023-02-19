@@ -6,8 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-@Entity(name = "Users")
-@Table(name = "users")
+@Entity(name = "users")
+@Table
 @Builder
 @Data
 @NoArgsConstructor

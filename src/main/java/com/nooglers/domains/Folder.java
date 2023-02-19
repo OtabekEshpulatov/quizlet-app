@@ -10,7 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity(name = "Folder")
-@Table(name = "folder")
+@Table
 @Builder
 @Data
 @NoArgsConstructor

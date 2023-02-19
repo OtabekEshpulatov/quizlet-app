@@ -8,9 +8,43 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Update card</title>
+    <jsp:include page="/fragments/css.jsp"/>
 </head>
 <body>
+<div class="container">
+    <p class="wl-p">Edit card</p>
+    <form method="post" name="form1" enctype="multipart/form-data" action="/editcard">
+        <ul class="add-book">
+            <input type="hidden" name="cardId" value="${card.getId()}">
+            <li class="b-inform-items">
+                <div class="bi-item-title">Term</div>
+                <input type="text" class="bi-item-input" name="term" value="${card.getTerm()}" required>
+            </li>
 
+            <li class="b-inform-items">
+                <div class="bi-item-title">Definition</div>
+                <input type="text" class="bi-item-input" name="description" value="${card.getDescription()}" required>
+            </li>
+
+            <li class="b-inform-items">
+                <div class="bi-item-title">Add a picture(optional)</div>
+                <div class="bi-upl-file">
+                    <div class="bi-upl-file-left">
+                        <label for="bi-image" class="bi-upl-file-label">Choose file</label>
+                        <input type="file" name="image" id="bi-image" aria-label="file example" class="bi-upl-file-input clicking1">
+                    </div>
+                    <div class="bi-upl-file-right clicking1out">No File Chosen</div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="add-book save-btn" style="left: 30px">
+            <button type="submit">Save</button>
+        </div>
+    </form>
+</div>
+
+<jsp:include page="/fragments/js.jsp"/>
 </body>
 </html>
