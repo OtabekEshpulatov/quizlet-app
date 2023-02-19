@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <%--
   Created by IntelliJ IDEA.
   User: lady
@@ -12,7 +12,7 @@
     <title> All Modules Page</title>
 
     <jsp:include page="/utils/header.jsp"/>
-<%--    <jsp:include page="/fragments/css.jsp"/>--%>
+    <%--    <jsp:include page="/fragments/css.jsp"/>--%>
 </head>
 <body>
 <h5 class="card-title m-3"> All your modules </h5>
@@ -21,20 +21,31 @@
 </p>
 <hr>
 <div class="row">
-    <c:forEach items="${modules}" var="module">
-        <div class="col-lg-4 col-md-5 col-sm-8" style="margin-top: 5px">
-            <div class="card" style="height: 200px; width: 200px">
-                <div class="card-header">
-                        ${module.getName()}
-                </div>
-                <div class="card-body">
-                    <p class="card-text">${module.getDescription()}</p>
-                    <a href="/getModule?m_id=${module.getId()}" type="button"
-                       class="btn btn-outline-info">${module.getName()}</a>
+    <c:If test="${modules.isEmpty()}">
+        <%
+            request.setAttribute("message1", "OOPPSS");
+            request.setAttribute("message2", "You don have any modules Yet((");
+            request.setAttribute("message3", " addModule");
+            request.setAttribute("url", "/addModule");
+            request.getRequestDispatcher("/utils/error.jsp").forward(request, response);
+        %>
+    </c:If>
+    <c:If test="${!modules.isEmpty()}">
+        <c:forEach items="${modules}" var="module">
+            <div class="col-lg-4 col-md-5 col-sm-8" style="margin-top: 5px">
+                <div class="card" style="height: 200px; width: 200px">
+                    <div class="card-header">
+                            ${module.getName()}
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">${module.getDescription()}</p>
+                        <a href="/getModule?m_id=${module.getId()}" type="button"
+                           class="btn btn-outline-info">${module.getName()}</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </c:forEach>
+        </c:forEach>
+    </c:If>
 </div>
 <%--<jsp:include page="/fragments/js.jsp"/>--%>
 </body>

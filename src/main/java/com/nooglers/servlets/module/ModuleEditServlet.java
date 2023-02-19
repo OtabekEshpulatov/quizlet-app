@@ -10,10 +10,10 @@ import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 
 import java.io.IOException;
 
-@WebServlet( name = "ModuleGetAllServlet", value = "/editModule" )
+@WebServlet(name = "ModuleGetAllServlet", value = "/editModule")
 public class ModuleEditServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int moduleId = Integer.parseInt(request.getParameter("id"));
         ModuleDao instance = ModuleDao.getInstance();
         Module module = instance.findById(moduleId);
@@ -21,17 +21,17 @@ public class ModuleEditServlet extends HttpServlet {
         System.out.println("createdBy = " + createdBy);
 //        HttpSession session = request.getSession();
 ////        int userId = (int) session.getAttribute("user_id");
-        if ( createdBy != 1 ) {
+        if (createdBy != 1) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/home/home.jsp");
-            dispatcher.forward(request , response);
+            dispatcher.forward(request, response);
         }
-        request.setAttribute("module" , module);
+        request.setAttribute("module", module);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/module/update.jsp");
-        dispatcher.forward(request , response);
+        dispatcher.forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int moduleId = Integer.parseInt(request.getParameter("moduleId"));
         System.out.println("moduleId = " + moduleId);
         String name = request.getParameter("name");
@@ -42,14 +42,17 @@ public class ModuleEditServlet extends HttpServlet {
         ModuleDao moduleDao = ModuleDao.getInstance();
         boolean isPublic = aPublic.equals("public");
 
-        final Module module = Module.builder().id(moduleId).name(name).description(description).isPublic(isPublic).build();
+
+        Module module = moduleDao.findById(moduleId);
+
+        module.setName(name);
+        module.setDescription(description);
+        module.setPublic(isPublic);
 
         moduleDao.update(module);
-        ModuleDao dao = ModuleDao.getInstance();
-        dao.update(module);
-        request.setAttribute("moduleId" , moduleId);
-        request.setAttribute("module" , module);
-        request.getRequestDispatcher("/view/module/get.jsp").forward(request , response);
+        request.setAttribute("moduleId", moduleId);
+        request.setAttribute("module", module);
+        request.getRequestDispatcher("/view/module/get.jsp").forward(request, response);
 
 
     }

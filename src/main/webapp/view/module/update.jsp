@@ -13,7 +13,7 @@
 <head>
     <title>Edit Module Page</title>
     <jsp:include page="/utils/header.jsp"/>
-    <jsp:include page="/fragments/css.jsp"/>
+<%--    <jsp:include page="/fragments/css.jsp"/>--%>
 
 
 </head>
@@ -74,6 +74,6 @@
         </form>
     </div>
 </div>
-<jsp:include page="/fragments/js.jsp"/>
+<%--<jsp:include page="/fragments/js.jsp"/>--%>
 </body>
 </html>
