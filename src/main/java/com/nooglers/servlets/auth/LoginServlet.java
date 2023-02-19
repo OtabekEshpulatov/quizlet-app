@@ -18,6 +18,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String next = request.getParameter("next");
+
         request.setAttribute("next", next);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/auth/login.jsp");
         dispatcher.forward(request, response);
@@ -41,7 +42,7 @@ public class LoginServlet extends HttpServlet {
             cookie.setMaxAge(5 * 60 * 60);
             response.addCookie(cookie);
             String next = request.getParameter("next");
-            if (Objects.isNull(next)) {
+            if (Objects.isNull(next)||next.isBlank()) {
                 response.sendRedirect("/home");
             } else {
                 response.sendRedirect(next);

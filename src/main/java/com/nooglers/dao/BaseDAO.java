@@ -7,6 +7,7 @@ import jakarta.persistence.Persistence;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 public abstract class BaseDAO<T extends BaseEntity, ID extends Serializable> {
     protected final EntityManagerFactory emf;

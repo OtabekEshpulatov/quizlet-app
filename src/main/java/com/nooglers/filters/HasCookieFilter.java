@@ -14,34 +14,35 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-@WebFilter(filterName = "HasCookieFilter", urlPatterns = "/*")
+@WebFilter( filterName = "HasCookieFilter", urlPatterns = "/*" )
 public class HasCookieFilter implements Filter {
     private static final List<String> WHITE_LIST = List.of(
-            "/",
-            "/home",
-            "/login",
-            "/signup",
-            "/resources/.+",
+//            "/" ,
+//            "/home" ,
+            "/login" ,
+            "/signup" ,
+            "/resources/.+" ,
             "/css/.+"
     );
     private static final Predicate<String> isSecure = (uri) -> {
-        for (String item : WHITE_LIST)
-            if (uri.matches(item))
+        for ( String item : WHITE_LIST )
+            if ( uri.matches(item) )
                 return true;
         return false;
     };
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) res;
+    public void doFilter(ServletRequest req , ServletResponse res , FilterChain chain) throws ServletException, IOException {
+        HttpServletRequest request = ( HttpServletRequest ) req;
+        HttpServletResponse response = ( HttpServletResponse ) res;
         String requestURI = request.getRequestURI();
-        if (isSecure.test(requestURI)) {
-            chain.doFilter(req, res);
-        }
-        else {
+
+
+        if ( isSecure.test(requestURI) ) {
+            chain.doFilter(req , res);
+        } else {
             Cookie[] cookies = request.getCookies();
-            if (Objects.isNull(cookies)) {
+            if ( Objects.isNull(cookies) ) {
                 response.sendRedirect("/login?next=" + requestURI);
             } else {
                 Arrays.stream(cookies)
@@ -53,17 +54,17 @@ public class HasCookieFilter implements Filter {
                                         HttpSession session = request.getSession();
                                         String decrypt = AES.decrypt(cookie.getValue());
                                         Integer userId = Integer.parseInt(decrypt);
-                                        session.setAttribute("user_id", userId);
-                                        chain.doFilter(req, res);
-                                    } catch (IOException | ServletException e) {
+                                        session.setAttribute("user_id" , userId);
+                                        chain.doFilter(req , res);
+                                    } catch ( IOException | ServletException e ) {
                                         e.printStackTrace();
 //                                    throw new RuntimeException(e);
                                     }
-                                },
+                                } ,
                                 () -> {
                                     try {
                                         response.sendRedirect("/login?next=" + requestURI);
-                                    } catch (IOException e) {
+                                    } catch ( IOException e ) {
                                         e.printStackTrace();
 //                                    throw new RuntimeException(e);
                                     }

@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 
-@WebServlet( name = "ClassAddServlet", value = "/class/add" )
+@WebServlet( name = "ClassAddServlet", value = "/group/add" )
 public class ClassAddServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/class/add.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/group/add.jsp");
         dispatcher.forward(request , response);
     }
 
@@ -41,7 +41,9 @@ public class ClassAddServlet extends HttpServlet {
                 .invitationLink(String.valueOf(UUID.randomUUID()))
                 .build();
         classDao.save(aClass);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/class/class.jsp");
-        requestDispatcher.forward(request , response);
+
+//        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/group/groups.jsp");
+//        requestDispatcher.forward(request , response);
+        response.sendRedirect("/group");
     }
 }
