@@ -1,5 +1,6 @@
 package com.nooglers.domains.progress;
 
+import com.nooglers.domains.BaseEntity;
 import com.nooglers.domains.Card;
 import com.nooglers.domains.User;
 import com.nooglers.enums.LearningStatus;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserProgress {
+public class UserProgress implements BaseEntity {
 
 
     @Id

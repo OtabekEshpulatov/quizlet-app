@@ -1,5 +1,6 @@
 package com.nooglers.domains.test;
 
+import com.nooglers.domains.BaseEntity;
 import com.nooglers.domains.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @ToString( callSuper = true )
 
-public class QuizHistory {
+public class QuizHistory implements BaseEntity {
 
 
     @Id

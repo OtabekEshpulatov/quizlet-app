@@ -12,7 +12,7 @@
 <html>
 <head>
     <title>Edit Module Page</title>
-    <jsp:include page="/home/utils/header.jsp"/>
+    <jsp:include page="/utils/header.jsp"/>
     <jsp:include page="/fragments/css.jsp"/>
 
 

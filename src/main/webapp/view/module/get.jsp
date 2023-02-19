@@ -1,4 +1,10 @@
-<%--
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="org.eclipse.tags.shaded.org.apache.xpath.operations.Mod" %>
+<%@ page import="com.nooglers.domains.Module" %>
+<%@ page import="com.nooglers.configs.ThreadSafeBeansContainer" %>
+<%@ page import="com.nooglers.services.userprogress.UserProgressService" %>
+<%@ page import="com.nooglers.domains.progress.UserProgress" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: lady
   Date: 15/02/23
@@ -58,13 +64,13 @@
         }
     </style>
 
-    <jsp:include page="/home/utils/header.jsp"/>
+    <jsp:include page="/utils/header.jsp"/>
     <jsp:include page="/fragments/css.jsp"/>
 </head>
 <body style="background-color: #EFFDFD">
 <div class="container" style="width: 80% ; margin-left: 10%">
 
-    <form method="post">
+    <f method="post">
         <input type="hidden" name="moduleName" value="${moduleName}">
         <input type="hidden" name="moduleId" value="${moduleId}">
         <input type="hidden" name="module" value="${module}">
@@ -82,19 +88,23 @@
                         Add cards
                     </a>
                 </button>
-                <button class="btn btn-outline-info" type="submit"><i style="font-size:24px" class="fa">&#xf15c;</i>
-                    <a href="/test" style="text-decoration: none">
-                        Test
-                    </a>
-                </button>
+                <%
+                    final Module module = ( Module ) request.getAttribute("module");
+                    System.out.println(module);
+                    module.getId();
+                    %>
+                <a class="btn btn-outline-info" style="font-size:24px;text-decoration: none" href="/test?m_id=${module.getId()}">
+                    Test <i style="font-size:24px" class="fa">&#xf15c;</i>
+                </a>
+
             </div>
-            <p> </p>
+            <p></p>
         </div>
         <hr>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <div class=" d-grid gap-2 d-md-flex justify-content-md-end">
             <button class="btn btn-light" type="button">
                 <i class='fas fa-edit'></i>
-                <a href="/editModule?id=${moduleId}" style="color: black; text-decoration: none">
+                <a href="/editModule?id=${module.getId()}" style="color: black; text-decoration: none">
                     Edit Module
                 </a>
             </button>
@@ -105,61 +115,62 @@
         </div>
         <p></p>
         <h3>Your Learning Process</h3>
-        <table class="table">
-            <thead style="background-color: #6edff6">
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">Low</th>
-                <th scope="col">Medium</th>
-                <th scope="col">Super</th>
-            </tr>
-            </thead>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-            </tr>
-        </table>
-</form>
-<!-- Button trigger modal -->
 
-<form method="post" action="/deleteModule">
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <input type="hidden" name="moduleId" value="${moduleId}">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure to delete modal <b>${module.getName()}</b>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-warning">
-                        Yes
-                    </button>
+            <%
+            final UserProgressService userProgressService = ThreadSafeBeansContainer.USER_PROGRESS_SERVICE.get();
+            List<UserProgress> up = userProgressService.getUserProgress(module.getId());
+
+            final List<UserProgress> low = up.stream().filter(userProgress -> userProgress.getScore() <= 0).toList();
+            final List<UserProgress> high = up.stream().filter(userProgress -> userProgress.getScore() >= 15).toList();
+            final List<UserProgress> med = up.stream().filter(userProgress -> userProgress.getScore() > 0 && userProgress.getScore() < 15).toList();
+
+            if ( !low.isEmpty() ) {
+        %>
+        <p class="m-3">New(${low.size()})</p>
+        <c:forEach items="${low}" var="l">
+        <p>${l.getCard().getTitle()}} ${l.getCard().getDescription()} <a href="/card">More</a></p>
+        </c:forEach>
+            <%} else if ( !med.isEmpty() ){%>
+        <p class="m-3">Still Learning(${med.size()})</p>
+        <c:forEach items="${med}" var="m">
+        <p>${m.getCard().getTitle()}} ${m.getCard().getDescription()} <a href="/card">More</a></p>
+        </c:forEach>
+            <%}else if(!high.isEmpty()){%>
+        <p class="m-3">Mastered(${high.size()})</p>
+        <c:forEach items="${high}" var="h">
+        <p>${h.getCard().getTitle()}} ${h.getCard().getDescription()} <a href="/card">More</a></p>
+        </c:forEach>
+            <%}%>
+
+        </form>
+        <!-- Button trigger modal -->
+
+        <form method="post" action="/deleteModule">
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <input type="hidden" name="moduleId" value="${module.getId()}">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure to delete modal <b>${module.getName()}</b>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-warning">
+                                Yes
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</form>
+        </form>
 
-<jsp:include page="/fragments/js.jsp"/>
+        <%--    <jsp:include page="/fragments/js.jsp"/>--%>
 </div>
 </body>
 </html>

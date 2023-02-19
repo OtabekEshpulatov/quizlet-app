@@ -1,5 +1,5 @@
 package com.nooglers.domains;
 
-public class Language {
+public class Language implements BaseEntity{
 
 }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:useBean id="quizHistory" scope="request" type="com.nooglers.domains.test.QuizHistory"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.time.temporal.ChronoUnit" %>
@@ -40,7 +41,6 @@
         </p>
     </div>
 
-
     <div class="text-body">
         <c:set var="i" scope="session" value="${1}"/>
         <jsp:useBean id="questions" scope="request" type="java.util.List"/>
@@ -57,6 +57,9 @@
             </tr>
             </thead>
             <tbody>
+
+            <c:set scope="session" var="m_id" value="${questions.get(0).getCard().getModule().getId()}"/>
+
             <c:forEach items="${questions}" var="question">
                 <c:set var="term" value="${quizService.getTerm(question)}"/>
                 <c:set var="userAnswer" value="${quizService.getUserAnswer(question)}"/>
@@ -73,11 +76,11 @@
                 <c:set var="i" scope="session" value="${i+1}"/>
             </c:forEach>
 
-            <div>
-                <a type="button" class="btn btn-success" href="/test">Try again</a>
-                <a type="button" class="btn btn-warning" href="/home">Back</a>
-            </div>
             </tbody>
+            <div>
+                <a type="button" class="btn btn-success" href="/test?m_id=${m_id}">Try again</a>
+                <a type="button" class="btn btn-warning" href="/getModule?m_id=${m_id}">Back</a>
+            </div>
         </table>
     </div>
 </div>

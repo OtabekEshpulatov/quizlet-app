@@ -9,12 +9,6 @@ public class Main {
         UserDao dao = new UserDao();
 
 
-
-
-        User users = User.builder().email("email@gmail.com").password("123").username("someName").build();
-
-        dao.save(users);
-
         User name = User.builder()
                 .id(1)
                 .username("otash")
@@ -23,7 +17,7 @@ public class Main {
                 .build();
 
 
-//        dao.update(name);
+        dao.update(name);
 
 
 

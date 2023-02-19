@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Module extends BaseDomain {
+public class Module implements BaseEntity {
 
     @Column( name = "created_at", columnDefinition = "timestamp with time zone default current_timestamp", nullable = false )
     @CreationTimestamp

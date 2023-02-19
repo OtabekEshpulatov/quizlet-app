@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Folder extends BaseDomain {
+public class Folder implements BaseEntity {
     @CreationTimestamp
     @Column( name = "created_at", columnDefinition = "timestamp with  time zone default current_timestamp", nullable = false )
     private LocalDateTime createdAt;

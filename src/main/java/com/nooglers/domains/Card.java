@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Card extends BaseDomain {
+public class Card implements BaseEntity {
 
     @CreationTimestamp
     @Column( columnDefinition = "timestamp default current_timestamp" )

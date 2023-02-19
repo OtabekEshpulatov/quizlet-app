@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends BaseDomain {
+public class User implements BaseEntity{
 
     @CreationTimestamp
     @Column( columnDefinition = "timestamp with time zone default current_timestamp", name = "created_at" )

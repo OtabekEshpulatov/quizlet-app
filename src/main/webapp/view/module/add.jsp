@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: otash
   Date: 2/13/23
@@ -17,37 +17,40 @@
 
     </style>
     <title>Add Module Page</title>
-    <jsp:include page="/fragments/css.jsp"/>
-    <jsp:include page="/home/utils/header.jsp"/>
-
+<%--    <jsp:include page="/fragments/css.jsp"/>--%>
+    <jsp:include page="/utils/header.jsp"/>
 
 
 </head>
 <body style="background: #EFFDFD;">
 
+
+<%--<script>--%>
+<%--    window.confirm('hello');--%>
+<%--</script>--%>
 <div class="container" style="width: 80% ; margin-left: 10%">
     <div style="margin-right: auto; padding-bottom: 40px; padding-top: 40px">
-        <h3>Create a new learning module</h3>
+        <h3>Create a new learning Module</h3>
     </div>
-    <form method="post" action="/addModule/">
+    <form method="post" action="/addModule">
         <div style="margin-right: 100px">
-            <input type="text" class="form-control no-border" id="name" name="name"
-                   placeholder="Enter a name, for example,'Biology and Photosynthesis and'">
+            <input type="text" class="form-control no-border" id="name" name="name" required
+            >
             <%--            <hr style="color: yellow ">--%>
-            <h6>Name</h6>
+            <h6>Name <span style="color: red"><sub>${invalidNameException}</sub></span></h6>
 
-            <input type="hidden" name="userId" value="${userId}">
+            <input type="hidden" name="userId"
+                   value="<%=Objects.requireNonNullElse(request.getSession().getAttribute("user_id"),1)%>">
             <p></p>
-            <input type="text" class="form-control no-border" id="description" name="description"
-                   placeholder="Add description">
+            <input type="text" class="form-control no-border" id="description" name="description">
             <%--            <hr style="color: yellow">--%>
             <h6>Description</h6>
         </div>
         <p></p>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="radio" value="public" id="public">
+            <input class="form-check-input" type="radio" name="radio" checked value="public" id="public">
             <label class="form-check-label" for="public">
-                Public
+                Public(default)
             </label>
         </div>
         <div class="form-check">
@@ -61,13 +64,12 @@
 
             <button class="btn btn-outline-primary" type="submit">
                 Create Module
-                </a>
             </button>
 
         </div>
     </form>
 </div>
 
-<jsp:include page="/fragments/js.jsp"/>
+<%--<jsp:include page="/fragments/js.jsp"/>--%>
 </body>
 </html>

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity()
 @Table( name = "class" )
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Class extends BaseDomain {
+public class Class implements BaseEntity {
 
     @CreationTimestamp
     @Column( columnDefinition = "timestamp default current_timestamp", name = "created_at", nullable = false )
@@ -50,4 +51,6 @@ public class Class extends BaseDomain {
     private String invitationLink;
 
 
+    @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    private List<User> classUser;
 }

@@ -1,5 +1,6 @@
 package com.nooglers.domains.test;
 
+import com.nooglers.domains.BaseEntity;
 import com.nooglers.domains.Card;
 import com.nooglers.enums.QuizType;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Data
-public class Question {
+public class Question implements BaseEntity {
 
 
     @Id

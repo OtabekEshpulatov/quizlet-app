@@ -6,33 +6,90 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
+<%@ include file="/fragments/css.jsp" %>
 <html>
 <head>
-    <link rel="stylesheet" href="/utils/css/header.css">
+    <title>FlashCard</title>
 </head>
 
 <body>
 
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
 
-<ul>
-    <li><a class="active" href="/home">Home</a></li>
-    <li><a href="/library">Your library</a></li>
-    <li><a href="/create">Create</a></li>
-    <%if ( session.getAttribute("remember_me") != null ) {%>
-    <li><a href="/logout">Create</a>LogOut</li>
-    <%} else {%>
-    <li><a href="/login">LogOut</a></li>
-    <%}%>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Your Library
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/listModule">Study Modules</a></li>
+                        <li><a class="dropdown-item" href="/listClasses">Class</a></li>
+                        <li><a class="dropdown-item" href="/listFolders">Folder</a></li>
+                    </ul>
+                </li>
 
-    <li>
-        <form action="/search" target="_blank">
-            <input type="search"><br><br>
-            <button>Search</button>
-        </form>
-    </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Create
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/addModule">Module</a></li>
+                        <li><a class="dropdown-item" href="/addClass">Class</a></li>
+                        <li><a class="dropdown-item" href="/addFolder">Folder</a></li>
+                    </ul>
+                </li>
+                <div class="d-flex">
+                    <%if ( session.getAttribute("user_id") != null ) {%>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/logout">LogOut</a>
+                    </li>
+                    <%} else {%>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/login">LogIn</a>
+                    </li>
+                    <%}%>
+                </div>
+            </ul>
+            <form class="d-flex" role="search" action="/search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
 
-</ul>
 
+<%--<ul>--%>
+<%--    <li><a class="active" href="/home">Home</a></li>--%>
+<%--    <li><a href="/library">Your library</a></li>--%>
+<%--    <li><a href="/create">Create</a></li>--%>
+<%--    <%if ( session.getAttribute("remember_me") != null ) {%>--%>
+<%--    <li><a href="/logout">Create</a>LogOut</li>--%>
+<%--    <%} else {%>--%>
+<%--    <li><a href="/login">LogOut</a></li>--%>
+<%--    <%}%>--%>
+
+<%--    <li>--%>
+<%--        <form action="/search" target="_blank">--%>
+<%--            <input type="search"><br><br>--%>
+<%--            <button>Search</button>--%>
+<%--        </form>--%>
+<%--    </li>--%>
+
+<%--</ul>--%>
+
+<%@ include file="/fragments/js.jsp" %>
 </body>
 </html>

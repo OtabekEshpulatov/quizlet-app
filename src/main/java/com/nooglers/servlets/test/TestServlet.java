@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
 
 @WebServlet( name = "TestServlet", urlPatterns = "/test" )
@@ -22,12 +25,29 @@ public class TestServlet extends HttpServlet {
 
         req.getSession().setAttribute("user_id" , 1);
         Integer userId = ( Integer ) Objects.requireNonNullElse(req.getSession().getAttribute("user_id") , 1);
-        Integer setId = Integer.valueOf(Objects.requireNonNullElse(req.getParameter("setId") , 1).toString());
-        final SolveQuestionDto solveQuestionDto = quizService.generateTest(userId , setId);
-        System.out.println(solveQuestionDto);
-        req.setAttribute("question" , solveQuestionDto);
-        req.setAttribute("hasNext" , true);
-        req.getRequestDispatcher("/view/quiz/test.jsp").forward(req , resp);
+        Integer moduleId = Integer.valueOf(Objects.requireNonNullElse(req.getParameter("m_id") , 1).toString());
+
+        if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
+            String m1 = "Opps! You did something Wrong";
+            String m2 = "You cannot take a test. This module does not belong to you";
+            req.setAttribute("message1" , m1);
+            req.setAttribute("message2" , m2);
+            req.setAttribute("message3" , "/getModule?m_id=" + moduleId);
+            req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
+        } else if ( quizService.numberOfQuestions(moduleId) < 2 ) {
+            req.setAttribute("message1" , "Opps!");
+            req.setAttribute("message2" , "You don't have enough cards to start quizzes.");
+            req.setAttribute("message3" , " cards");
+            req.setAttribute("url" , "Go to cards");
+            req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
+
+        } else {
+            final SolveQuestionDto solveQuestionDto = quizService.generateTest(userId , moduleId);
+            System.out.println(solveQuestionDto);
+            req.setAttribute("question" , solveQuestionDto);
+            req.setAttribute("hasNext" , true);
+            req.getRequestDispatcher("/view/quiz/test.jsp").forward(req , resp);
+        }
 
 
     }

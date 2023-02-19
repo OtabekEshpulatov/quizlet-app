@@ -10,12 +10,10 @@ import lombok.NonNull;
 
 import java.util.List;
 
-import static com.nooglers.configs.ThreadSafeBeansContainer.QUESTION_DAO;
-
 
 public class QuizService {
 
-    public static final QuestionDao dao = QUESTION_DAO.get();
+    private final QuestionDao dao = new QuestionDao();
 
     public SolveQuestionDto generateTest(@NonNull Integer userId , Integer setId) {
         return dao.generateTest(userId , setId);
@@ -58,8 +56,15 @@ public class QuizService {
     }
 
 
-
     private String getTerm(List<Variant> variants) {
         return variants.stream().filter(Variant::isCorrect).map(Variant::getTerm).findAny().get();
+    }
+
+    public boolean doesUserHaveAccessToThisModule(Integer moduleId , Integer userId) {
+        return dao.doesUserHaveAccessToThisModule(moduleId , userId);
+    }
+
+    public Long numberOfQuestions(Integer moduleId) {
+        return dao.numberOfQuestions(moduleId);
     }
 }

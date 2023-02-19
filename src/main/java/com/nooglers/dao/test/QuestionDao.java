@@ -1,5 +1,7 @@
 package com.nooglers.dao.test;
 
+
+import com.nooglers.dao.BaseDAO;
 import com.nooglers.domains.test.Variant;
 import com.nooglers.dto.SolveQuestionDto;
 import com.nooglers.utils.ApplicationUtils;
@@ -18,7 +20,7 @@ import java.util.*;
 
 import static com.nooglers.utils.ApplicationUtils.*;
 
-public class QuestionDao implements EntityProvider {
+public class QuestionDao extends BaseDAO<Question, Integer> implements EntityProvider {
 
 
     public SolveQuestionDto generateTest(Integer userId , Integer setId) {
@@ -26,7 +28,7 @@ public class QuestionDao implements EntityProvider {
 
         clearUnfinishedTest(userId);
         var quizHistoryBuilder = QuizHistory.builder();
-        final EntityManager em = entityManager.get();
+        final EntityManager em = entityManager;
 
         User createdBy = em.find(User.class , userId);
         quizHistoryBuilder.createdBy(createdBy);
@@ -101,10 +103,10 @@ public class QuestionDao implements EntityProvider {
     private void clearUnfinishedTest(Integer userId) {
 
         try {
-            final EntityManager em = entityManager.get();
-            em.getTransaction().begin();
+            final EntityManager em = entityManager;
+            begin();
             em.createQuery("delete from quiz_history  q where q.createdBy.id=?1 and q.finishedAt is null ").setParameter(1 , userId).executeUpdate();
-            em.getTransaction().commit();
+            commit();
         } catch ( RuntimeException ex ) {
             ex.printStackTrace();
         }
@@ -113,7 +115,7 @@ public class QuestionDao implements EntityProvider {
 
     private void addAll(Collection<Variant> wrongAnswers) {
         for ( Variant wrongAnswer : wrongAnswers )
-            entityManager.get().persist(wrongAnswer);
+            entityManager.persist(wrongAnswer);
 
     }
 
@@ -124,7 +126,7 @@ public class QuestionDao implements EntityProvider {
 
     public SolveQuestionDto next(Integer userId) {
         try {
-            final Question question = entityManager.get().createQuery("from question q  join quiz_history  qh on qh.id=q.quizHistory.id where qh.createdBy.id=?1 and q.userAnswer = null and qh.finishedAt is null" , Question.class).setParameter(1 , userId).setMaxResults(1).getSingleResult();
+            final Question question = entityManager.createQuery("from question q  join quiz_history  qh on qh.id=q.quizHistory.id where qh.createdBy.id=?1 and q.userAnswer = null and qh.finishedAt is null" , Question.class).setParameter(1 , userId).setMaxResults(1).getSingleResult();
             return new SolveQuestionDto(question.getQuizType().name() , question.getDefinition() , variants(question.getId()) , question.getId() , question.getQuizHistory().getTotalQuestionCount() , questionLeft(userId));
         } catch ( Exception ex ) {
             ex.printStackTrace();
@@ -148,14 +150,14 @@ public class QuestionDao implements EntityProvider {
     }
 
     public void submit(Integer questionId , String answer) {
-        entityManager.get().getTransaction().begin();
-        entityManager.get().createQuery("update question q set q.userAnswer=?1 where q.id=?2").setParameter(1 , answer).setParameter(2 , questionId).executeUpdate();
-        entityManager.get().getTransaction().commit();
+        entityManager.getTransaction().begin();
+        entityManager.createQuery("update question q set q.userAnswer=?1 where q.id=?2").setParameter(1 , answer).setParameter(2 , questionId).executeUpdate();
+        entityManager.getTransaction().commit();
     }
 
     public int questionLeft(Integer userId) {
         try {
-            return entityManager.get().createQuery("select count(*) from question q where q.quizHistory.createdBy.id=?1 and q.userAnswer=null and quizHistory.finishedAt is null " , Long.class).setParameter(1 , userId).getSingleResult().intValue();
+            return entityManager.createQuery("select count(*) from question q where q.quizHistory.createdBy.id=?1 and q.userAnswer=null and quizHistory.finishedAt is null " , Long.class).setParameter(1 , userId).getSingleResult().intValue();
         } catch ( NoResultException ex ) {
             return 0;
         }
@@ -164,7 +166,7 @@ public class QuestionDao implements EntityProvider {
 
     public QuizHistory finish(Integer userId) {
 
-        final EntityManager em = entityManager.get();
+        final EntityManager em = entityManager;
         final List<Question> resultList = em.createQuery("from question q where q.quizHistory.createdBy.id=?1 and q.quizHistory.finishedAt =null" , Question.class).setParameter(1 , userId).getResultList();
         if ( resultList.isEmpty() ) return null;
 
@@ -214,7 +216,7 @@ public class QuestionDao implements EntityProvider {
     }
 
     private void updateUserProgress(int score , Integer userId , Integer cardId) {
-        entityManager.get().createQuery("update user_progress  up set up.score=up.score+?1 where up.user.id=?2 and up.card.id=?3").setParameter(1 , score).setParameter(2 , userId).setParameter(3 , cardId).executeUpdate();
+        entityManager.createQuery("update user_progress  up set up.score=up.score+?1 where up.user.id=?2 and up.card.id=?3").setParameter(1 , score).setParameter(2 , userId).setParameter(3 , cardId).executeUpdate();
     }
 
     private boolean checkUserAnswerForTrueOrFalse(Integer questionId , String userAnswer) {
@@ -223,22 +225,41 @@ public class QuestionDao implements EntityProvider {
     }
 
     public List<Variant> variants(Integer questionId) {
-        return entityManager.get().createQuery("from variant v where v.question.id=?1" , Variant.class).setParameter(1 , questionId).getResultList();
+        return entityManager.createQuery("from variant v where v.question.id=?1" , Variant.class).setParameter(1 , questionId).getResultList();
     }
 
     public List<Question> getQuestions(Integer quizHistoryId) {
-        return entityManager.get().createQuery("from question  q where q.quizHistory.id=?1" , Question.class).setParameter(1 , quizHistoryId).getResultList();
+        return entityManager.createQuery("from question  q where q.quizHistory.id=?1" , Question.class).setParameter(1 , quizHistoryId).getResultList();
     }
 
     public String getTerm(Integer questionId) {
-        return entityManager.get().createQuery("from variant v where v.question.id=?1 and v.isCorrect" , Variant.class).setParameter(1 , questionId).getSingleResult().getTerm();
+        return entityManager.createQuery("from variant v where v.question.id=?1 and v.isCorrect" , Variant.class).setParameter(1 , questionId).getSingleResult().getTerm();
     }
 
     public Variant getVariantById(Integer variantId) {
-        return entityManager.get().createQuery("from variant v where v.id=?1" , Variant.class).setParameter(1 , variantId).getSingleResult();
+        return entityManager.createQuery("from variant v where v.id=?1" , Variant.class).setParameter(1 , variantId).getSingleResult();
     }
 
     public void refresh(Object entity) {
-        entityManager.get().refresh(entity);
+        entityManager.refresh(entity);
+    }
+
+    public boolean doesUserHaveAccessToThisModule(Integer moduleId , Integer userId) {
+
+        final Long own = entityManager.createQuery("select count(*) from Module  m where m.id=?1 and m.createdBy.id=?2" , Long.class)
+                .setParameter(1 , moduleId)
+                .setParameter(2 , userId)
+                .getSingleResult();
+
+//        entityManager.createQuery("select count(*) from Class  c where c.classUser.")
+        return own > 0;
+    }
+
+    public Long numberOfQuestions(Integer moduleId) {
+
+        return entityManager.createQuery("select count(*) from Card c where c.module.id=?1" , Long.class)
+                .setParameter(1 , moduleId).getSingleResult();
+
+
     }
 }
