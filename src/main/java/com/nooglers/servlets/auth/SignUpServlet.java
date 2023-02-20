@@ -29,7 +29,7 @@ public class SignUpServlet extends HttpServlet {
                     .username(signupusername)
                     .password(signuppassword)
                     .build();
-            UserDao userDao = UserDao.getInstance();
+            UserDao userDao = UserDao.get();
             user = userDao.save(user);
             Integer userId = user.getId();
             String encrypt = AES.encrypt(userId.toString());

@@ -17,7 +17,7 @@ import java.util.Objects;
 public class ClassMemberServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserDao userDao = UserDao.getInstance();
+        UserDao userDao = UserDao.get();
         Integer groupId = Integer.valueOf(request.getParameter("groupId"));
         request.setAttribute("groupId", groupId);
         request.setAttribute("users", userDao.getAll());
@@ -30,7 +30,7 @@ public class ClassMemberServlet extends HttpServlet {
         String username = request.getParameter("username");
         Integer groupId = Integer.valueOf(request.getParameter("groupId"));
         request.setAttribute("groupId", groupId);
-        UserDao userDao = UserDao.getInstance();
+        UserDao userDao = UserDao.get();
         if (!Objects.isNull(username)) {
             List<User> users = userDao.getAll(username);
             request.setAttribute("users", users);

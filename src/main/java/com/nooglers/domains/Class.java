@@ -44,7 +44,12 @@ public class Class extends BaseDomain {
     @Column(columnDefinition = "smallint default 0")
     private short deleted;
 
-    @ManyToMany(mappedBy = "classes",cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @Builder.Default
+//    @JoinTable(
+////            name = "",
+//            joinColumns = { @JoinColumn(name = "users_id") },
+//            inverseJoinColumns = { @JoinColumn(name = "") }
+//    )
     private Set<User> users = new HashSet<>();
 }

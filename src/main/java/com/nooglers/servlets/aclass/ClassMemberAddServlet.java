@@ -19,7 +19,7 @@ public class ClassMemberAddServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ClassDao classDao = ClassDao.getInstance();
-        UserDao userDao = UserDao.getInstance();
+        UserDao userDao = UserDao.get();
         String user = request.getParameter("userId");
         String group = request.getParameter("groupId");
         if (!Objects.isNull(user)) {
@@ -33,11 +33,11 @@ public class ClassMemberAddServlet extends HttpServlet {
             if (classList.contains(aClass)) {
                 User addedUser = userDao.get(userId);
 //                aClass.setUpdatedAt(LocalDateTime.now());
-                Set<User> users = aClass.getUsers();
-                users.add(addedUser);
-                aClass.setUsers(users);
+//                Set<User> users = aClass.getUsers();
+//                users.add(addedUser);
+//                aClass.setUsers(users);
                 System.out.println(aClass.getUsers());
-                classDao.update(aClass);
+                classDao.update(aClass,addedUser);
             }
         }
         response.sendRedirect("/group");

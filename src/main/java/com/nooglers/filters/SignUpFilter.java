@@ -19,7 +19,7 @@ public class SignUpFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        UserDao userDao = UserDao.getInstance();
+        UserDao userDao = UserDao.get();
         String signupemail = request.getParameter("signupemail");
         String signupusername = request.getParameter("signupusername");
         String signuppassword = request.getParameter("signuppassword");

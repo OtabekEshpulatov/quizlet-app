@@ -39,7 +39,7 @@ class UserDaoTest {
     }
 
     public static void main(String[] args) {
-        UserDao userDao = UserDao.getInstance();
+        UserDao userDao = UserDao.get();
 
 
         saveTest(userDao);

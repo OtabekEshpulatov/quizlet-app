@@ -27,14 +27,16 @@ public class ClassDao extends BaseDao<Class, Integer> {
         commit();
         return aClass;
     }
-//    public Class update(Class aClass,User user) {
-//        begin();
-//        aClass.setUpdatedAt(LocalDateTime.now());
-//
-//        entityManager.merge();
-//        commit();
-//        return aClass;
-//    }
+
+    public Class update(Class aClass, User user) {
+        begin();
+        aClass.setUpdatedAt(LocalDateTime.now());
+        aClass.getUsers().add(user);
+        entityManager.persist(aClass);
+        entityManager.persist(user);
+        commit();
+        return aClass;
+    }
 
     @Override
     public Class delete(Integer id) {

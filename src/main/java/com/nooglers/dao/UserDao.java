@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserDao extends BaseDao<User, Integer> {
@@ -84,7 +83,7 @@ public class UserDao extends BaseDao<User, Integer> {
     }
 
 
-    public static UserDao getInstance() {
+    public static UserDao get() {
         return USER_DAO_THREAD_LOCAL.get();
     }
 

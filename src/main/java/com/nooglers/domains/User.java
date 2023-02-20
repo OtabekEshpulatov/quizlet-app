@@ -36,9 +36,9 @@ public class User extends BaseDomain {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @Column
-    @Builder.Default
-    private Set<Class> classes = new HashSet<>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @Column
+//    @Builder.Default
+//    private Set<Class> classes = new HashSet<>();
 
 }

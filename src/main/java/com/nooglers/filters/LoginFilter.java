@@ -17,7 +17,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        UserDao userDao = UserDao.getInstance();
+        UserDao userDao = UserDao.get();
         String loginemail = request.getParameter("loginemail");
         String loginpassword = request.getParameter("loginpassword");
         if (loginemail == null || loginemail.isBlank()) {

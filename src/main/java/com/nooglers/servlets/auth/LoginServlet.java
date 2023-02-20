@@ -19,7 +19,6 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String next = request.getParameter("next");
         request.setAttribute("next", next);
-        System.out.println(next);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
         dispatcher.forward(request, response);
     }
@@ -29,7 +28,7 @@ public class LoginServlet extends HttpServlet {
         try {
             String loginemail = request.getParameter("loginemail");
             String loginpassword = request.getParameter("loginpassword");
-            UserDao userDao = UserDao.getInstance();
+            UserDao userDao = UserDao.get();
             User user = userDao.get(loginemail);
             if (user == null || !Encrypt.checkPassword(loginpassword, user.getPassword())) {
                 throw new RuntimeException("Bad credentials");
@@ -42,7 +41,7 @@ public class LoginServlet extends HttpServlet {
             cookie.setMaxAge(5 * 60 * 60);
             response.addCookie(cookie);
             String next = request.getParameter("next");
-            if (Objects.isNull(next)) {
+            if (Objects.isNull(next) || next.trim().equals("")) {
                 response.sendRedirect("/home");
             } else {
                 response.sendRedirect(next);
