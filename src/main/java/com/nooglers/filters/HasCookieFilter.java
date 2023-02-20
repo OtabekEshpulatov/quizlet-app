@@ -58,7 +58,6 @@ public class HasCookieFilter implements Filter {
                                         chain.doFilter(req , res);
                                     } catch ( IOException | ServletException e ) {
                                         e.printStackTrace();
-//                                    throw new RuntimeException(e);
                                     }
                                 } ,
                                 () -> {
@@ -66,12 +65,12 @@ public class HasCookieFilter implements Filter {
                                         response.sendRedirect("/login?next=" + requestURI);
                                     } catch ( IOException e ) {
                                         e.printStackTrace();
-//                                    throw new RuntimeException(e);
                                     }
                                 }
+
                         );
+
             }
         }
-
     }
 }

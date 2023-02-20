@@ -1,17 +1,22 @@
 package com.nooglers.utils;
 
 import jakarta.servlet.http.Part;
+import lombok.NonNull;
 
 public class StringUtils {
-    static boolean isValidString(String s) {
-    return s != null && !s.isBlank();
-}
-
-    static String getExtension(Part bookFile) {
-        return getExtension(bookFile.getSubmittedFileName());
+    public static String getFileExtension(@NonNull String fileName) {
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
-    static String getExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf(".") + 1);
+    public static String getFileExtension(@NonNull Part part) {
+        return getFileExtension(part.getSubmittedFileName());
+    }
+
+    public static String generateUniqueName(@NonNull String originalFileName) {
+        return System.currentTimeMillis() + "." + getFileExtension(originalFileName);
+    }
+
+    public static String generateUniqueName(@NonNull Part part) {
+        return generateUniqueName(part.getSubmittedFileName());
     }
 }

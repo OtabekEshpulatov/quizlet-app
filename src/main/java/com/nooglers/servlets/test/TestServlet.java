@@ -27,11 +27,12 @@ public class TestServlet extends HttpServlet {
         Integer moduleId = Integer.valueOf(req.getParameter("m_id") );
 
         if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
-            String m1 = "Opps! You did something Wrong";
-            String m2 = "You cannot take a test. This module does not belong to you";
+            String m1 = "Opps!";
+            String m2 = "You cannot take a test. This module does not belong to you.";
             req.setAttribute("message1" , m1);
             req.setAttribute("message2" , m2);
-            req.setAttribute("message3" , "/getModule?m_id=" + moduleId);
+            req.setAttribute("message3" , "modules");
+            req.setAttribute("url" , "/getModule?m_id=" + moduleId);
             req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
         } else if ( quizService.numberOfQuestions(moduleId) < 2 ) {
             req.setAttribute("message1" , "Opps!");

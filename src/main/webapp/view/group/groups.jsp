@@ -32,25 +32,8 @@
                         <td>${group.getName()}</td>
                         <td>${group.getUsers().size()+1}</td>
                         <td>
-                            <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1"
-                               role="button" aria-expanded="false" aria-controls="multiCollapseExample1">More</a>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="collapse multi-collapse" id="multiCollapseExample1">
-                                        <div class="card card-body">
-                                            <a href="/group/update?groupId=${group.getId()}" class="btn btn-warning">
-                                                Update
-                                            </a>
-                                            <a href="/group/delete?groupId=${group.getId()}" class="btn btn-danger">
-                                                Delete
-                                            </a>
-                                            <a href="/group/member?groupId=${group.getId()}" class="btn btn-success">
-                                                Add member
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <a class="btn btn-primary" href="/mygroup?gid=${group.getId()}"
+                               role="button" aria-expanded="false">More</a>
                         </td>
                     </tr>
                     <c:set var="i" value="${i+1}"/>

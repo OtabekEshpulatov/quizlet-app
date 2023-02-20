@@ -36,7 +36,7 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
 //        entityManager.get().createQuery("update quiz_history qh set qh.deleted=cast(1 as short ) where qh.createdBy=?1 and qh.finishedAt is null").setParameter(1 , createdBy).executeUpdate();
 
         String selectCards = """
-                select c from Card c
+                select c from card c
                             where c <> all (select up.card
                                                from user_progress up
                                                where up.user=?1) and c.module.id=?2
@@ -257,7 +257,7 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
 
     public Long numberOfQuestions(Integer moduleId) {
 
-        return entityManager.createQuery("select count(*) from Card c where c.module.id=?1" , Long.class)
+        return entityManager.createQuery("select count(*) from card c where c.module.id=?1" , Long.class)
                 .setParameter(1 , moduleId).getSingleResult();
 
 

@@ -5,7 +5,7 @@
 <%@ page import="java.time.Duration" %>
 <%@ page import="com.nooglers.utils.ApplicationUtils" %>
 <%@ page import="com.nooglers.configs.ThreadSafeBeansContainer" %>
-<%@ include file="/fragments/css.jsp" %>
+<%--<%@ include file="/fragments/css.jsp" %>--%>
 <%@ include file="/utils/header.jsp" %>
 <%--
   Created by IntelliJ IDEA.
@@ -86,5 +86,5 @@
     </div>
 </div>
 </body>
-<%@ include file="/fragments/js.jsp" %>
+<%--<%@ include file="/fragments/js.jsp" %>--%>
 </html>
