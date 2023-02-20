@@ -188,24 +188,25 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
                     if ( userAnswer.equals(String.valueOf(variant.getId())) ) {
                         ++score;
                         question.setCorrect(true);
-                        updateUserProgress(5 , userId , cardId);
-                    } else updateUserProgress(1 , userId , cardId);
+                        updateUserProgress(6 , userId , cardId);
+                    } else updateUserProgress(-3 , userId , cardId);
 
                 } else if ( question.getQuizType().equals(QuizType.TRUE_FALSE) ) {
                     if ( checkUserAnswerForTrueOrFalse(question.getId() , userAnswer) ) {
                         ++score;
                         question.setCorrect(true);
-                    } else updateUserProgress(1 , userId , cardId);
+                    } else updateUserProgress(-3 , userId , cardId);
 
                 } else {
                     if ( correctAnswer.equals(userAnswer) ) {
                         ++score;
                         question.setCorrect(true);
-                        updateUserProgress(5 , userId , cardId);
-                    } else updateUserProgress(1 , userId , cardId);
+                        updateUserProgress(6 , userId , cardId);
+                    } else updateUserProgress(-3 , userId , cardId);
 
                 }
-            }
+            }else
+                updateUserProgress(-3,userId,cardId);
         }
 
         quizHistory.setFinishedAt(LocalDateTime.now());

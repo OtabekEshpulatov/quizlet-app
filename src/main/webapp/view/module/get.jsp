@@ -161,7 +161,7 @@
 
 
 <c:if test="${ !mastered.isEmpty()}">
-    <div class="accordion-item m-4">
+    <div class="accordion-item-m4">
         <h2 class="accordion-header" id="headingThree">
             <button class="accordion-button btn btn-success-success" type="button" data-bs-toggle="collapse"
                     data-bs-target="#collapseThree"
