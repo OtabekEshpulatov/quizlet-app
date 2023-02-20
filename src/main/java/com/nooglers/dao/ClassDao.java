@@ -46,10 +46,7 @@ public class ClassDao extends BaseDAO<Class, Integer> {
 //        List<Class> classList = typedQuery.getResultList();
 //        commit();
 
-        return getAll().stream()
-                .filter(aClass -> aClass.getName().contains(schoolOrClassName)
-                                  || aClass.getSchoolName().contains(schoolOrClassName))
-                .toList();
+        return getAll().stream().filter(aClass -> aClass.getName().contains(schoolOrClassName) || aClass.getSchoolName().contains(schoolOrClassName)).toList();
     }
 
 
@@ -58,9 +55,7 @@ public class ClassDao extends BaseDAO<Class, Integer> {
     }
 
     public List<Class> getAll(Integer userId) {
-        return entityManager.createQuery("select u from Class u where u.deleted = 0 and u.createdBy = :userId order by createdAt desc" , Class.class)
-                .setParameter("userId" , userId)
-                .getResultList();
+        return entityManager.createQuery("select u from Class u where u.deleted = 0 and u.createdBy = :userId order by createdAt desc" , Class.class).setParameter("userId" , userId).getResultList();
 
     }
 
@@ -69,9 +64,7 @@ public class ClassDao extends BaseDAO<Class, Integer> {
     }
 
     public Class get(Integer groupId) {
-        return entityManager.createQuery("from Class  c where c.id=?1" , Class.class)
-                .setParameter(1 , groupId)
-                .getSingleResult();
+        return entityManager.createQuery("from Class  c where c.id=?1" , Class.class).setParameter(1 , groupId).getSingleResult();
     }
 
     public boolean delete(Class group) {
@@ -84,14 +77,17 @@ public class ClassDao extends BaseDAO<Class, Integer> {
 //                       .setParameter(1 , groupId).executeUpdate() != 0;
     }
 
-@Transactional
-    public   void addMember(ClassDao classDao , UserDao userDao , Integer userId , Class aClass) {
-//        entityManager.getTransaction().begin();
-        final User byId = userDao.findById(userId);
-        aClass.getUsers().add(byId);
-        classDao.save(aClass);
-        userDao.save(byId);
-//        entityManager.getTransaction().commit();
+    //@Transactional
+    public void addMember(Integer userId , Integer classId , UserDao userDao) {
+
+        entityManager.getTransaction().begin();
+        final User userById = userDao.findById(userId);
+        final Class classById = findById(classId);
+        classById.getUsers().add(userById);
+        entityManager.persist(classById);
+        entityManager.persist(classById);
+        entityManager.getTransaction().commit();
+
     }
 
 }

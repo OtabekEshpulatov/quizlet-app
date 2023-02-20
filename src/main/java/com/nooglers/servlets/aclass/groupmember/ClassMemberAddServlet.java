@@ -18,45 +18,38 @@ public class ClassMemberAddServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
         ClassDao classDao = ClassDao.getInstance();
         UserDao userDao = UserDao.getInstance();
-        String user = request.getParameter("userId");
-        String group = request.getParameter("groupId");
-        if ( !Objects.isNull(user) ) {
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
+        Integer groupId = Integer.valueOf(request.getParameter("groupId"));
 
-            Integer userId = Integer.valueOf(user);
-            Integer groupId = Integer.valueOf(group);
-            HttpSession session = request.getSession();
-            Integer sessionId = ( Integer ) session.getAttribute("user_id");
-            Class aClass = classDao.get(groupId);
-            List<Class> classList = classDao.getAll(sessionId);
+        final User userDaoById = userDao.findById(userId);
+        classDao.addMember(userId , groupId,userDao);
 
 
-            //public String  addSetToClass(Integer classId, Integer moduleId){
-            //
-            //     entityManager.getTransaction().begin();
-            //        Class aClass = entityManager.find(Class.class, classId);
-            //        Module module = entityManager.find(Module.class, moduleId);
-            //        if(aClass==null){
-            //            return "Class not found";
-            //        }
-            //        if(module==null){
-            //            return "Module not found";
-            //        }
-            //
-            //        module.getModuleClass().add(aClass);
-            //        entityManager.persist(aClass);
-            //        entityManager.persist(module);
-            //
-            //        entityManager.getTransaction().commit();
-            //
-            //        return "Ok";
-            //    }
+        //public String  addSetToClass(Integer classId, Integer moduleId){
+        //
+        //     entityManager.getTransaction().begin();
+        //        Class aClass = entityManager.find(Class.class, classId);
+        //        Module module = entityManager.find(Module.class, moduleId);
+        //        if(aClass==null){
+        //            return "Class not found";
+        //        }
+        //        if(module==null){
+        //            return "Module not found";
+        //        }
+        //
+        //        module.getModuleClass().add(aClass);
+        //        entityManager.persist(aClass);
+        //        entityManager.persist(module);
+        //
+        //        entityManager.getTransaction().commit();
+        //
+        //        return "Ok";
+        //    }
 
-            if ( classList.contains(aClass) ) {
-                classDao.addMember(classDao , userDao , userId , aClass);
-            }
-            response.sendRedirect("/group");
-
-        }
+//            if ( classList.contains(aClass) ) {
+//                classDao.addMember(classDao , userDao , userId , aClass);
+//            }
+        response.sendRedirect("/group");
     }
 
 

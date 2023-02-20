@@ -10,26 +10,30 @@
 </head>
 <body>
 
+
 <div class="container" style="margin-top: 20px">
-    <div class="row">
-        <div class="col">
-            <div class="collapse multi-collapse" id="multiCollapseExample1">
-                <div class="card card-body">
-                    <a href="/group/update?groupId=${group.getId()}" class="btn btn-warning">
-                        Update
-                    </a>
-                    <a href="/group/delete?groupId=${group.getId()}" class="btn btn-danger">
-                        Delete
-                    </a>
-                    <a href="/group/member?groupId=${group.getId()}" class="btn btn-success">
-                        Add member
-                    </a>
-                    <a href="/group/set?groupId=${group.getId()}" class="btn btn-success">
-                        Add/Remove Set
-                    </a>
-                </div>
-            </div>
-        </div>
+
+    <%--            <p>layer3</p>--%>
+    <%--            <div class="collapse multi-collapse" id="multiCollapseExample1">--%>
+
+    <td>${i}</td>
+    <td>${group.getSchoolName()}</td>
+    <td>${group.getName()}</td>
+    <td>${group.getUsers().size()+1}</td>
+
+    <div class="card card-body">
+        <a href="/group/update?groupId=${group.getId()}" class="btn btn-warning m-3">
+            Update
+        </a>
+        <a href="/group/delete?groupId=${group.getId()}" class="btn btn-danger m-3">
+            Delete
+        </a>
+        <a href="/group/member?groupId=${group.getId()}" class="btn btn-success m-3">
+            Add member
+        </a>
+        <a href="/group/set?groupId=${group.getId()}" class="btn btn-success m-3">
+            Add/Remove Set
+        </a>
     </div>
 </div>
 

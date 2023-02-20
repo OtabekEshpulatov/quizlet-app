@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Set;
 
-@NoArgsConstructor( access = AccessLevel.PRIVATE )
+//@NoArgsConstructor( access = AccessLevel.PRIVATE )
 public class UserDao extends BaseDAO<User, Integer> {
     private static final ThreadLocal<UserDao> USER_DAO_THREAD_LOCAL = ThreadLocal.withInitial(UserDao::new);
 

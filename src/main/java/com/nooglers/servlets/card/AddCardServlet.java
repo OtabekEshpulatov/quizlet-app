@@ -1,7 +1,5 @@
 package com.nooglers.servlets.card;
 
-import com.nooglers.configs.ThreadSafeBeansContainer;
-import com.nooglers.dao.CardDao;
 import com.nooglers.domains.Card;
 import com.nooglers.domains.Document;
 import com.nooglers.domains.Module;
@@ -14,8 +12,8 @@ import java.io.IOException;
 
 import static com.nooglers.configs.ThreadSafeBeansContainer.*;
 
-@WebServlet( name = "AddCardServlet", value = "/addcard" )
-@MultipartConfig( location = "/home/otash/apps/library/uploads" )
+@WebServlet( name = "AddCardServlet", urlPatterns = "/addcard" )
+@MultipartConfig( location = "/home/otash/apps/library/upload" )
 public class AddCardServlet extends HttpServlet {
 
     @Override
@@ -29,7 +27,6 @@ public class AddCardServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
-
 
         String term = request.getParameter("term");
         String description = request.getParameter("description");
@@ -55,7 +52,7 @@ public class AddCardServlet extends HttpServlet {
                     .build();
         }
         CARD_DAO.get().save(card);
-        response.sendRedirect("/view/card/test.jsp");
+        response.sendRedirect("/home");
     }
 
 }

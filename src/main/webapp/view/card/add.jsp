@@ -28,7 +28,8 @@
                 <div class="bi-upl-file">
                     <div class="bi-upl-file-left">
                         <label for="bi-image" class="bi-upl-file-label">Choose file</label>
-                        <input type="file" name="image" id="bi-image" aria-label="file example" class="bi-upl-file-input clicking1">
+                        <input type="file" name="image" id="bi-image" aria-label="file example"
+                               class="bi-upl-file-input clicking1">
                     </div>
                     <div class="bi-upl-file-right clicking1out">No File Chosen</div>
                 </div>

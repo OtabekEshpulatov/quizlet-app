@@ -35,8 +35,8 @@ public class User implements BaseEntity{
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany
-    @Column
-    private Set<Class> classes = new HashSet<>();
+//    @ManyToMany
+//    @Column
+//    private Set<Class> classes = new HashSet<>();
 
 }

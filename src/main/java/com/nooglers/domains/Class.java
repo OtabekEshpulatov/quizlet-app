@@ -44,7 +44,7 @@ public class Class implements BaseEntity {
     @Column( columnDefinition = "smallint default 0" )
     private short deleted;
 
-    @ManyToMany( mappedBy = "classes", cascade = CascadeType.ALL )
+    @ManyToMany
     @Builder.Default
     private Set<User> users = new HashSet<>();
 }

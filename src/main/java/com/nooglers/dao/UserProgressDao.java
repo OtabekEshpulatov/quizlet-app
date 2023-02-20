@@ -6,8 +6,14 @@ import java.util.List;
 
 public class UserProgressDao extends BaseDAO<UserProgress, Integer> {
     public List<UserProgress> findAll(Integer id) {
-        return entityManager.createQuery("from user_progress  up where up.user.id=?1" , UserProgress.class)
+        final List<UserProgress> resultList = entityManager.createQuery("from user_progress  up where up.user.id=?1" , UserProgress.class)
                 .setParameter(1 , id)
                 .getResultList();
+
+        for ( UserProgress userProgress : resultList ) {
+            entityManager.refresh(userProgress);
+        }
+
+        return resultList;
     }
 }
