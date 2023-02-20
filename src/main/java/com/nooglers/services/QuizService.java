@@ -4,8 +4,10 @@ import com.nooglers.dao.test.QuestionDao;
 import com.nooglers.domains.test.Question;
 import com.nooglers.domains.test.QuizHistory;
 import com.nooglers.domains.test.Variant;
+import com.nooglers.dto.SendMessageDto;
 import com.nooglers.dto.SolveQuestionDto;
 import com.nooglers.enums.QuizType;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 
 import java.util.List;
@@ -67,4 +69,6 @@ public class QuizService {
     public Long numberOfQuestions(Integer moduleId) {
         return dao.numberOfQuestions(moduleId);
     }
+
+
 }

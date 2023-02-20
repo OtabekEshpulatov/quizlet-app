@@ -1,6 +1,7 @@
 package com.nooglers.servlets.test;
 
 import com.nooglers.configs.ThreadSafeBeansContainer;
+import com.nooglers.dto.SendMessageDto;
 import com.nooglers.dto.SolveQuestionDto;
 import com.nooglers.services.QuizService;
 import jakarta.servlet.ServletException;
@@ -10,10 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Objects;
+
+import static com.nooglers.utils.MessageUtil.setMessage;
 
 @WebServlet( name = "TestServlet", urlPatterns = "/test" )
 public class TestServlet extends HttpServlet {
@@ -24,23 +23,14 @@ public class TestServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException, IOException {
 
         Integer userId = ( Integer ) req.getSession().getAttribute("user_id");
-        Integer moduleId = Integer.valueOf(req.getParameter("m_id") );
+        Integer moduleId = Integer.valueOf(req.getParameter("m_id"));
 
         if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
-            String m1 = "Opps!";
-            String m2 = "You cannot take a test. This module does not belong to you.";
-            req.setAttribute("message1" , m1);
-            req.setAttribute("message2" , m2);
-            req.setAttribute("message3" , "modules");
-            req.setAttribute("url" , "/getModule?m_id=" + moduleId);
+            setMessage(req , new SendMessageDto("Opps!" , "You don't have access to this study module" , "cards" , "/getModule?m_id=" + moduleId ));
             req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
         } else if ( quizService.numberOfQuestions(moduleId) < 2 ) {
-            req.setAttribute("message1" , "Opps!");
-            req.setAttribute("message2" , "You don't have enough cards to start quizzes.");
-            req.setAttribute("message3" , " cards");
-            req.setAttribute("url" , "Go to cards");
+            setMessage(req , new SendMessageDto("Opps!" , "You don't have enough cards to start quizzes" , "cards" , "/addcard" ));
             req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
-
         } else {
             final SolveQuestionDto solveQuestionDto = quizService.generateTest(userId , moduleId);
             System.out.println(solveQuestionDto);
@@ -48,8 +38,6 @@ public class TestServlet extends HttpServlet {
             req.setAttribute("hasNext" , true);
             req.getRequestDispatcher("/view/quiz/test.jsp").forward(req , resp);
         }
-
-
     }
 
 

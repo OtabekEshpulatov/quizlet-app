@@ -92,8 +92,9 @@
                     final Module module = ( Module ) request.getAttribute("module");
                     System.out.println(module);
                     module.getId();
-                    %>
-                <a class="btn btn-outline-info" style="font-size:24px;text-decoration: none" href="/test?m_id=${module.getId()}">
+                %>
+                <a class="btn btn-outline-info" style="font-size:24px;text-decoration: none"
+                   href="/test?m_id=${module.getId()}">
                     Test <i style="font-size:24px" class="fa">&#xf15c;</i>
                 </a>
 
@@ -116,61 +117,97 @@
         <p></p>
         <h3>Your Learning Process</h3>
 
-            <%
-            final UserProgressService userProgressService = ThreadSafeBeansContainer.USER_PROGRESS_SERVICE.get();
-            List<UserProgress> up = userProgressService.getUserProgress(module.getId());
 
-            final List<UserProgress> low = up.stream().filter(userProgress -> userProgress.getScore() <= 0).toList();
-            final List<UserProgress> high = up.stream().filter(userProgress -> userProgress.getScore() >= 15).toList();
-            final List<UserProgress> med = up.stream().filter(userProgress -> userProgress.getScore() > 0 && userProgress.getScore() < 15).toList();
-
-            if ( !low.isEmpty() ) {
-        %>
-        <p class="m-3">New(${low.size()})</p>
-        <c:forEach items="${low}" var="l">
-        <p>${l.getCard().getTitle()}} ${l.getCard().getDescription()} <a href="/card">More</a></p>
-        </c:forEach>
-            <%} else if ( !med.isEmpty() ){%>
-        <p class="m-3">Still Learning(${med.size()})</p>
-        <c:forEach items="${med}" var="m">
-        <p>${m.getCard().getTitle()}} ${m.getCard().getDescription()} <a href="/card">More</a></p>
-        </c:forEach>
-            <%}else if(!high.isEmpty()){%>
-        <p class="m-3">Mastered(${high.size()})</p>
-        <c:forEach items="${high}" var="h">
-        <p>${h.getCard().getTitle()}} ${h.getCard().getDescription()} <a href="/card">More</a></p>
-        </c:forEach>
-            <%}%>
-
-        </form>
-        <!-- Button trigger modal -->
-
-        <form method="post" action="/deleteModule">
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <input type="hidden" name="moduleId" value="${module.getId()}">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Are you sure to delete modal <b>${module.getName()}</b>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-warning">
-                                Yes
-                            </button>
-                        </div>
-                    </div>
+        <c:if test="${ !newAdded.isEmpty()}">
+        <div class="accordion-item m-4">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button btn btn-success-success" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne"
+                        aria-expanded="false" aria-controls="collapseOne">
+                    New(${newAdded.size()})
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <c:forEach items="${newAdded}" var="l">
+                        <span>${l.getCard().getTitle()}, </span>
+                    </c:forEach>
                 </div>
             </div>
-        </form>
+        </div>
+</div>
+</c:if>
 
-        <%--    <jsp:include page="/fragments/js.jsp"/>--%>
+<c:if test="${ !inProgress.isEmpty()}">
+    <div class="accordion-item m-4">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button btn btn-success-success" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo"
+                    aria-expanded="false" aria-controls="collapseTwo">
+                In Progress(${inProgress.size()})
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+             data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <c:forEach items="${inProgress}" var="l">
+                    <span>${l.getCard().getTitle()}, </span>
+                </c:forEach>
+            </div>
+        </div>
+    </div>
+</c:if>
+
+
+<c:if test="${ !mastered.isEmpty()}">
+    <div class="accordion-item m-4">
+        <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button btn btn-success-success" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree"
+                    aria-expanded="false" aria-controls="collapseThree">
+                Mastered(${mastered.size()})
+            </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+             data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <c:forEach items="${mastered}" var="l">
+                    <span>${l.getCard().getTitle()}, </span>
+                </c:forEach>
+
+            </div>
+        </div>
+    </div>
+</c:if>
+
+
+<form method="post" action="/deleteModule">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" name="moduleId" value="${module.getId()}">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure to delete modal <b>${module.getName()}</b>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-warning">
+                        Yes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<%--    <jsp:include page="/fragments/js.jsp"/>--%>
 </div>
 </body>
 </html>

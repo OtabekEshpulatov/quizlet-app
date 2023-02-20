@@ -4,15 +4,21 @@ import com.nooglers.configs.ThreadSafeBeansContainer;
 import com.nooglers.dao.ModuleDao;
 import com.nooglers.domains.Module;
 import com.nooglers.domains.User;
+import com.nooglers.domains.progress.UserProgress;
+import com.nooglers.dto.SendMessageDto;
 import com.nooglers.dto.SolveQuestionDto;
 import com.nooglers.services.ModuleService;
 import com.nooglers.services.QuizService;
+import com.nooglers.services.userprogress.UserProgressService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+
+import static com.nooglers.utils.MessageUtil.setMessage;
 
 @WebServlet( name = "ModuleGetServlet", urlPatterns = "/getModule" )
 public class ModuleGetServlet extends HttpServlet {
@@ -21,19 +27,28 @@ public class ModuleGetServlet extends HttpServlet {
 
         final QuizService quizService = ThreadSafeBeansContainer.QUIZ_SERVICE.get();
         final ModuleService moduleService = ThreadSafeBeansContainer.MODULE_SERVICE.get();
+        final UserProgressService userProgressService = ThreadSafeBeansContainer.USER_PROGRESS_SERVICE.get();
+
         final Integer moduleId = Integer.valueOf(request.getParameter("m_id"));
         final Integer userId = ( Integer ) Objects.requireNonNullElse(request.getSession().getAttribute("user_id") , 1);
         System.out.println(userId);
 
 
         if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
-            String m1 = "Opps! You did something Wrong";
-            String m2 = "This module does not belong to you";
-            request.setAttribute("message1" , m1);
-            request.setAttribute("message2" , m2);
+            setMessage(request , new SendMessageDto("Opps!" , "This module does not belong to you" , "study modules" , "/listModule"));
             request.getRequestDispatcher("/utils/error.jsp").forward(request , response);
         } else {
-            request.setAttribute("module" , moduleService.getById(moduleId));
+            final Module module = moduleService.getById(moduleId);
+            request.setAttribute("module" , module);
+            final List<UserProgress> up = userProgressService.getUserProgress(userId);
+            final List<UserProgress> low = up.stream().filter(userProgress -> userProgress.getScore() <= 0).toList();
+            final List<UserProgress> med = up.stream().filter(userProgress -> userProgress.getScore() > 0 && userProgress.getScore() < 15).toList();
+            final List<UserProgress> high = up.stream().filter(userProgress -> userProgress.getScore() >= 15).toList();
+
+            request.setAttribute("newAdded" , low);
+            request.setAttribute("inProgress" , med);
+            request.setAttribute("mastered" , high);
+
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/module/get.jsp");
             requestDispatcher.forward(request , response);
         }
