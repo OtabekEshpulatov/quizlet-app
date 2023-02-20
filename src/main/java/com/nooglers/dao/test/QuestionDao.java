@@ -50,15 +50,18 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
         for ( Card card : cardsList )
             em.persist(UserProgress.builder().user(createdBy).card(card).build());
 
-        List<UserProgress> resultList = em.createQuery("select up from user_progress up where up.user=?1 and up.card.module.id=?2 order by up.score" , UserProgress.class).setParameter(1 , createdBy).setParameter(2 , setId).setMaxResults(ApplicationUtils.MAX_QUESTION_COUNT).getResultList();
+        List<UserProgress> resultList = em.createQuery("select up from user_progress up where up.user=?1 and up.card.module.id=?2 order by up.score" , UserProgress.class).setParameter(1 , createdBy).setParameter(2 , setId).setMaxResults(MAX_QUESTION_COUNT * 2).getResultList();
 
-        quizHistoryBuilder.startedAt(LocalDateTime.now()).totalQuestionCount(resultList.size());
+        quizHistoryBuilder
+                .totalQuestionCount(Math.min(resultList.size(),MAX_QUESTION_COUNT))
+                .startedAt(LocalDateTime.now());
+
         QuizHistory quizHistory = quizHistoryBuilder.build();
         em.persist(quizHistory);
 
 
-        for ( UserProgress userProgress : resultList ) {
-
+        for ( int i = 0 ; i < resultList.size() && i < MAX_QUESTION_COUNT ; i++ ) {
+            final UserProgress userProgress = resultList.get(i);
             Card card = userProgress.getCard();
             var questionBuilder = Question.builder().card(card).quizHistory(quizHistory);
             int randomInt = random.nextInt(3);
@@ -92,7 +95,6 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
                 addAll(wrongAnswers);
             }
         }
-
 
         em.getTransaction().commit();
 
@@ -205,8 +207,7 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
                     } else updateUserProgress(-3 , userId , cardId);
 
                 }
-            }else
-                updateUserProgress(-3,userId,cardId);
+            } else updateUserProgress(-3 , userId , cardId);
         }
 
         quizHistory.setFinishedAt(LocalDateTime.now());
@@ -247,10 +248,7 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
 
     public boolean doesUserHaveAccessToThisModule(Integer moduleId , Integer userId) {
 
-        final Long own = entityManager.createQuery("select count(*) from Module  m where m.id=?1 and m.createdBy.id=?2" , Long.class)
-                .setParameter(1 , moduleId)
-                .setParameter(2 , userId)
-                .getSingleResult();
+        final Long own = entityManager.createQuery("select count(*) from Module  m where m.id=?1 and m.createdBy.id=?2" , Long.class).setParameter(1 , moduleId).setParameter(2 , userId).getSingleResult();
 
 //        entityManager.createQuery("select count(*) from Class  c where c.classUser.")
         return own > 0;
@@ -258,8 +256,7 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
 
     public Long numberOfQuestions(Integer moduleId) {
 
-        return entityManager.createQuery("select count(*) from card c where c.module.id=?1" , Long.class)
-                .setParameter(1 , moduleId).getSingleResult();
+        return entityManager.createQuery("select count(*) from card c where c.module.id=?1" , Long.class).setParameter(1 , moduleId).getSingleResult();
 
 
     }
