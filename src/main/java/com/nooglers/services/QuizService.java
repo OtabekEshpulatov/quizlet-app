@@ -15,7 +15,8 @@ import java.util.List;
 
 public class QuizService {
 
-    private final QuestionDao dao = new QuestionDao();
+
+    QuestionDao dao = QuestionDao.getInstance();
 
     public SolveQuestionDto generateTest(@NonNull Integer userId , Integer setId) {
         return dao.generateTest(userId , setId);
@@ -71,4 +72,8 @@ public class QuizService {
     }
 
 
+    public List<QuizHistory> getQuizHistories(Integer userId) {
+
+        return dao.getQuizHistories(userId);
+    }
 }

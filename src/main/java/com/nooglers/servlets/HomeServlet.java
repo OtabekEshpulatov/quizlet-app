@@ -17,7 +17,7 @@ public class HomeServlet extends HttpServlet {
         ModuleDao moduleDao = ModuleDao.getInstance();
         final Integer userId = ( Integer ) request.getSession().getAttribute("user_id");
         final List<Module> modules = moduleDao.findAllRecentModulesByUser(userId);
-        request.setAttribute("modules" , modules.subList(0,2));
+        request.setAttribute("modules" , modules.subList(0, Math.min(modules.size() , 2)));
         request.getRequestDispatcher("/home.jsp").
                 forward(request , response);
 

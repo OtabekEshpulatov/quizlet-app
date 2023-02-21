@@ -4,6 +4,7 @@ package com.nooglers.dao.test;
 import com.nooglers.dao.BaseDAO;
 import com.nooglers.domains.test.Variant;
 import com.nooglers.dto.SolveQuestionDto;
+import com.nooglers.services.QuizService;
 import com.nooglers.utils.ApplicationUtils;
 import com.nooglers.utils.EntityProvider;
 import com.nooglers.domains.Card;
@@ -22,6 +23,11 @@ import static com.nooglers.utils.ApplicationUtils.*;
 
 public class QuestionDao extends BaseDAO<Question, Integer> implements EntityProvider {
 
+    private static ThreadLocal<QuestionDao> QUESTION_DAO = ThreadLocal.withInitial(QuestionDao::new);
+
+    public static QuestionDao getInstance() {
+        return QUESTION_DAO.get();
+    }
 
     public SolveQuestionDto generateTest(Integer userId , Integer setId) {
 
@@ -105,9 +111,8 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
     private void clearUnfinishedTest(Integer userId) {
 
         try {
-            final EntityManager em = entityManager;
             begin();
-            em.createQuery("delete from quiz_history  q where q.createdBy.id=?1 and q.finishedAt is null ").setParameter(1 , userId).executeUpdate();
+            entityManager.createQuery("delete from quiz_history  q where q.createdBy.id=?1 and q.finishedAt is null ").setParameter(1 , userId).executeUpdate();
             commit();
         } catch ( RuntimeException ex ) {
             ex.printStackTrace();
@@ -256,8 +261,15 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
 
     public Long numberOfQuestions(Integer moduleId) {
 
-        return entityManager.createQuery("select count(*) from card c where c.module.id=?1" , Long.class).setParameter(1 , moduleId).getSingleResult();
+        final Long singleResult = entityManager.createQuery("select count(*) from card c where c.module.id=?1 and c.deleted=0" , Long.class).setParameter(1 , moduleId).getSingleResult();
 
+        return singleResult;
 
+    }
+
+    public List<QuizHistory> getQuizHistories(Integer userId) {
+        return entityManager.createQuery("from quiz_history  qh where qh.createdBy.id=?1" , QuizHistory.class)
+                .setParameter(1 , userId)
+                .getResultList();
     }
 }

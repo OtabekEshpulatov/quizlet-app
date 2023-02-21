@@ -68,7 +68,6 @@ public class HasCookieFilter implements Filter {
                         }
 
                 );
-
             }
         }
     }

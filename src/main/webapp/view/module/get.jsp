@@ -26,6 +26,10 @@
             border-radius: 50%;
         }
 
+        .progress {
+            text-decoration: underline;
+        }
+
         .btn {
             background-color: DodgerBlue; /* Blue background */
             border: none; /* Remove borders */
@@ -127,14 +131,14 @@
                     <button class="accordion-button btn btn-success-success" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseOne"
                             aria-expanded="false" aria-controls="collapseOne">
-                            New(${newAdded.size()})
+                        <span class="progress">New(${newAdded.size()})</span>
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <c:forEach items="${newAdded}" var="l">
-                            <span>${l.getCard().getTitle()}, </span>
+                            <span style="text-decoration: underline">${l.getCard().getTitle()} ⭐️ </span>
                         </c:forEach>
                     </div>
                 </div>
@@ -148,14 +152,14 @@
                 <button class="accordion-button btn btn-success-success" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseTwo"
                         aria-expanded="false" aria-controls="collapseTwo">
-                        In Progress(${inProgress.size()})
+                    <span class="progress">In Progress(${inProgress.size()})</span>
                 </button>
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                  data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <c:forEach items="${inProgress}" var="l">
-                        <span>${l.getCard().getTitle()}, </span>
+                        <span>${l.getCard().getTitle()} ⭐️ </span>
                     </c:forEach>
                 </div>
             </div>
@@ -169,14 +173,14 @@
                 <button class="accordion-button btn btn-success-success" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseThree"
                         aria-expanded="false" aria-controls="collapseThree">
-                        Mastered(${mastered.size()})
+                    <span class="progress">Mastered(${mastered.size()})</span>
                 </button>
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                  data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <c:forEach items="${mastered}" var="l">
-                        <span>${l.getCard().getTitle()}, </span>
+                        <span>${l.getCard().getTitle()} ⭐️ </span>
                     </c:forEach>
 
                 </div>

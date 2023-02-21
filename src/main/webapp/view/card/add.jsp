@@ -3,6 +3,7 @@
 <head>
     <title>Add card</title>
     <jsp:include page="/utils/header.jsp"/>
+    <link rel="stylesheet">
 </head>
 <body>
 

@@ -4,6 +4,7 @@ import com.nooglers.dao.CardDao;
 import com.nooglers.dao.ModuleDao;
 import com.nooglers.domains.Card;
 import com.nooglers.domains.Module;
+import com.nooglers.domains.progress.UserProgress;
 
 import java.util.List;
 
@@ -22,5 +23,14 @@ public class ModuleService {
 
     public void updateLastSeend(Module module) {
         dao.updateLastSeen(module);
+    }
+
+    public List<Card> extractCards(List<UserProgress> up) {
+        final List<Card> cards = up.stream()
+                .map(UserProgress::getCard)
+                .filter(card -> card.getDeleted() == 0)
+                .toList();
+
+        return cards;
     }
 }
