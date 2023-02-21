@@ -21,6 +21,25 @@
         <b>Group Name: </b> ${group.getName()} <br/>
         <b>Members: </b> ${group.getUsers().size()+1} <br/></p>
 
+    <c:if test="${!isOwner}">
+        <div class="card card-body">
+            <c:if test="${group.isPermissionToUpdateSets()}">
+                <a href="/group/update?groupId=${group.getId()}" class="btn btn-warning m-3">
+                    Update
+                </a>
+            </c:if>
+            <c:if test="${group.isPermissionToInvite()}">
+                <a href="/group/member?groupId=${group.getId()}" class="btn btn-success m-3">
+                    Add member
+                </a>
+            </c:if>
+            <c:if test="${group.isPermissionToUpdateSets()}">
+                <a href="/group/set?groupId=${group.getId()}" class="btn btn-success m-3">
+                    Add/Remove Set
+                </a>
+            </c:if>
+        </div>
+    </c:if>
     <c:if test="${isOwner}">
         <div class="card card-body">
             <a href="/group/update?groupId=${group.getId()}" class="btn btn-warning m-3">
@@ -38,22 +57,24 @@
         </div>
     </c:if>
 
-
-    <c:forEach items="modules" var="module">
-        <div class="col-lg-4 col-md-5 col-sm-8" style="margin-top: 5px">
-            <div class="card" style="height: 200px; width: 200px">
-                <div class="card-header">
-                        ${module.getName()}
-                </div>
-                <div class="card-body">
-                    <p class="card-text">${module.getDescription()}</p>
-                    <a href="/getModule?mid=${module.getId()}" type="button"
-                       class="btn btn-outline-info">${module.getName()}</a>
+    <div class="container col-md-8 col-lg-10 col-sm-6">
+        <c:forEach items="${modules}" var="module">
+            <div class="col-lg-4 col-md-5 col-sm-8" style="margin-top: 5px">
+                <div class="card" style="height: 200px; width: 200px">
+                    <div class="card-header">
+                            ${module.getName()}
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">${module.getDescription()}</p>
+                        <a href="/getModule?mid=${module.getId()}" type="button"
+                           class="btn btn-outline-info">${module.getName()}</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </c:forEach>
+        </c:forEach>
+    </div>
 </div>
+
 
 </body>
 </html>
