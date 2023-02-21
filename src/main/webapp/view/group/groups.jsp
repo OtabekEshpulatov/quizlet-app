@@ -30,7 +30,11 @@
                         <td>${i}</td>
                         <td>${group.getSchoolName()}</td>
                         <td>${group.getName()}</td>
-                        <td>${group.getUsers().size()+1}</td>
+                        <td>
+                            <a href="/group/member/remove?groupId=${group.getId()}">
+                                    ${group.getUsers().size()+1}
+                            </a>
+                        </td>
                         <td>
                             <a class="btn btn-primary" href="/mygroup?gid=${group.getId()}"
                                role="button" aria-expanded="false">More</a>

@@ -32,7 +32,7 @@ public class UserDao extends BaseDAO<User, Integer> {
     public User get(String emailOrUsername) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        TypedQuery<User> typedQuery = entityManager.createQuery("select u from Users u where (u.email = :text or u.username = :text) and u.deleted = 0" , User.class).setParameter("text" , emailOrUsername);
+        TypedQuery<User> typedQuery = entityManager.createQuery("select u from Users u where (u.email = :text or u.username = :text) and u.deleted = 0", User.class).setParameter("text", emailOrUsername);
         transaction.commit();
         List<User> userList = typedQuery.getResultList();
         return userList.stream().filter(user -> user.getUsername().equals(emailOrUsername) || user.getEmail().equals(emailOrUsername)).findAny().orElse(null);
@@ -40,9 +40,10 @@ public class UserDao extends BaseDAO<User, Integer> {
 
 
     public Set<User> getAllById(Integer groupId) {
-
-        final Class singleResult = entityManager.createQuery("from Class c where c.id=?1" , Class.class).setParameter(1 , groupId).getSingleResult();
-
+        begin();
+        final Class singleResult = entityManager.createQuery("from Class c where c.id=?1", Class.class)
+                .setParameter(1, groupId).getSingleResult();
+        commit();
         return singleResult.getUsers();
     }
 
@@ -54,20 +55,20 @@ public class UserDao extends BaseDAO<User, Integer> {
 
     public List<User> getAllByUserName(String username) {
         username = "%" + username + "%";
-        final List<User> uname = entityManager.createQuery("from Users u where u.username ilike ?1 " , User.class).setParameter(1 , username).getResultList();
+        final List<User> uname = entityManager.createQuery("from Users u where u.username ilike ?1 ", User.class).setParameter(1, username).getResultList();
 
         return uname;
     }
 
     public List<User> getAll() {
-        return entityManager.createQuery("from Users" , User.class).getResultList();
+        return entityManager.createQuery("from Users", User.class).getResultList();
     }
 
 
     public AppCookie getCookie(Cookie cookie) {
         try {
-            return entityManager.createQuery("from cookie c where c.id=?1" , AppCookie.class).setParameter(1 , cookie.getValue()).getSingleResult();
-        } catch ( NoResultException ex ) {
+            return entityManager.createQuery("from cookie c where c.id=?1", AppCookie.class).setParameter(1, cookie.getValue()).getSingleResult();
+        } catch (NoResultException ex) {
             return null;
         }
     }
