@@ -50,10 +50,11 @@ public class ModuleEditServlet extends HttpServlet {
         module.setPublic(isPublic);
 
         moduleDao.update(module);
-        request.setAttribute("moduleId" , moduleId);
-        request.setAttribute("module" , module);
-        request.getRequestDispatcher("/view/module/get.jsp").forward(request , response);
+//        request.setAttribute("moduleId" , moduleId);
+//        request.setAttribute("module" , module);
+//        request.getRequestDispatcher("/view/module/get.jsp").forward(request , response);
 
+        response.sendRedirect("getModule?mid=" + moduleId);
 
     }
 }

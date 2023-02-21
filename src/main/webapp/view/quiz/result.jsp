@@ -35,7 +35,7 @@
         <p>Finished at: ${ApplicationUtils.DATE_TIME_FORMATTER.format(quizHistory.getFinishedAt())}
         </p>
         <p>Time
-            (minutes): ${Duration.ofHours(ChronoUnit.HOURS.between(quizHistory.getStartedAt() , quizHistory.getFinishedAt())).toMinutes()}
+            (minutes): ${Duration.ofMinutes(ChronoUnit.MINUTES.between(quizHistory.getStartedAt() , quizHistory.getFinishedAt())).toMinutes()}
         </p>
         <p>
             Percentage: ${ApplicationUtils.DECIMAL_FORMATTER.format(quizHistory.getCorrectAnswerCount() * 100 / quizHistory.getTotalQuestionCount())}%
@@ -59,7 +59,7 @@
             </thead>
             <tbody>
 
-            <c:set scope="session" var="m_id" value="${questions.get(0).getCard().getModule().getId()}"/>
+            <c:set scope="session" var="mid" value="${questions.get(0).getCard().getModule().getId()}"/>
 
             <c:forEach items="${questions}" var="question">
                 <c:set var="term" value="${quizService.getTerm(question)}"/>
@@ -79,8 +79,8 @@
 
             </tbody>
             <div>
-                <a type="button" class="btn btn-success" href="/test?m_id=${m_id}">Try again</a>
-                <a type="button" class="btn btn-warning" href="/getModule?m_id=${m_id}">Back</a>
+                <a type="button" class="btn btn-success" href="/test?mid=${mid}">Try again</a>
+                <a type="button" class="btn btn-warning" href="/getModule?mid=${mid}">Back</a>
             </div>
         </table>
     </div>

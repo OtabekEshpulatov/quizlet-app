@@ -18,8 +18,8 @@ public class ModuleAddServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-//        int userId = (int) session.getAttribute("user_id");
-        request.setAttribute("userId" , 1);
+        int userId = ( int ) session.getAttribute("user_id");
+        request.setAttribute("userId" , userId);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/module/add.jsp");
         requestDispatcher.forward(request , response);
     }

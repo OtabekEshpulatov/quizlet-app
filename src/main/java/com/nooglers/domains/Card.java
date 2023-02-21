@@ -21,8 +21,8 @@ public class Card extends BaseDomain implements BaseEntity {
     @CreationTimestamp
     @Column( columnDefinition = "timestamp with time zone", name = "updated_at" )
     private transient LocalDateTime updatedAt;
-    @Column( columnDefinition = "boolean default 'false'" )
-    private boolean deleted;
+    @Column( columnDefinition = "smallint default 0" )
+    private short deleted;
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Integer id;

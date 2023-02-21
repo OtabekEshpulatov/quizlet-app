@@ -2,6 +2,8 @@ package com.nooglers.dao;
 
 import com.nooglers.domains.Module;
 
+import java.nio.file.LinkOption;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ModuleDao extends BaseDAO<Module, Integer> {
@@ -18,7 +20,7 @@ public class ModuleDao extends BaseDAO<Module, Integer> {
 
         entityManager.getTransaction().begin();
         entityManager.createQuery("update Module  m set m.deleted=cast(1 as short )where m.id=?1")
-                .setParameter(1 , id).executeUpdate()   ;
+                .setParameter(1 , id).executeUpdate();
         entityManager.getTransaction().commit();
         return true;
 
@@ -26,6 +28,21 @@ public class ModuleDao extends BaseDAO<Module, Integer> {
 
     public List<Module> getAll(Integer userId) {
         return entityManager.createQuery("from Module  m where m.createdBy.id=?1 and m.deleted=0 order by m.createdAt desc" , Module.class).setParameter(1 , userId).getResultList();
+    }
+
+    public List<Module> findAllRecentModulesByUser(Integer userId) {
+
+        return entityManager.createQuery("from Module  m where m.createdBy.id=?1 order by m.lastSeen desc" , Module.class)
+                .setParameter(1 , userId)
+                .getResultList();
+
+    }
+
+    public void updateLastSeen(Module module) {
+
+        begin();
+        module.setLastSeen(LocalDateTime.now());
+        commit();
     }
 
 

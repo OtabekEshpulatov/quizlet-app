@@ -39,7 +39,7 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
                 select c from card c
                             where c <> all (select up.card
                                                from user_progress up
-                                               where up.user=?1) and c.module.id=?2
+                                               where up.user=?1) and c.module.id=?2 and c.deleted=0
                 """;
 
         @SuppressWarnings( "unchecked" ) List<Card> cardsList = em.createQuery(selectCards , Card.class).setParameter(1 , createdBy).setParameter(2 , setId).getResultList();
@@ -50,10 +50,10 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
         for ( Card card : cardsList )
             em.persist(UserProgress.builder().user(createdBy).card(card).build());
 
-        List<UserProgress> resultList = em.createQuery("select up from user_progress up where up.user=?1 and up.card.module.id=?2 order by up.score" , UserProgress.class).setParameter(1 , createdBy).setParameter(2 , setId).setMaxResults(MAX_QUESTION_COUNT * 2).getResultList();
+        List<UserProgress> resultList = em.createQuery("select up from user_progress up where up.user=?1 and up.card.module.id=?2 and up.card.deleted=0 order by up.score" , UserProgress.class).setParameter(1 , createdBy).setParameter(2 , setId).setMaxResults(MAX_QUESTION_COUNT * 2).getResultList();
 
         quizHistoryBuilder
-                .totalQuestionCount(Math.min(resultList.size(),MAX_QUESTION_COUNT))
+                .totalQuestionCount(Math.min(resultList.size() , MAX_QUESTION_COUNT))
                 .startedAt(LocalDateTime.now());
 
         QuizHistory quizHistory = quizHistoryBuilder.build();

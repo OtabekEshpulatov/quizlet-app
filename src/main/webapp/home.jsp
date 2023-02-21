@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: otash
@@ -17,5 +18,23 @@
 <%--<%--%>
 <%--    response.sendRedirect("/home");--%>
 <%--%>--%>
+
+
+<div class="container">
+    <div class="row"></div>
+    <div class="books_list m-3">
+        <c:forEach items="${modules}" var="module">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">${module.getName()}</h5>
+                <a href="/getModule?mid=${module.getId()}" class="btn btn-primary">More</a>
+            </div>
+        </div>
+        </c:forEach>
+
+
+        <%--    </div>--%>
+        <%--</div>--%>
+
 </body>
 </html>

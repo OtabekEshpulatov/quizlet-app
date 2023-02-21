@@ -1,6 +1,7 @@
 package com.nooglers.dao;
 
 import com.nooglers.domains.Class;
+import com.nooglers.domains.Module;
 import com.nooglers.domains.User;
 import jakarta.transaction.Transactional;
 

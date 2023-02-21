@@ -1,9 +1,12 @@
 package com.nooglers.dao;
 
+import com.nooglers.domains.AppCookie;
 import com.nooglers.domains.Class;
 import com.nooglers.domains.User;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
+import jakarta.servlet.http.Cookie;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -38,9 +41,7 @@ public class UserDao extends BaseDAO<User, Integer> {
 
     public Set<User> getAllById(Integer groupId) {
 
-        final Class singleResult = entityManager.createQuery("from Class c where c.id=?1" , Class.class)
-                .setParameter(1 , groupId)
-                .getSingleResult();
+        final Class singleResult = entityManager.createQuery("from Class c where c.id=?1" , Class.class).setParameter(1 , groupId).getSingleResult();
 
         return singleResult.getUsers();
     }
@@ -53,14 +54,22 @@ public class UserDao extends BaseDAO<User, Integer> {
 
     public List<User> getAllByUserName(String username) {
         username = "%" + username + "%";
-        final List<User> uname = entityManager.createQuery("from Users u where u.username ilike ?1 " , User.class)
-                .setParameter(1 , username).getResultList();
+        final List<User> uname = entityManager.createQuery("from Users u where u.username ilike ?1 " , User.class).setParameter(1 , username).getResultList();
 
         return uname;
     }
 
     public List<User> getAll() {
         return entityManager.createQuery("from Users" , User.class).getResultList();
+    }
+
+
+    public AppCookie getCookie(Cookie cookie) {
+        try {
+            return entityManager.createQuery("from cookie c where c.id=?1" , AppCookie.class).setParameter(1 , cookie.getValue()).getSingleResult();
+        } catch ( NoResultException ex ) {
+            return null;
+        }
     }
 
 

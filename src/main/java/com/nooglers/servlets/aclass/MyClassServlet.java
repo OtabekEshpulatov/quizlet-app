@@ -1,7 +1,9 @@
 package com.nooglers.servlets.aclass;
 
 import com.nooglers.configs.ThreadSafeBeansContainer;
+import com.nooglers.dao.ClassDao;
 import com.nooglers.domains.Class;
+import com.nooglers.domains.Module;
 import com.nooglers.services.ClassService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,9 +21,20 @@ public class MyClassServlet extends HttpServlet {
 
 
         final ClassService classService = ThreadSafeBeansContainer.CLASS_SERVICE.get();
+        ClassDao dao=ClassDao.getInstance();
         final Integer groupId = Integer.valueOf(req.getParameter("gid"));
+        final Integer userId = ( Integer ) req.getSession().getAttribute("user_id");
         final Class group = classService.getGroup(groupId);
+        req.setAttribute("isOwner" , group.getCreatedBy().equals(userId));
         req.setAttribute("group" , group);
+
+        for ( Module module : group.getModuleList() ) {
+            System.out.println(module);
+        }
+//        dao.getAllModules(group);
+
+
+//        req.setAttribute("modules" , );
         req.getRequestDispatcher("/view/group/mygroup.jsp").forward(req , resp);
 
 

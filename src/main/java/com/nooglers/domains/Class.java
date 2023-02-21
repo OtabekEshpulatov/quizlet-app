@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -20,6 +21,7 @@ public class Class implements BaseEntity {
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Integer id;
 
+    @Column( nullable = false, name = "created_by" )
     private Integer createdBy;
     @Column( nullable = false )
     private String name;
@@ -43,6 +45,9 @@ public class Class implements BaseEntity {
     private LocalDateTime updatedAt;
     @Column( columnDefinition = "smallint default 0" )
     private short deleted;
+
+    @ManyToMany
+    private List<Module> moduleList;
 
     @ManyToMany
     @Builder.Default

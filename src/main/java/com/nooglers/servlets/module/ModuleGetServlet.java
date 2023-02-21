@@ -2,6 +2,7 @@ package com.nooglers.servlets.module;
 
 import com.nooglers.configs.ThreadSafeBeansContainer;
 import com.nooglers.dao.ModuleDao;
+import com.nooglers.domains.Card;
 import com.nooglers.domains.Module;
 import com.nooglers.domains.User;
 import com.nooglers.domains.progress.UserProgress;
@@ -29,22 +30,25 @@ public class ModuleGetServlet extends HttpServlet {
         final ModuleService moduleService = ThreadSafeBeansContainer.MODULE_SERVICE.get();
         final UserProgressService userProgressService = ThreadSafeBeansContainer.USER_PROGRESS_SERVICE.get();
 
-        final Integer moduleId = Integer.valueOf(request.getParameter("m_id"));
+        final Integer moduleId = Integer.valueOf(request.getParameter("mid"));
         final Integer userId = ( Integer ) Objects.requireNonNullElse(request.getSession().getAttribute("user_id") , 1);
         System.out.println(userId);
-
 
         if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
             setMessage(request , new SendMessageDto("Opps!" , "This module does not belong to you" , "study modules" , "/listModule"));
             request.getRequestDispatcher("/utils/error.jsp").forward(request , response);
         } else {
             final Module module = moduleService.getById(moduleId);
+            moduleService.updateLastSeend(module);
             request.setAttribute("module" , module);
             final List<UserProgress> up = userProgressService.getUserProgress(userId);
             final List<UserProgress> low = up.stream().filter(userProgress -> userProgress.getScore() <= 0).toList();
             final List<UserProgress> med = up.stream().filter(userProgress -> userProgress.getScore() > 0 && userProgress.getScore() < 15).toList();
             final List<UserProgress> high = up.stream().filter(userProgress -> userProgress.getScore() >= 15).toList();
 
+            final List<Card> cards = moduleService.getCards(moduleId);
+            System.out.println(cards);
+            request.setAttribute("cards" , cards);
             request.setAttribute("newAdded" , low);
             request.setAttribute("inProgress" , med);
             request.setAttribute("mastered" , high);

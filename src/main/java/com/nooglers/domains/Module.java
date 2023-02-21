@@ -40,8 +40,8 @@ public class Module implements BaseEntity {
     @Column( name = "is_public", columnDefinition = "bool default true", nullable = false )
     private boolean isPublic;
 
-    @ManyToMany
-    private List<Class> moduleClass;
+//    @ManyToMany
+//    private List<Class> moduleClass;
 
     @Column( name = "last_seen" )
     private LocalDateTime lastSeen;

@@ -50,6 +50,10 @@
                         <li><a class="dropdown-item" href="/addFolder">Folder</a></li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/records">Records</a>
+                </li>
+
                 <div class="d-flex">
                     <%if ( session.getAttribute("user_id") != null ) {%>
                     <li class="nav-item">

@@ -1,5 +1,7 @@
 package com.nooglers.filters;
 
+import com.nooglers.dao.UserDao;
+import com.nooglers.domains.AppCookie;
 import com.nooglers.utils.AES;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.*;
@@ -19,15 +21,10 @@ public class HasCookieFilter implements Filter {
     private static final List<String> WHITE_LIST = List.of(
 //            "/" ,
 //            "/home" ,
-            "/login" ,
-            "/signup" ,
-            "/resources/.+" ,
-            "/css/.+"
-    );
+            "/login" , "/signup" , "/resources/.+" , "/css/.+");
     private static final Predicate<String> isSecure = (uri) -> {
         for ( String item : WHITE_LIST )
-            if ( uri.matches(item) )
-                return true;
+            if ( uri.matches(item) ) return true;
         return false;
     };
 
@@ -36,6 +33,7 @@ public class HasCookieFilter implements Filter {
         HttpServletRequest request = ( HttpServletRequest ) req;
         HttpServletResponse response = ( HttpServletResponse ) res;
         String requestURI = request.getRequestURI();
+        final UserDao userDao = UserDao.getInstance();
 
 
         if ( isSecure.test(requestURI) ) {
@@ -45,30 +43,31 @@ public class HasCookieFilter implements Filter {
             if ( Objects.isNull(cookies) ) {
                 response.sendRedirect("/login?next=" + requestURI);
             } else {
-                Arrays.stream(cookies)
-                        .filter(cookie -> cookie.getName().equals("remember_me"))
-                        .findAny()
-                        .ifPresentOrElse(
-                                cookie -> {
-                                    try {
-                                        HttpSession session = request.getSession();
-                                        String decrypt = AES.decrypt(cookie.getValue());
-                                        Integer userId = Integer.parseInt(decrypt);
-                                        session.setAttribute("user_id" , userId);
-                                        chain.doFilter(req , res);
-                                    } catch ( IOException | ServletException e ) {
-                                        e.printStackTrace();
-                                    }
-                                } ,
-                                () -> {
-                                    try {
-                                        response.sendRedirect("/login?next=" + requestURI);
-                                    } catch ( IOException e ) {
-                                        e.printStackTrace();
-                                    }
+                Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("remember_me")).findAny().ifPresentOrElse(cookie -> {
+                            try {
+
+                                final AppCookie uCookie = userDao.getCookie(cookie);
+
+                                if ( uCookie != null ) {
+                                    ( ( HttpServletRequest ) req ).getSession().setAttribute("user_id" , uCookie.getUser().getId());
+                                    chain.doFilter(req , res);
+                                } else {
+                                    response.sendRedirect("/login?next=" + requestURI);
                                 }
 
-                        );
+
+                            } catch ( IOException | ServletException e ) {
+                                e.printStackTrace();
+                            }
+                        } , () -> {
+                            try {
+                                response.sendRedirect("/login?next=" + requestURI);
+                            } catch ( IOException e ) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                );
 
             }
         }

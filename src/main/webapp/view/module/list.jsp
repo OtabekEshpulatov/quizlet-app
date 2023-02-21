@@ -39,7 +39,7 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">${module.getDescription()}</p>
-                        <a href="/getModule?m_id=${module.getId()}" type="button"
+                        <a href="/getModule?mid=${module.getId()}" type="button"
                            class="btn btn-outline-info">${module.getName()}</a>
                     </div>
                 </div>
