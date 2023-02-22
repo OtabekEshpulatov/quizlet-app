@@ -14,13 +14,13 @@ public abstract class BaseDAO<T extends BaseEntity, ID extends Serializable> {
     protected final EntityManager entityManager;
     private final Class<T> persistenceClass;
 
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     protected BaseDAO() {
         this.emf = Persistence.createEntityManagerFactory("persistence_unit");
         this.entityManager = emf.createEntityManager();
-        this.persistenceClass = ( Class<T> ) ( ( ( ParameterizedType ) getClass()
-                .getGenericSuperclass() )
-                .getActualTypeArguments()[0] );
+        this.persistenceClass = (Class<T>) (((ParameterizedType) getClass()
+                .getGenericSuperclass())
+                .getActualTypeArguments()[0]);
     }
 
     public T save(T t) {
@@ -31,7 +31,7 @@ public abstract class BaseDAO<T extends BaseEntity, ID extends Serializable> {
     }
 
     public T findById(ID id) {
-        return entityManager.find(persistenceClass , id);
+        return entityManager.find(persistenceClass, id);
     }
 
     public boolean update(T t) {
@@ -48,8 +48,8 @@ public abstract class BaseDAO<T extends BaseEntity, ID extends Serializable> {
 
     public boolean deleteById(ID id) {
         return entityManager.createQuery("delete from " + persistenceClass.getSimpleName() + " t where t.id = :id")
-                       .setParameter("id" , id)
-                       .executeUpdate() == 0;
+                .setParameter("id", id)
+                .executeUpdate() == 0;
     }
 
     protected void begin() {

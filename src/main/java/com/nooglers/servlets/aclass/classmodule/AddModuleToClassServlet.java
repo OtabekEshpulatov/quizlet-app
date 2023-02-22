@@ -18,18 +18,6 @@ import java.util.Set;
 public class AddModuleToClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String id = request.getParameter("groupId");
-//        if (Validators.checkForNullOrBlank(id)) {
-//            ClassService classService = ClassService.getInstance();
-//            HttpSession session = request.getSession();
-//            Integer userId = (Integer) session.getAttribute("user_id");
-//            Integer groupId = Integer.valueOf(id);
-//            Set<Module> groupModules = classService.getGroupModules(groupId, userId);
-//            request.setAttribute("modules", groupModules);
-//            request.setAttribute("groupId", groupId);
-//            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/group/module/classmoduleadd.jsp");
-//            requestDispatcher.forward(request, response);
-//        }
         Integer groupId = Integer.valueOf(request.getParameter("groupId"));
         Integer moduleId = Integer.valueOf(request.getParameter("moduleId"));
         ClassService classService = ClassService.getInstance();

@@ -3,15 +3,13 @@ package com.nooglers.dao;
 
 import com.nooglers.domains.AppCookie;
 import jakarta.servlet.http.Cookie;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CookieDao extends BaseDAO<AppCookie, String> {
 
     private static final ThreadLocal<CookieDao> cookieDaoLocal = ThreadLocal.withInitial(CookieDao::new);
-
-    public static CookieDao getInstance() {
-
-        return cookieDaoLocal.get();
-    }
 
 
     public boolean removeCookie(Integer userId) {
@@ -21,5 +19,10 @@ public class CookieDao extends BaseDAO<AppCookie, String> {
 
         commit();
         return i!=0;
+    }
+
+    public static CookieDao getInstance() {
+
+        return cookieDaoLocal.get();
     }
 }

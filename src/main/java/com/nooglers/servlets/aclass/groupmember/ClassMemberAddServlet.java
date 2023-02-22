@@ -17,7 +17,6 @@ public class ClassMemberAddServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ClassDao classDao = ClassDao.getInstance();
         UserDao userDao = UserDao.getInstance();
-//        HttpSession session = request.getSession();
         Integer userId = Integer.valueOf(request.getParameter("userId"));
         Integer groupId = Integer.valueOf(request.getParameter("groupId"));
         Class aClass = classDao.get(groupId);
@@ -25,30 +24,6 @@ public class ClassMemberAddServlet extends HttpServlet {
         aClass.getUsers().add(user);
         aClass.setUpdatedAt(LocalDateTime.now());
         classDao.update(aClass);
-        //public String  addSetToClass(Integer classId, Integer moduleId){
-        //
-        //     entityManager.getTransaction().begin();
-        //        Class aClass = entityManager.find(Class.class, classId);
-        //        Module module = entityManager.find(Module.class, moduleId);
-        //        if(aClass==null){
-        //            return "Class not found";
-        //        }
-        //        if(module==null){
-        //            return "Module not found";
-        //        }
-        //
-        //        module.getModuleClass().add(aClass);
-        //        entityManager.persist(aClass);
-        //        entityManager.persist(module);
-        //
-        //        entityManager.getTransaction().commit();
-        //
-        //        return "Ok";
-        //    }
-
-//            if ( classList.contains(aClass) ) {
-//                classDao.addMember(classDao , userDao , userId , aClass);
-//            }
         response.sendRedirect("/group");
     }
 

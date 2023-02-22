@@ -5,77 +5,38 @@ import com.nooglers.domains.Class;
 import com.nooglers.domains.Module;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CardDao extends BaseDAO<Card, Integer> {
 
     private static final ThreadLocal<CardDao> classDaoInstance = ThreadLocal.withInitial(CardDao::new);
-
-    public static CardDao getInstance() {
-        return classDaoInstance.get();
-    }
-//    @Override
-//    public Card save(Card card) {
-//        EntityTransaction transaction = entityManager.getTransaction();
-//        transaction.begin();
-//        entityManager.persist(card);
-//        transaction.commit();
-//        return card;
-//    }
-
-    //    @Override
-    public boolean update(Card card) {
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        Card card1 = entityManager.merge(card);
-        transaction.commit();
-        return true;
-    }
-
-
     public Card delete(Integer integer) {
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
+        begin();
         final Card byId = findById(integer);
-        byId.setDeleted(( short ) 1);
-        transaction.commit();
+        byId.setDeleted((short) 1);
+        commit();
         return byId;
 
     }
-
-
-    public List<Card> getAll() {
-        return null;
-    }
-
-
     public Card get(Integer cardid) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        Card card = entityManager.find(Card.class , cardid);
+        Card card = entityManager.find(Card.class, cardid);
         transaction.commit();
         return card.getDeleted() == 0 ? card : null;
     }
 
-
-//    protected Card getById( className , Integer primaryKey) {
-//        EntityTransaction transaction = entityManager.getTransaction();
-//        transaction.begin();
-//        Card card = entityManager.find(Card.class , primaryKey);
-//        transaction.commit();
-//        return card;
-//    }
-
-
     @Override
     public Card save(Card card) {
         begin();
-        final Module reference = entityManager.getReference(Module.class , card.getModule().getId());
+        final Module reference = entityManager.getReference(Module.class, card.getModule().getId());
         card.setModule(reference);
         entityManager.persist(card);
         commit();
@@ -86,10 +47,10 @@ public class CardDao extends BaseDAO<Card, Integer> {
         List<Card> res = new ArrayList<>();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        List<Card> cards = entityManager.createQuery("select c from card c where c.module.id=:id and deleted=0" , Card.class).setParameter("id" , moduleId).getResultList();
+        List<Card> cards = entityManager.createQuery("select c from card c where c.module.id=:id and deleted=0", Card.class).setParameter("id", moduleId).getResultList();
         transaction.commit();
 
-        for ( Card card : cards ) {
+        for (Card card : cards) {
             Card card1 = get(card.getId());
             res.add(card1);
             entityManager.refresh(card);
@@ -97,14 +58,13 @@ public class CardDao extends BaseDAO<Card, Integer> {
         return res;
     }
 
-    public int getDocId(Integer cardid) {
-
-        return 0;
-    }
-
     public List<Card> getAllModuleCards(Integer moduleId) {
 
-        return entityManager.createQuery("from card  c where c.module.id=?1 and c.deleted=0" , Card.class)
-                .setParameter(1 , moduleId).getResultList();
+        return entityManager.createQuery("from card  c where c.module.id=?1 and c.deleted=0", Card.class)
+                .setParameter(1, moduleId).getResultList();
+    }
+
+    public static CardDao getInstance() {
+        return classDaoInstance.get();
     }
 }

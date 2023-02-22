@@ -3,9 +3,14 @@ package com.nooglers.dao;
 import com.nooglers.domains.Card;
 import com.nooglers.domains.Document;
 import jakarta.persistence.EntityTransaction;
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DocumentDao extends BaseDAO<Document,Integer>{
+
+   private static final ThreadLocal<DocumentDao> DOCUMENT_DAO=ThreadLocal.withInitial(DocumentDao::new);
     @Override
     public Document save(Document document) {
         EntityTransaction transaction = entityManager.getTransaction();
@@ -45,5 +50,9 @@ public class DocumentDao extends BaseDAO<Document,Integer>{
 
     public Document findByGeneratedName(String filename) {
         return entityManager.createQuery("select d from document d where generatedFileName=:gfn", Document.class).setParameter("gfn", filename).getSingleResult();
+    }
+
+    public static DocumentDao getInstance() {
+        return DOCUMENT_DAO.get();
     }
 }

@@ -10,20 +10,15 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Set;
 
-//@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClassService {
-    private static ThreadLocal<ClassService> ClassServiceTL = ThreadLocal.withInitial(ClassService::new);
+    private static final ThreadLocal<ClassService> CLASS_SERVICE_THREAD_LOCAL = ThreadLocal.withInitial(ClassService::new);
 
     private final ClassDao dao = ClassDao.getInstance();
     private final ModuleDao moduleDao = ModuleDao.getInstance();
 
     public Class getGroup(Integer groupId) {
-        final Class aClass = dao.findById(groupId);
-        return aClass;
-    }
-
-    public static ClassService getInstance() {
-        return ClassServiceTL.get();
+        return dao.findById(groupId);
     }
 
     public Set<Module> getGroupModules(Integer groupId, Integer userId) {
@@ -39,6 +34,10 @@ public class ClassService {
     }
 
     public void remove(Integer moduleId, Integer groupId) {
-        dao.removeModule(moduleId,groupId);
+        dao.removeModule(moduleId, groupId);
+    }
+
+    public static ClassService getInstance() {
+        return CLASS_SERVICE_THREAD_LOCAL.get();
     }
 }

@@ -17,18 +17,6 @@ import java.util.Set;
 public class UserDao extends BaseDAO<User, Integer> {
     private static final ThreadLocal<UserDao> USER_DAO_THREAD_LOCAL = ThreadLocal.withInitial(UserDao::new);
 
-//    @Override
-//
-//    public User save(User user) {
-//        user.setPassword(Encrypt.decodePassword(user.getPassword()));
-//        EntityTransaction transaction = entityManager.getTransaction();
-//        transaction.begin();
-//        entityManager.persist(user);
-//        transaction.commit();
-//        return user;
-//    }
-
-
     public User get(String emailOrUsername) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -43,8 +31,6 @@ public class UserDao extends BaseDAO<User, Integer> {
                 .findAny()
                 .orElse(null);
     }
-
-
     public Set<User> getAllById(Integer groupId) {
         begin();
         final Class singleResult = entityManager.createQuery("from Class c where c.id=?1", Class.class)
@@ -52,25 +38,15 @@ public class UserDao extends BaseDAO<User, Integer> {
         commit();
         return singleResult.getUsers();
     }
-
-
-    public static UserDao getInstance() {
-        return USER_DAO_THREAD_LOCAL.get();
-    }
-
-
     public List<User> getAllByUserName(String username) {
         username = "%" + username + "%";
         return entityManager.createQuery("from Users u where u.username ilike ?1 ", User.class)
                 .setParameter(1, username)
                 .getResultList();
     }
-
     public List<User> getAll() {
         return entityManager.createQuery("from Users", User.class).getResultList();
     }
-
-
     public AppCookie getCookie(Cookie cookie) {
         try {
             return entityManager.createQuery("from cookie c where c.id=?1", AppCookie.class)
@@ -80,6 +56,7 @@ public class UserDao extends BaseDAO<User, Integer> {
             return null;
         }
     }
-
-
+    public static UserDao getInstance() {
+        return USER_DAO_THREAD_LOCAL.get();
+    }
 }

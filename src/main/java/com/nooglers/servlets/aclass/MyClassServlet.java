@@ -19,7 +19,7 @@ public class MyClassServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final ClassService classService = ThreadSafeBeansContainer.CLASS_SERVICE.get();
+        final ClassService classService = ClassService.getInstance();
         final Integer groupId = Integer.valueOf(req.getParameter("gid"));
         final Integer userId = (Integer) req.getSession().getAttribute("user_id");
         final Class group = classService.getGroup(groupId);

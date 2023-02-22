@@ -19,7 +19,7 @@ public class DownloadServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String filename = request.getParameter("filename");
         String forDownload = request.getParameter("download");
-        Document document = DOCUMENT_DAO.get().findByGeneratedName(filename);
+        Document document =DocumentDao.getInstance().findByGeneratedName(filename);
         Path filePath = rootPath.resolve(filename);
         response.setContentType(document.getMimeType());
         if (forDownload != null)

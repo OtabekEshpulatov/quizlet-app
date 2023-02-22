@@ -21,8 +21,8 @@ public class FullTestReport extends HttpServlet {
     protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException, IOException {
 
 
-        final QuizService quizService = ThreadSafeBeansContainer.QUIZ_SERVICE.get();
-        final QuizHistoryDao quizHistoryDao = ThreadSafeBeansContainer.QUIZ_HISTORY_DAO.get();
+        final QuizService quizService = QuizService.getInstance();
+        final QuizHistoryDao quizHistoryDao = QuizHistoryDao.getInstance();
 
         final Integer quizHistoryId = Integer.valueOf(req.getParameter("qhid"));
         final Integer userId = ( Integer ) req.getSession().getAttribute("user_id");

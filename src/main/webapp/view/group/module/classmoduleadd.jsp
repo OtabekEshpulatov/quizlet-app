@@ -13,11 +13,9 @@
     <title>Title</title>
 </head>
 <body>
-<%--<form method="post" action="/class/module/add">--%>
-<%--    <input type="hidden" name="groupId" value="${groupId}">--%>
-<div class="container col-md-8 col-lg-10 col-sm-6">
+<div class="container row">
     <c:forEach items="${modules}" var="module">
-        <div class="col-lg-4 col-md-5 col-sm-8" style="margin-top: 5px">
+        <div class="col-lg-2 col-md-2 col-sm-3" style="margin-top: 5px">
             <div class="card" style="height: 200px; width: 200px">
                 <div class="card-header">
                         ${module.getName()}
@@ -26,17 +24,10 @@
                     <p class="card-text">${module.getDescription()}</p>
                     <a href="/class/module/add?groupId=${groupId}&moduleId=${module.getId()}"
                        class="btn btn-outline-info">Add</a>
-<%--                    <c:if test="${isUpdateAble} || ${isOwner}">--%>
-<%--                        <a href="/group/module/remove?groupId=${groupId}&moduleId=${module.getId()}"--%>
-<%--                           class="btn btn-success m-3">--%>
-<%--                            Remove--%>
-<%--                        </a>--%>
-<%--                    </c:if>--%>
                 </div>
             </div>
         </div>
     </c:forEach>
 </div>
-<%--</form>--%>
 </body>
 </html>

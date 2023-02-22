@@ -3,19 +3,17 @@ package com.nooglers.dao;
 import com.nooglers.domains.Folder;
 import com.nooglers.domains.Module;
 import com.nooglers.dto.ModuleSetDto;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ModuleDao extends BaseDAO<Module, Integer> {
 
     private static final ThreadLocal<ModuleDao> moduleDaoThreadLocal = ThreadLocal.withInitial(ModuleDao::new);
-
-    public static ModuleDao getInstance() {
-        return moduleDaoThreadLocal.get();
-    }
 
     @Override
     public boolean deleteById(Integer moduleId) {
@@ -111,6 +109,7 @@ public class ModuleDao extends BaseDAO<Module, Integer> {
     }
 
 
+
     //    @Override
 //    public Module save(Module module) {
 //        EntityTransaction transaction = entityManager.getTransaction();
@@ -160,4 +159,7 @@ public class ModuleDao extends BaseDAO<Module, Integer> {
 //    public Module get(Integer integer) {
 //        return null;
 //    }
+    public static ModuleDao getInstance() {
+        return moduleDaoThreadLocal.get();
+    }
 }

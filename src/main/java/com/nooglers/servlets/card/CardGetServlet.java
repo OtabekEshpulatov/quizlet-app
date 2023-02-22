@@ -5,37 +5,27 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.nooglers.dao.CardDao;
 import com.nooglers.domains.Card;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-
-import static com.nooglers.configs.ThreadSafeBeansContainer.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static com.nooglers.configs.ThreadSafeBeansContainer.CARD_DAO;
 
 @WebServlet( name = "CardGetServlet", value = "/getcards/get/*" )
 public class CardGetServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws IOException {
         Integer cardId = Integer.parseInt(request.getPathInfo().substring(1));
-        Card card = CARD_DAO.get().get(cardId);
-
-
-        System.out.println("cardId = " + cardId);
-
+        Card card = CardDao.getInstance().get(cardId);
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class , new LocalDateTimeAdapter())
                 .serializeNulls()
                 .setPrettyPrinting().create();
-
         String jsonDATA = gson.toJson(card);
-
-        System.out.println("jsonDATA = " + jsonDATA);
-
         response.setContentType("application/json");
         response.getWriter().println(jsonDATA);
     }

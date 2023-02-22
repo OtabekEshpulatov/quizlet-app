@@ -15,7 +15,7 @@ import java.util.Objects;
 @WebServlet( name = "FinishTestServlet", urlPatterns = "/test/result" )
 public class FinishTestServlet extends HttpServlet {
 
-    private QuizService quizService = ThreadSafeBeansContainer.QUIZ_SERVICE.get();
+    private final QuizService quizService = QuizService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException, IOException {
