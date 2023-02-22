@@ -6,7 +6,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -46,10 +45,15 @@ public class Class implements BaseEntity {
     @Column(columnDefinition = "smallint default 0")
     private short deleted;
 
-    @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-    private List<Module> moduleList;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Builder.Default
+//    @JoinTable(name = "class_module",
+//            joinColumns = {@JoinColumn(name = "class")},
+//            inverseJoinColumns = {@JoinColumn(name = "module")}
+//    )
+    private Set<Module> modules = new HashSet<>();
 
-    @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
     private Set<User> users = new HashSet<>();
 }

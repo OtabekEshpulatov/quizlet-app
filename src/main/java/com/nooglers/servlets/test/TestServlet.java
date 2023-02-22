@@ -28,10 +28,11 @@ public class TestServlet extends HttpServlet {
         Integer userId = ( Integer ) req.getSession().getAttribute("user_id");
         Integer moduleId = Integer.valueOf(req.getParameter("mid"));
 
-        if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
-            setMessage(req , new SendMessageDto("Opps!" , "You don't have access to this study module" , "cards" , "/getModule?mid=" + moduleId));
-            req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
-        } else if ( quizService.numberOfQuestions(moduleId) < 2 ) {
+//        if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
+//            setMessage(req , new SendMessageDto("Opps!" , "You don't have access to this study module" , "cards" , "/getModule?mid=" + moduleId));
+//            req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
+//        }
+         if ( quizService.numberOfQuestions(moduleId) < 2 ) {
             setMessage(req , new SendMessageDto("Opps!" , "You don't have enough cards to start quizzes" , "cards" , "/addcard?mid="+moduleId));
             req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
         } else {

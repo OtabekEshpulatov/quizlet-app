@@ -22,10 +22,8 @@ public class SetModuleServlet extends HttpServlet {
         if ( folderId != null && !folderId.isBlank() ) {
 
             final Integer userId = ( Integer ) request.getSession().getAttribute("user_id");
-            final Integer folderIdInteger = Integer.valueOf(folderId);
+            final Integer   folderIdInteger = Integer.valueOf(folderId);
             final List<ModuleSetDto> dtos = moduleService.getModules(userId , folderIdInteger);
-
-            final ModuleSetDto dto = dtos.get(0);
 
             request.setAttribute("dtos" , dtos);
             request.setAttribute("folderId",folderId);

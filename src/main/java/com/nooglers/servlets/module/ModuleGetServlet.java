@@ -34,10 +34,10 @@ public class ModuleGetServlet extends HttpServlet {
         final Integer userId = ( Integer ) Objects.requireNonNullElse(request.getSession().getAttribute("user_id") , 1);
         System.out.println(userId);
 
-        if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
-            setMessage(request , new SendMessageDto("Opps!" , "This module does not belong to you" , "study modules" , "/listModule"));
-            request.getRequestDispatcher("/utils/error.jsp").forward(request , response);
-        } else {
+//        if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
+//            setMessage(request , new SendMessageDto("Opps!" , "This module does not belong to you" , "study modules" , "/listModule"));
+//            request.getRequestDispatcher("/utils/error.jsp").forward(request , response);
+//        } else {
             final Module module = moduleService.getById(moduleId);
             moduleService.updateLastSeend(module);
             request.setAttribute("module" , module);
@@ -59,7 +59,7 @@ public class ModuleGetServlet extends HttpServlet {
         }
 
 
-    }
+//    }
 
     @Override
     protected void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {

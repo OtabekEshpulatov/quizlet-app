@@ -22,7 +22,10 @@ public class FinishTestServlet extends HttpServlet {
 
         final Integer userId = Objects.requireNonNullElse(( Integer ) req.getSession().getAttribute("user_id") , 1);
         final QuizHistory finish = quizService.finish(userId);
-        if ( Objects.isNull(finish) ) req.getRequestDispatcher("/home").forward(req , resp);
+        if ( Objects.isNull(finish) ) {
+            req.getRequestDispatcher("/home").forward(req , resp);
+        return;
+        };
         req.setAttribute("quizHistory" , finish);
         req.setAttribute("questions" ,quizService.getQuestions(finish.getId()) );
         req.getRequestDispatcher("/view/quiz/result.jsp").forward(req , resp);

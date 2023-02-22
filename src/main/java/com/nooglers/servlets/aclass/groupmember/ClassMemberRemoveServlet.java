@@ -25,7 +25,6 @@ public class ClassMemberRemoveServlet extends HttpServlet {
         Class aClass = classDao.get(groupId);
         Set<User> users = aClass.getUsers();
         request.setAttribute("users", users);
-        System.out.println(users);
         request.setAttribute("groupId", groupId);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/group/member/member_remove.jsp");
         dispatcher.forward(request, response);

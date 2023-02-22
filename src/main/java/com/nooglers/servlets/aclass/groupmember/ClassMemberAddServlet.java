@@ -17,6 +17,7 @@ public class ClassMemberAddServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ClassDao classDao = ClassDao.getInstance();
         UserDao userDao = UserDao.getInstance();
+//        HttpSession session = request.getSession();
         Integer userId = Integer.valueOf(request.getParameter("userId"));
         Integer groupId = Integer.valueOf(request.getParameter("groupId"));
         Class aClass = classDao.get(groupId);

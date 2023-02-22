@@ -6,6 +6,7 @@ import com.nooglers.domains.User;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -106,4 +107,45 @@ public class ClassDao extends BaseDAO<Class, Integer> {
         return optionalUser.isPresent();
     }
 
+    public boolean addClassModule(Integer groupId, Integer moduleId) {
+        begin();
+        try {
+            entityManager.createNativeQuery("""
+                            insert into class_module values (?1,?2)
+                            """).setParameter(1, groupId)
+                    .setParameter(2, moduleId).executeUpdate();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+        commit();
+        return true;
+    }
+    public Set<Module> getGroupModules(Integer groupId) {
+        begin();
+        Set<Module> result = new HashSet<>();
+        List<Integer> moduleIds = entityManager.createNativeQuery("""
+                select cm.modules_id from class_module cm where cm.classes_id=:groupId 
+                """, Integer.class).setParameter("groupId", groupId).getResultList();
+        List<Module> resultList = entityManager.createQuery(
+                        " from module where deleted = cast( 0 as short ) ", Module.class)
+                .getResultList();
+        for (Module module : resultList) {
+            if (moduleIds.contains(module.getId())) {
+                result.add(module);
+            }
+        }
+        commit();
+        return result;
+    }
+
+    public void removeModule(Integer moduleId, Integer groupId) {
+        begin();
+        Set<Module> result = new HashSet<>();
+        entityManager.createNativeQuery("""
+                        delete from class_module cm where cm.modules_id = :moduleId and cm.classes_id = :groupId
+                        """).setParameter("moduleId", moduleId)
+                .setParameter("groupId", groupId).executeUpdate();
+        commit();
+    }
 }

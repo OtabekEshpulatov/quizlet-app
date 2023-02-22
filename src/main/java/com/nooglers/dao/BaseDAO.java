@@ -10,7 +10,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 public abstract class BaseDAO<T extends BaseEntity, ID extends Serializable> {
-    protected final EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
     protected final EntityManager entityManager;
     private final Class<T> persistenceClass;
 

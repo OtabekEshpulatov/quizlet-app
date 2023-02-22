@@ -8,7 +8,7 @@ import jakarta.servlet.http.Cookie;
 public class AuthService {
 
     private final CookieDao cookieDao = new CookieDao();
-    private final UserDao userDao = new UserDao();
+//    private final UserDao userDao = new UserDao();
 
 
 
