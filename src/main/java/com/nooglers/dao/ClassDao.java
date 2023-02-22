@@ -24,14 +24,14 @@ public class ClassDao extends BaseDAO<Class, Integer> {
     }
 
 
-    @Override
-    public boolean update(Class aClass) {
-        begin();
-        aClass.setUpdatedAt(LocalDateTime.now());
-        entityManager.merge(aClass);
-        commit();
-        return true;
-    }
+//    @Override
+//    public boolean update(Class aClass) {
+//        begin();
+//        aClass.setUpdatedAt(LocalDateTime.now());
+//        entityManager.merge(aClass);
+//        commit();
+//        return true;
+//    }
 
     @Override
     public boolean deleteById(Integer id) {
@@ -89,17 +89,15 @@ public class ClassDao extends BaseDAO<Class, Integer> {
     }
 
     //@Transactional
-    public void addMember(Integer userId, Integer classId, UserDao userDao) {
-
-        entityManager.getTransaction().begin();
-        final User userById = userDao.findById(userId);
-        final Class classById = findById(classId);
-        classById.getUsers().add(userById);
-        entityManager.persist(classById);
-        entityManager.persist(userById);
-        entityManager.getTransaction().commit();
-
-    }
+//    public void addMember(Integer userId, Integer classId, UserDao userDao) {
+//        begin();
+//        User userById = userDao.findById(userId);
+//        Class classById = findById(classId);
+//        classById.getUsers().add(userById);
+////        entityManager.persist(userById);
+//        entityManager.persist(classById);
+//        commit();
+//    }
 
     private boolean containsUser(Set<User> users, Integer userId) {
         Optional<User> optionalUser = users.stream()

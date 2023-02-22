@@ -9,22 +9,23 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-@WebServlet( name = "ClassMemberAddServlet", value = "/group/member/add" )
+@WebServlet(name = "ClassMemberAddServlet", value = "/group/member/add")
 public class ClassMemberAddServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ClassDao classDao = ClassDao.getInstance();
         UserDao userDao = UserDao.getInstance();
         Integer userId = Integer.valueOf(request.getParameter("userId"));
         Integer groupId = Integer.valueOf(request.getParameter("groupId"));
-
-        final User userDaoById = userDao.findById(userId);
-        classDao.addMember(userId , groupId,userDao);
-
-
+        Class aClass = classDao.get(groupId);
+        User user = userDao.findById(userId);
+        aClass.getUsers().add(user);
+        aClass.setUpdatedAt(LocalDateTime.now());
+        classDao.update(aClass);
         //public String  addSetToClass(Integer classId, Integer moduleId){
         //
         //     entityManager.getTransaction().begin();
@@ -54,7 +55,7 @@ public class ClassMemberAddServlet extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest request , HttpServletResponse response) throws
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
 
 
