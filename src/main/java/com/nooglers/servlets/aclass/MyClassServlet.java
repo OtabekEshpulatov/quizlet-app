@@ -24,7 +24,9 @@ public class MyClassServlet extends HttpServlet {
         final Integer userId = (Integer) req.getSession().getAttribute("user_id");
         final Class group = classService.getGroup(groupId);
         Set<Module> moduleList = classService.getModules(groupId);
-        req.setAttribute("isOwner", group.getCreatedBy().equals(userId));
+        final boolean equals = group.getCreatedBy().equals(userId);
+        System.out.println(equals);
+        req.setAttribute("isOwner", equals);
         req.setAttribute("group", group);
         req.setAttribute("groupId", groupId);
         req.setAttribute("isUpdateAble", group.isPermissionToUpdateSets());

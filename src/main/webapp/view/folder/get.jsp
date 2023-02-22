@@ -65,7 +65,7 @@
             transform: translateY(4px);
         }
     </style>
-<%--    <jsp:include page="/fragments/css.jsp"/>--%>
+    <%--    <jsp:include page="/fragments/css.jsp"/>--%>
     <jsp:include page="/utils/header.jsp"/>
 
 </head>
@@ -115,12 +115,12 @@
         <p></p>
         <h1>Your All Modules</h1>
 
-        <button class="btn btn-outline-info" type="submit">
-            <i class="fa-solid fa-credit-card"></i>
-            <a href="/addModule?fid=${folder.getId()}" style="text-decoration: none">
-                Create module
+
+
+            <a class="btn btn-outline-info" href="/addModule?fid=${folder.getId()}" style="text-decoration: none">
+                <i class="fa-solid fa-credit-card"></i>Create module
             </a>
-        </button>
+
 
         <div class="container">
             <div class="row">

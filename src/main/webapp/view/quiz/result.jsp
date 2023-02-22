@@ -1,9 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="quizHistory" scope="request" type="com.nooglers.domains.test.QuizHistory"/>
+<%--<jsp:useBean id="quizHistory" scope="request" type="com.nooglers.domains.test.QuizHistory"/>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.time.temporal.ChronoUnit" %>
 <%@ page import="java.time.Duration" %>
 <%@ page import="com.nooglers.utils.ApplicationUtils" %>
+<%@ page import="com.nooglers.services.QuizService" %>
 <%@ page import="com.nooglers.configs.ThreadSafeBeansContainer" %>
 <%--<%@ include file="/fragments/css.jsp" %>--%>
 <%@ include file="/utils/header.jsp" %>
@@ -26,7 +27,7 @@
 
     <div class="text-info-emphasis">
 
-        <c:set var="quizService" scope="application" value="${QuizService.getInstance()}"/>
+        <c:set var="quizService" scope="session" value="${QuizService.getInstance()}"/>
 
         <p>Questions count: ${quizHistory.getTotalQuestionCount()}
         </p>
@@ -34,6 +35,7 @@
         </p>
         <p>Finished at: ${ApplicationUtils.DATE_TIME_FORMATTER.format(quizHistory.getFinishedAt())}
         </p>
+
         <p>Time
             (minutes): ${Duration.ofMinutes(ChronoUnit.MINUTES.between(quizHistory.getStartedAt() , quizHistory.getFinishedAt())).toMinutes()}
         </p>

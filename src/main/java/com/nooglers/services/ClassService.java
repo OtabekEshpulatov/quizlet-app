@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Set;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor( access = AccessLevel.PRIVATE )
 public class ClassService {
     private static final ThreadLocal<ClassService> CLASS_SERVICE_THREAD_LOCAL = ThreadLocal.withInitial(ClassService::new);
 
@@ -21,23 +21,28 @@ public class ClassService {
         return dao.findById(groupId);
     }
 
-    public Set<Module> getGroupModules(Integer groupId, Integer userId) {
-        return moduleDao.getGroupModules(groupId, userId);
+    public Set<Module> getGroupModules(Integer groupId , Integer userId) {
+        return moduleDao.getGroupModules(groupId , userId);
     }
 
-    public boolean addClassModule(Integer groupId, Integer moduleId) {
-        return dao.addClassModule(groupId, moduleId);
+    public boolean addClassModule(Integer groupId , Integer moduleId) {
+        return dao.addClassModule(groupId , moduleId);
     }
 
     public Set<Module> getModules(Integer groupId) {
         return dao.getGroupModules(groupId);
     }
 
-    public void remove(Integer moduleId, Integer groupId) {
-        dao.removeModule(moduleId, groupId);
+    public void remove(Integer moduleId , Integer groupId) {
+        dao.removeModule(moduleId , groupId);
     }
 
     public static ClassService getInstance() {
         return CLASS_SERVICE_THREAD_LOCAL.get();
+    }
+
+    public boolean addUser(Integer userId , Integer groupId) {
+
+        return dao.addMemberToGroup(userId,groupId);
     }
 }
