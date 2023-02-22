@@ -27,10 +27,8 @@ public class ClassAddServlet extends HttpServlet {
         String description = request.getParameter("description");
         String updatepermission = request.getParameter("updatepermission");
         String invitepermission = request.getParameter("invitepermission");
-
         HttpSession session = request.getSession();
         Integer userId = ( Integer ) session.getAttribute("user_id");
-
         Class aClass = Class.builder()
                 .createdBy(userId)
                 .name(classname)
@@ -40,11 +38,7 @@ public class ClassAddServlet extends HttpServlet {
                 .permissionToUpdateSets(!Objects.isNull(updatepermission) && updatepermission.equalsIgnoreCase("on"))
                 .invitationLink(String.valueOf(UUID.randomUUID()))
                 .build();
-
         classDao.save(aClass);
-
-//        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/group/groups.jsp");
-//        requestDispatcher.forward(request , response);
         response.sendRedirect("/group");
     }
 }

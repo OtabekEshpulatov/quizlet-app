@@ -19,8 +19,7 @@ import static com.nooglers.utils.MessageUtil.setMessage;
 @WebServlet( name = "TestServlet", urlPatterns = "/test" )
 public class TestServlet extends HttpServlet {
 
-    QuizService quizService = ThreadSafeBeansContainer.QUIZ_SERVICE.get();
-    ModuleService moduleService = ThreadSafeBeansContainer.MODULE_SERVICE.get();
+    final QuizService quizService =QuizService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException, IOException {
@@ -28,11 +27,16 @@ public class TestServlet extends HttpServlet {
         Integer userId = ( Integer ) req.getSession().getAttribute("user_id");
         Integer moduleId = Integer.valueOf(req.getParameter("mid"));
 
-        if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
-            setMessage(req , new SendMessageDto("Opps!" , "You don't have access to this study module" , "cards" , "/getModule?mid=" + moduleId));
-            req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
-        } else if ( quizService.numberOfQuestions(moduleId) < 2 ) {
-            setMessage(req , new SendMessageDto("Opps!" , "You don't have enough cards to start quizzes" , "cards" , "/addcard?mid="+moduleId));
+//        if ( !quizService.doesUserHaveAccessToThisModule(moduleId , userId) ) {
+//            setMessage(req , new SendMessageDto("Opps!" , "You don't have access to this study module" , "cards" , "/getModule?mid=" + moduleId));
+//            req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
+//        }
+         if ( quizService.numberOfQuestions(moduleId) < 2 ) {
+            setMessage(req , new SendMessageDto(
+                    "Opps!" ,
+                    "You don't have enough cards to start quizzes" ,
+                    "cards" ,
+                    "/addcard?mid="+moduleId));
             req.getRequestDispatcher("/utils/error.jsp").forward(req , resp);
         } else {
             final SolveQuestionDto solveQuestionDto = quizService.generateTest(userId , moduleId);

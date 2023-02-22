@@ -15,31 +15,32 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 
-@WebServlet( name = "UpdateCardServlet", value = "/editcard" )
-@MultipartConfig( location = "/home/otash/apps/library/uploads" )
+@WebServlet(name = "UpdateCardServlet", value = "/editcard")
+@MultipartConfig(location = "/home/otash/apps/library/uploads")
 public class UpdateCardServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
         final Integer cardId = Integer.valueOf(req.getParameter("cardId"));
         final CardDao cardDao = CardDao.getInstance();
         final Card byId = cardDao.findById(cardId);
-        req.setAttribute("card" , byId);
+        req.setAttribute("card", byId);
 
-        req.getRequestDispatcher("/view/card/update.jsp").forward(req , resp);
+        req.getRequestDispatcher("/view/card/update.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request , HttpServletResponse response) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         Integer cardId = Integer.valueOf(request.getParameter("cardId"));
         String term = request.getParameter("term");
         String description = request.getParameter("description");
         String moduleId = request.getParameter("moduleId");
 
-        Card card = CARD_DAO.get().get(cardId);
+        CardDao cardDao = CardDao.getInstance();
+        Card card = cardDao.get(cardId);
 
 //        Part newImage = request.getPart("image");
 //        if ( !newImage.getSubmittedFileName().equals("") ) {
@@ -50,8 +51,8 @@ public class UpdateCardServlet extends HttpServlet {
         card.setTitle(term);
         card.setDescription(description);
         card.setUpdatedAt(LocalDateTime.now(ZoneId.of("Asia/Tashkent")));
-        CARD_DAO.get().update(card);
+        cardDao.update(card);
 
-        response.sendRedirect("/getModule?mid="+moduleId);
+        response.sendRedirect("/getModule?mid=" + moduleId);
     }
 }

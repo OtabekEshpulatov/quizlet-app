@@ -4,14 +4,17 @@ import com.nooglers.domains.Class;
 import com.nooglers.domains.Module;
 import com.nooglers.domains.User;
 import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
-
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClassDao extends BaseDAO<Class, Integer> {
     private static final ThreadLocal<ClassDao> CLASS_DAO_THREAD_LOCAL = ThreadLocal.withInitial(ClassDao::new);
 
@@ -44,38 +47,34 @@ public class ClassDao extends BaseDAO<Class, Integer> {
 
 
     public List<Class> search(String schoolOrClassName) {
-//        begin();
-//        TypedQuery<Class> typedQuery = entityManager.createQuery(
-//                        "select c from Class c where (c.name ilike %:text% or c.schoolName ilike %:text%) and c.deleted = 0", Class.class)
-//                .setParameter("text", schoolOrClassName);
-//        List<Class> classList = typedQuery.getResultList();
-//        commit();
-
-        return getAll().stream().filter(aClass -> aClass.getName().contains(schoolOrClassName) || aClass.getSchoolName().contains(schoolOrClassName)).toList();
+        return getAll().stream()
+                .filter(aClass -> aClass.getName().contains(schoolOrClassName)
+                        || aClass.getSchoolName().contains(schoolOrClassName))
+                .toList();
     }
 
 
     public List<Class> getAll() {
-        return entityManager.createQuery("select u from Class u where u.deleted = 0", Class.class).getResultList();
+        return entityManager.createQuery("select u from Class u where u.deleted = 0", Class.class)
+                .getResultList();
     }
-
-    //    public List<Class> getAll(Integer userId) {
-//        return entityManager.createQuery("select u from Class u where u.deleted = 0 and u.createdBy = :userId order by createdAt desc" , Class.class).setParameter("userId" , userId).getResultList();
-//
-//    }
     public List<Class> getAll(Integer userId) {
-        return getAll().stream()
+        List<Class> classList = getAll().stream()
                 .filter(aClass -> aClass.getDeleted() == 0 &&
                         (containsUser(aClass.getUsers(), userId) || aClass.getCreatedBy().equals(userId)))
                 .toList();
-    }
 
-    public static ClassDao getInstance() {
-        return CLASS_DAO_THREAD_LOCAL.get();
+        for (Class aClass : classList) {
+            entityManager.refresh(aClass);
+        }
+
+        return classList;
     }
 
     public Class get(Integer groupId) {
-        return entityManager.createQuery("from Class  c where c.id=?1", Class.class).setParameter(1, groupId).getSingleResult();
+        return entityManager.createQuery("from Class  c where c.id=?1", Class.class)
+                .setParameter(1, groupId)
+                .getSingleResult();
     }
 
     public boolean delete(Class group) {
@@ -88,6 +87,7 @@ public class ClassDao extends BaseDAO<Class, Integer> {
 //                       .setParameter(1 , groupId).executeUpdate() != 0;
     }
 
+
     //@Transactional
 //    public void addMember(Integer userId, Integer classId, UserDao userDao) {
 //        begin();
@@ -98,7 +98,6 @@ public class ClassDao extends BaseDAO<Class, Integer> {
 //        entityManager.persist(classById);
 //        commit();
 //    }
-
     private boolean containsUser(Set<User> users, Integer userId) {
         Optional<User> optionalUser = users.stream()
                 .filter(user -> user.getId().equals(userId))
@@ -106,4 +105,49 @@ public class ClassDao extends BaseDAO<Class, Integer> {
         return optionalUser.isPresent();
     }
 
+    public boolean addClassModule(Integer groupId, Integer moduleId) {
+        begin();
+        try {
+            entityManager.createNativeQuery("""
+                            insert into class_module values (?1,?2)
+                            """).setParameter(1, groupId)
+                    .setParameter(2, moduleId).executeUpdate();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+        commit();
+        return true;
+    }
+
+    public Set<Module> getGroupModules(Integer groupId) {
+        begin();
+        Set<Module> result = new HashSet<>();
+        List<Integer> moduleIds = entityManager.createNativeQuery("""
+                select cm.modules_id from class_module cm where cm.classes_id=:groupId 
+                """, Integer.class).setParameter("groupId", groupId).getResultList();
+        List<Module> resultList = entityManager.createQuery(
+                        " from module where deleted = cast( 0 as short ) ", Module.class)
+                .getResultList();
+        for (Module module : resultList) {
+            if (moduleIds.contains(module.getId())) {
+                result.add(module);
+            }
+        }
+        commit();
+        return result;
+    }
+    public void removeModule(Integer moduleId, Integer groupId) {
+        begin();
+        Set<Module> result = new HashSet<>();
+        entityManager.createNativeQuery("""
+                        delete from class_module cm where cm.modules_id = :moduleId and cm.classes_id = :groupId
+                        """).setParameter("moduleId", moduleId)
+                .setParameter("groupId", groupId).executeUpdate();
+        commit();
+    }
+
+    public static ClassDao getInstance() {
+        return CLASS_DAO_THREAD_LOCAL.get();
+    }
 }

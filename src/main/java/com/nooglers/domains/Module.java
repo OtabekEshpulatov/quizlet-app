@@ -1,10 +1,7 @@
 package com.nooglers.domains;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -15,7 +12,10 @@ import java.util.Set;
 
 @Entity( name = "module" )
 @Builder
-@Data
+//@Data
+@Getter
+@Setter
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class Module implements BaseEntity {
@@ -47,8 +47,9 @@ public class Module implements BaseEntity {
     @Column( name = "is_public", columnDefinition = "bool default true", nullable = false )
     private boolean isPublic;
 
-//    @ManyToMany
-//    private List<Class> moduleClass;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "modules")
+    @Builder.Default
+    private List<Class> classes=new ArrayList<>();
 
     @Column( name = "last_seen" )
     private LocalDateTime lastSeen;

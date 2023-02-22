@@ -16,7 +16,7 @@ public class TestRecordsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
 
-        QuizService quizService = ThreadSafeBeansContainer.QUIZ_SERVICE.get();
+        QuizService quizService = QuizService.getInstance();
         final Integer userId = ( Integer ) request.getSession().getAttribute("user_id");
         final List<QuizHistory> quizHistories = quizService.getQuizHistories(userId);
         request.setAttribute("quizHistories" , quizHistories);

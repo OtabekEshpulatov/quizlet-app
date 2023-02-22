@@ -49,7 +49,7 @@ public class HasCookieFilter implements Filter {
                                 final AppCookie uCookie = userDao.getCookie(cookie);
 
                                 if ( uCookie != null ) {
-                                    ( ( HttpServletRequest ) req ).getSession().setAttribute("user_id" , uCookie.getUser().getId());
+                                     request.getSession().setAttribute("user_id" , uCookie.getUser().getId());
                                     chain.doFilter(req , res);
                                 } else {
                                     response.sendRedirect("/login?next=" + requestURI);

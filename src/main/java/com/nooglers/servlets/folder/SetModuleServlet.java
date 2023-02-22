@@ -17,15 +17,13 @@ public class SetModuleServlet extends HttpServlet {
 
         final String folderId = request.getParameter("fid");
 
-        final ModuleService moduleService = ThreadSafeBeansContainer.MODULE_SERVICE.get();
+        final ModuleService moduleService =ModuleService.getInstance();
 
         if ( folderId != null && !folderId.isBlank() ) {
 
             final Integer userId = ( Integer ) request.getSession().getAttribute("user_id");
-            final Integer folderIdInteger = Integer.valueOf(folderId);
+            final Integer   folderIdInteger = Integer.valueOf(folderId);
             final List<ModuleSetDto> dtos = moduleService.getModules(userId , folderIdInteger);
-
-            final ModuleSetDto dto = dtos.get(0);
 
             request.setAttribute("dtos" , dtos);
             request.setAttribute("folderId",folderId);

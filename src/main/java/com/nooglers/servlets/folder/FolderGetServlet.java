@@ -27,7 +27,7 @@ public class FolderGetServlet extends HttpServlet {
         request.setAttribute("folderId" , folderId);
 
 
-        ModuleService moduleService = new ModuleService();
+        ModuleService moduleService = ModuleService.getInstance();
 
 
 //        Integer folderId = Integer.valueOf(request.getParameter("fid"));

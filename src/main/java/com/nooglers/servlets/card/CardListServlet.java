@@ -1,5 +1,6 @@
 package com.nooglers.servlets.card;
 
+import com.nooglers.dao.CardDao;
 import com.nooglers.domains.Card;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -17,7 +18,7 @@ public class CardListServlet extends HttpServlet {
 //        int moduleId = (int)request.getAttribute("moduleId");
         int moduleId = 1;
 
-        List<Card> cards = CARD_DAO.get().getCardsByModuleId(moduleId);
+        List<Card> cards = CardDao.getInstance().getCardsByModuleId(moduleId);
         request.setAttribute("cards", cards);
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/view/card/getcards.jsp");
@@ -38,7 +39,7 @@ public class CardListServlet extends HttpServlet {
 
         String[] split = button.split("/");
        // req.setAttribute("cardId", split[1]);
-        Card card = CARD_DAO.get().get(Integer.valueOf(split[1]));
+        Card card = CardDao.getInstance().get(Integer.valueOf(split[1]));
         card.setId(Integer.valueOf(split[1]));
         req.setAttribute("card", card);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/view/card/" + split[0] + ".jsp");

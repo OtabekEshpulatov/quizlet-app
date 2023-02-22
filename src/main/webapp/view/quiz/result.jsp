@@ -26,7 +26,7 @@
 
     <div class="text-info-emphasis">
 
-        <c:set var="quizService" scope="application" value="${ThreadSafeBeansContainer.QUIZ_SERVICE.get()}"/>
+        <c:set var="quizService" scope="application" value="${QuizService.getInstance()}"/>
 
         <p>Questions count: ${quizHistory.getTotalQuestionCount()}
         </p>

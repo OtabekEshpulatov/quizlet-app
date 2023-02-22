@@ -2,21 +2,20 @@ package com.nooglers.dao;
 
 import com.nooglers.domains.Folder;
 import jakarta.persistence.EntityTransaction;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FolderDao extends BaseDAO<Folder, Integer> {
 
     private static final ThreadLocal<FolderDao> FOLDER_DAO_THREAD_LOCAL = ThreadLocal.withInitial(FolderDao::new);
 
 
-    public static FolderDao getInstance() {
-        return FOLDER_DAO_THREAD_LOCAL.get();
-    }
-
     //    @Override
+
     public Folder save(Folder folder) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -24,8 +23,8 @@ public class FolderDao extends BaseDAO<Folder, Integer> {
         transaction.commit();
         return folder;
     }
-
     //    @Override
+
     public boolean update(Folder folder) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -38,8 +37,8 @@ public class FolderDao extends BaseDAO<Folder, Integer> {
         transaction.commit();
         return true;
     }
-
     //    @Override
+
     public Folder delete(Integer id) {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -50,12 +49,11 @@ public class FolderDao extends BaseDAO<Folder, Integer> {
 
         return new Folder();
     }
-
     //    @Override
+
     protected List<Folder> getAll() {
         return null;
     }
-
 
     public List<Folder> getAllUserFolders(Integer userId) {
 
@@ -65,10 +63,10 @@ public class FolderDao extends BaseDAO<Folder, Integer> {
 
 
     //    @Override
+
     public Folder get(@NonNull Integer id) {
         return entityManager.find(Folder.class , id);
     }
-
     public Module getModule(@NonNull Integer id) {
         return entityManager.find(Module.class , id);
     }
@@ -85,5 +83,12 @@ public class FolderDao extends BaseDAO<Folder, Integer> {
         commit();
 
         return result;
+    }
+
+
+
+
+    public static FolderDao getInstance() {
+        return FOLDER_DAO_THREAD_LOCAL.get();
     }
 }

@@ -10,8 +10,6 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 @WebServlet(name = "ClassMemberAddServlet", value = "/group/member/add")
 public class ClassMemberAddServlet extends HttpServlet {
@@ -26,30 +24,6 @@ public class ClassMemberAddServlet extends HttpServlet {
         aClass.getUsers().add(user);
         aClass.setUpdatedAt(LocalDateTime.now());
         classDao.update(aClass);
-        //public String  addSetToClass(Integer classId, Integer moduleId){
-        //
-        //     entityManager.getTransaction().begin();
-        //        Class aClass = entityManager.find(Class.class, classId);
-        //        Module module = entityManager.find(Module.class, moduleId);
-        //        if(aClass==null){
-        //            return "Class not found";
-        //        }
-        //        if(module==null){
-        //            return "Module not found";
-        //        }
-        //
-        //        module.getModuleClass().add(aClass);
-        //        entityManager.persist(aClass);
-        //        entityManager.persist(module);
-        //
-        //        entityManager.getTransaction().commit();
-        //
-        //        return "Ok";
-        //    }
-
-//            if ( classList.contains(aClass) ) {
-//                classDao.addMember(classDao , userDao , userId , aClass);
-//            }
         response.sendRedirect("/group");
     }
 

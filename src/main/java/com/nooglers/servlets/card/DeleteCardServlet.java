@@ -1,5 +1,6 @@
 package com.nooglers.servlets.card;
 
+import com.nooglers.dao.CardDao;
 import com.nooglers.domains.Card;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -17,7 +18,7 @@ public class DeleteCardServlet extends HttpServlet {
 //        String moduleId = request.getParameter("moduleId");
 //        System.out.println("cardId = " + cardId);
 
-        final Card delete = CARD_DAO.get().delete(Integer.valueOf(cardId));
+        final Card delete = CardDao.getInstance().delete(Integer.valueOf(cardId));
 //        response.sendRedirect("/getModule?mid=" + moduleId);
         response.sendRedirect("/getModule?mid=" +delete.getModule().getId());
     }
