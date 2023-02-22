@@ -32,7 +32,7 @@
                         <td>${group.getName()}</td>
                         <td>
                             <a href="/group/member/remove?groupId=${group.getId()}">
-                                    ${group.getUsers().size()+1}
+                                    ${group.getUsers().size()}
                             </a>
                         </td>
                         <td>

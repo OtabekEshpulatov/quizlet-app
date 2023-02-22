@@ -19,7 +19,7 @@
     <p>
         <b>School Name: </b> ${group.getSchoolName()} <br/>
         <b>Group Name: </b> ${group.getName()} <br/>
-        <b>Members: </b> ${group.getUsers().size()+1} <br/></p>
+        <b>Members: </b> ${group.getUsers().size()} <br/></p>
 
     <c:if test="${!isOwner}">
         <div class="card card-body">
