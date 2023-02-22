@@ -10,8 +10,6 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 @WebServlet(name = "ClassMemberAddServlet", value = "/group/member/add")
 public class ClassMemberAddServlet extends HttpServlet {
