@@ -35,9 +35,9 @@ public abstract class BaseDAO<T extends BaseEntity, ID extends Serializable> {
     }
 
     public boolean update(T t) {
-        entityManager.getTransaction().begin();
+        begin();
         entityManager.merge(t);
-        entityManager.getTransaction().commit();
+        commit();
         return true;
     }
 
