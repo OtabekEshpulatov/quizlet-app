@@ -45,7 +45,7 @@
                 <td>${ApplicationUtils.DATE_TIME_FORMATTER.format(quizHistory.getStartedAt())}</td>
                 <td>${ApplicationUtils.DATE_TIME_FORMATTER.format(quizHistory.getFinishedAt())}</td>
                 <td>${Duration.ofMinutes(ChronoUnit.MINUTES.between(quizHistory.getStartedAt() , quizHistory.getFinishedAt())).toMinutes()}</td>
-                <td>  ${ApplicationUtils.DECIMAL_FORMATTER.format(quizHistory.getCorrectAnswerCount() * 100 / quizHistory.getTotalQuestionCount())}%</td>
+                <td> ${quizHistory.getPercentage()}%</td>
                 <td><a href="/fullrecord?qhid=${quizHistory.getId()}" class="btn-success">More</a></td>
             </tr>
             <c:set var="i" value="${i+1}"/>

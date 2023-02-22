@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Entity( name = "Module" )
-@Table( name = "module" )
+@Entity( name = "module" )
 @Builder
 @Data
 @NoArgsConstructor
@@ -29,8 +31,13 @@ public class Module implements BaseEntity {
     private short deleted;
     @OneToOne
     private User createdBy;
-    @ManyToMany()
-    private List<Folder> folder;
+    @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @JoinTable( name = "folder_module",
+            joinColumns = {@JoinColumn( name = "module" )},
+            inverseJoinColumns = {@JoinColumn( name = "folder" )}
+    )
+    @Builder.Default
+    private Set<Folder> folders = new HashSet<>();
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Integer id;

@@ -48,4 +48,8 @@ public class QuizHistory implements BaseEntity {
     private int correctAnswerCount;
 
 
+    @Column( columnDefinition = "smallint",nullable = false )
+    private short percentage;
+
+
 }

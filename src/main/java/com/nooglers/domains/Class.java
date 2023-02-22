@@ -46,10 +46,10 @@ public class Class implements BaseEntity {
     @Column( columnDefinition = "smallint default 0" )
     private short deleted;
 
-    @ManyToMany
+    @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     private List<Module> moduleList;
 
-    @ManyToMany
+    @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     @Builder.Default
     private Set<User> users = new HashSet<>();
 }

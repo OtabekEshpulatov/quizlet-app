@@ -42,12 +42,12 @@ public class ModuleGetServlet extends HttpServlet {
             moduleService.updateLastSeend(module);
             request.setAttribute("module" , module);
 
-            final List<UserProgress> up = userProgressService.getUserProgress(userId);
+            final List<UserProgress> up = userProgressService.getUserProgress(userId,moduleId);
             final List<UserProgress> low = up.stream().filter(userProgress -> userProgress.getScore() <= 0).toList();
             final List<UserProgress> med = up.stream().filter(userProgress -> userProgress.getScore() > 0 && userProgress.getScore() < 15).toList();
             final List<UserProgress> high = up.stream().filter(userProgress -> userProgress.getScore() >= 15).toList();
 
-            final List<Card> cards = moduleService.extractCards(up);
+            final List<Card> cards = moduleService.getCards(moduleId);
             System.out.println(cards);
             request.setAttribute("cards" , cards);
             request.setAttribute("newAdded" , low);

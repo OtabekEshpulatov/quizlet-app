@@ -40,8 +40,10 @@
             <h6>Name <span style="color: red"><sub>${invalidNameException}</sub></span></h6>
 
             <input type="hidden" name="userId"
-                   value="<%=Objects.requireNonNullElse(request.getSession().getAttribute("user_id"),1)%>">
-            <p></p>
+                   value="<%=request.getSession().getAttribute("user_id")%>">
+            <input type="hidden" name="fid"
+                   value="${fid}">
+
             <input type="text" class="form-control no-border" id="description" name="description">
             <%--            <hr style="color: yellow">--%>
             <h6>Description</h6>

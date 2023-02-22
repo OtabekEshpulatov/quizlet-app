@@ -217,6 +217,9 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
 
         quizHistory.setFinishedAt(LocalDateTime.now());
         quizHistory.setCorrectAnswerCount(score);
+    ;
+        quizHistory.setPercentage(   ( short ) ( quizHistory.getCorrectAnswerCount() * 100 / quizHistory.getTotalQuestionCount() ));
+
         em.getTransaction().commit();
 
         return quizHistory;
@@ -253,7 +256,7 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
 
     public boolean doesUserHaveAccessToThisModule(Integer moduleId , Integer userId) {
 
-        final Long own = entityManager.createQuery("select count(*) from Module  m where m.id=?1 and m.createdBy.id=?2" , Long.class).setParameter(1 , moduleId).setParameter(2 , userId).getSingleResult();
+        final Long own = entityManager.createQuery("select count(*) from module  m where m.id=?1 and m.createdBy.id=?2" , Long.class).setParameter(1 , moduleId).setParameter(2 , userId).getSingleResult();
 
 //        entityManager.createQuery("select count(*) from Class  c where c.classUser.")
         return own > 0;
@@ -268,7 +271,7 @@ public class QuestionDao extends BaseDAO<Question, Integer> implements EntityPro
     }
 
     public List<QuizHistory> getQuizHistories(Integer userId) {
-        return entityManager.createQuery("from quiz_history  qh where qh.createdBy.id=?1" , QuizHistory.class)
+        return entityManager.createQuery("from quiz_history  qh where qh.createdBy.id=?1 order by qh.correctAnswerCount desc" , QuizHistory.class)
                 .setParameter(1 , userId)
                 .getResultList();
     }

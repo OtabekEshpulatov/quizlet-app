@@ -26,7 +26,7 @@ public class Card extends BaseDomain implements BaseEntity {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Integer id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Module module;
     @Column( nullable = false )
     private String title;

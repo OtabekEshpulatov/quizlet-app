@@ -13,6 +13,12 @@
     <title>FlashCard</title>
 </head>
 
+<style>
+    body {
+    background-color: #EFFDFD !important;
+    }
+</style>
+
 <body>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -35,7 +41,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/listModule">Study Modules</a></li>
                         <li><a class="dropdown-item" href="/group">Class</a></li>
-                        <li><a class="dropdown-item" href="/listFolders">Folder</a></li>
+                        <li><a class="dropdown-item" href="/folder/folders">Folder</a></li>
                     </ul>
                 </li>
 
@@ -47,7 +53,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/addModule">Module</a></li>
                         <li><a class="dropdown-item" href="/group/add">Class</a></li>
-                        <li><a class="dropdown-item" href="/addFolder">Folder</a></li>
+                        <li><a class="dropdown-item" href="/folder/create">Folder</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

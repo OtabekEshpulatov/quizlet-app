@@ -38,7 +38,7 @@
             (minutes): ${Duration.ofMinutes(ChronoUnit.MINUTES.between(quizHistory.getStartedAt() , quizHistory.getFinishedAt())).toMinutes()}
         </p>
         <p>
-            Percentage: ${ApplicationUtils.DECIMAL_FORMATTER.format(quizHistory.getCorrectAnswerCount() * 100 / quizHistory.getTotalQuestionCount())}%
+            Percentage: ${quizHistory.getPercentage()}%
         </p>
     </div>
 

@@ -18,12 +18,11 @@ public class ModuleDeleteServlet extends HttpServlet {
         System.out.println(" module deleted id = " + id);
         ModuleDao dao = ModuleDao.getInstance();
         dao.deleteById(id);
-
         response.sendRedirect("/listModule");
     }
 
     @Override
     protected void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
-response.sendError(405,"Method not allowed");
+        response.sendError(405 , "Method not allowed");
     }
 }

@@ -87,12 +87,11 @@
                     Your module <h2>${module.getName()}</h2>
                 </div>
                 <h4>Self-Study</h4>
-                <button class="btn btn-outline-info" type="submit">
-                    <i class="fa-solid fa-credit-card"></i>
-                    <a href="/addcard?mid=${module.getId()}" style="text-decoration: none">
+                    <a href="/addcard?mid=${module.getId()}" class="btn btn-outline-info" style="text-decoration: none">
                         Add cards
+                        <i class="fa-solid fa-credit-card"></i>
                     </a>
-                </button>
+
                 <%
                     final Module module = ( Module ) request.getAttribute("module");
                     System.out.println(module);
@@ -131,7 +130,7 @@
                     <button class="accordion-button btn btn-success-success" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseOne"
                             aria-expanded="false" aria-controls="collapseOne">
-                        <span class="progress">New(${newAdded.size()})</span>
+                        <span class="progress" style="color: red">Weak(${newAdded.size()})</span>
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
@@ -152,7 +151,7 @@
                 <button class="accordion-button btn btn-success-success" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseTwo"
                         aria-expanded="false" aria-controls="collapseTwo">
-                    <span class="progress">In Progress(${inProgress.size()})</span>
+                    <span class="progress" style="color: orange">Medium(${inProgress.size()})</span>
                 </button>
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
@@ -173,7 +172,7 @@
                 <button class="accordion-button btn btn-success-success" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseThree"
                         aria-expanded="false" aria-controls="collapseThree">
-                    <span class="progress">Mastered(${mastered.size()})</span>
+                    <span class="progress" style="color: green">Strong(${mastered.size()})</span>
                 </button>
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"

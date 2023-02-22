@@ -11,7 +11,7 @@ public class UserProgressService {
     UserProgressDao dao = new UserProgressDao();
 
 
-    public List<UserProgress> getUserProgress(Integer id) {
-        return dao.findAll(id);
+    public List<UserProgress> getUserProgress(Integer id , Integer moduleId) {
+        return dao.findAll(id,moduleId);
     }
 }

@@ -2,6 +2,7 @@ package com.nooglers.dao;
 
 import com.nooglers.domains.Card;
 import com.nooglers.domains.Class;
+import com.nooglers.domains.Module;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
 import org.hibernate.Session;
@@ -69,6 +70,17 @@ public class CardDao extends BaseDAO<Card, Integer> {
 //        transaction.commit();
 //        return card;
 //    }
+
+
+    @Override
+    public Card save(Card card) {
+        begin();
+        final Module reference = entityManager.getReference(Module.class , card.getModule().getId());
+        card.setModule(reference);
+        entityManager.persist(card);
+        commit();
+        return card;
+    }
 
     public List<Card> getCardsByModuleId(int moduleId) {
         List<Card> res = new ArrayList<>();
