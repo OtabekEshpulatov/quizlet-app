@@ -1,0 +1,18 @@
+Index: src/main/java/com/nooglers/servlets/aclass/MyClassServlet.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.nooglers.servlets.aclass;\n\nimport com.nooglers.configs.ThreadSafeBeansContainer;\nimport com.nooglers.domains.Class;\nimport com.nooglers.domains.Module;\nimport com.nooglers.services.ClassService;\nimport jakarta.servlet.ServletException;\nimport jakarta.servlet.annotation.WebServlet;\nimport jakarta.servlet.http.HttpServlet;\nimport jakarta.servlet.http.HttpServletRequest;\nimport jakarta.servlet.http.HttpServletResponse;\n\nimport java.io.IOException;\nimport java.util.List;\nimport java.util.Set;\n\n@WebServlet(name = \"MyClassServlet\", urlPatterns = \"/mygroup\")\npublic class MyClassServlet extends HttpServlet {\n\n    @Override\n    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {\n        final ClassService classService = ClassService.getInstance();\n        final Integer groupId = Integer.valueOf(req.getParameter(\"gid\"));\n        final Integer userId = (Integer) req.getSession().getAttribute(\"user_id\");\n        final Class group = classService.getGroup(groupId);\n        Set<Module> moduleList = classService.getModules(groupId);\n        req.setAttribute(\"isOwner\", group.getCreatedBy().equals(userId));\n        req.setAttribute(\"group\", group);\n        req.setAttribute(\"groupId\", groupId);\n        req.setAttribute(\"isUpdateAble\", group.isPermissionToUpdateSets());\n        req.setAttribute(\"modules\", moduleList);\n        req.getRequestDispatcher(\"/view/group/mygroup.jsp\").forward(req, resp);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/nooglers/servlets/aclass/MyClassServlet.java b/src/main/java/com/nooglers/servlets/aclass/MyClassServlet.java
+--- a/src/main/java/com/nooglers/servlets/aclass/MyClassServlet.java	(revision e41ee6d7e5b37fdd15c656adea152ccf963019a6)
++++ b/src/main/java/com/nooglers/servlets/aclass/MyClassServlet.java	(date 1677138928518)
+@@ -11,7 +11,6 @@
+ import jakarta.servlet.http.HttpServletResponse;
+ 
+ import java.io.IOException;
+-import java.util.List;
+ import java.util.Set;
+ 
+ @WebServlet(name = "MyClassServlet", urlPatterns = "/mygroup")
