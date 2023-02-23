@@ -1,3 +1,4 @@
+<%@ page import="com.nooglers.domains.Class" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -19,44 +20,42 @@
     <p>
         <b>School Name: </b> ${group.getSchoolName()} <br/>
         <b>Group Name: </b> ${group.getName()} <br/>
-        <b>Members: </b> ${group.getUsers().size()} <br/></p>
-
-    <c:if test="${!isOwner}">
-        <div class="card card-body">
-            <c:if test="${group.isPermissionToUpdateSets()}">
-                <a href="/group/update?groupId=${group.getId()}" class="btn btn-warning m-3">
-                    Update
-                </a>
-            </c:if>
-            <c:if test="${group.isPermissionToInvite()}">
-                <a href="/group/member?groupId=${group.getId()}" class="btn btn-success m-3">
-                    Add member
-                </a>
-            </c:if>
-            <c:if test="${group.isPermissionToUpdateSets()}">
-                <a href="/class/module/get?groupId=${group.getId()}" class="btn btn-success m-3">
-                    Add Set
-                </a>
-            </c:if>
-        </div>
-    </c:if>
-    <c:if test="${isOwner}">
-        <div class="card card-body">
-            <a href="/group/update?groupId=${group.getId()}" class="btn btn-warning m-3">
-                Update
-            </a>
-            <a href="/group/delete?groupId=${group.getId()}" class="btn btn-danger m-3">
-                Delete
-            </a>
-            <a href="/group/member?groupId=${group.getId()}" class="btn btn-success m-3">
-                Add member
-            </a>
-            <a href="/class/module/get?groupId=${group.getId()}" class="btn btn-success m-3">
-                Add Set
-            </a>
-        </div>
-    </c:if>
-
+        <b>Members: </b> ${group.getUsers().size()+1} <br/></p>
+    <%if (!(boolean) request.getAttribute("isOwner")) {%>
+    <div class="card card-body">
+        <%Class group = (Class) request.getAttribute("group");%>
+        <%if (group.isPermissionToUpdateSets()) {%>
+        <a href="/group/update?groupId=${group.getId()}" class="btn btn-warning m-3">
+            Update
+        </a>
+        <%}%>
+        <%if (group.isPermissionToInvite()) {%>
+        <a href="/group/member?groupId=${group.getId()}" class="btn btn-success m-3">
+            Add member
+        </a>
+        <%}%>
+        <%if (group.isPermissionToUpdateSets()) {%>
+        <a href="/class/module/get?groupId=${group.getId()}" class="btn btn-success m-3">
+            Add Set
+        </a>
+        <%}%>
+    </div>
+    <%} else {%>
+    <div class="card card-body">
+        <a href="/group/update?groupId=${group.getId()}" class="btn btn-warning m-3">
+            Update
+        </a>
+        <a href="/group/delete?groupId=${group.getId()}" class="btn btn-danger m-3">
+            Delete
+        </a>
+        <a href="/group/member?groupId=${group.getId()}" class="btn btn-success m-3">
+            Add member
+        </a>
+        <a href="/class/module/get?groupId=${group.getId()}" class="btn btn-success m-3">
+            Add Set
+        </a>
+    </div>
+    <%}%>
     <div class="row ">
         <c:forEach items="${modules}" var="module">
             <div class="col-lg-2 col-md-2 col-sm-3" style="margin-top: 5px">

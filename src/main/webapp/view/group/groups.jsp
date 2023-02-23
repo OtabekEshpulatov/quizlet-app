@@ -24,25 +24,23 @@
             </thead>
             <tbody>
             <c:set var="i" value="${1}"/>
-            <c:if test="${groups.size()>0}">
-                <c:forEach items="${groups}" var="group">
-                    <tr>
-                        <td>${i}</td>
-                        <td>${group.getSchoolName()}</td>
-                        <td>${group.getName()}</td>
-                        <td>
-                            <a href="/group/member/remove?groupId=${group.getId()}">
-                                    ${group.getUsers().size()}
-                            </a>
-                        </td>
-                        <td>
-                            <a class="btn btn-primary" href="/mygroup?gid=${group.getId()}"
-                               role="button" aria-expanded="false">More</a>
-                        </td>
-                    </tr>
-                    <c:set var="i" value="${i+1}"/>
-                </c:forEach>
-            </c:if>
+            <c:forEach items="${groups}" var="group">
+                <tr>
+                    <td>${i}</td>
+                    <td>${group.getSchoolName()}</td>
+                    <td>${group.getName()}</td>
+                    <td>
+                        <a href="/group/member/remove?groupId=${group.getId()}">
+                                ${group.getUsers().size()+1}
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="/mygroup?gid=${group.getId()}"
+                           role="button" aria-expanded="false">More</a>
+                    </td>
+                </tr>
+                <c:set var="i" value="${i+1}"/>
+            </c:forEach>
             </tbody>
         </table>
         <div style="margin-left: 74.5%;margin-top: 20px">
