@@ -322,7 +322,7 @@
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="mrgn-30-top">
-                                <button type="submit" class="btn btn-larger btn-block"/>
+                                <button type="submit" class="btn btn-larger btn-block">
                                 Log in
                                 </button>
                                 <span style="color: red;margin-top: 5px">Doesn't have account <a
@@ -362,7 +362,7 @@
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="mrgn-30-top">
-                                <button type="submit" class="btn btn-larger btn-block"/>
+                                <button type="submit" class="btn btn-larger btn-block">
                                 Sign up
                                 </button>
                                 <span style="color: red;margin-top: 5px">Already have account <a href="/login">Login</a></span>
