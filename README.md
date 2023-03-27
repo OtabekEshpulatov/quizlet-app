@@ -6,7 +6,7 @@ In addition to these features, you can also organize your modules into folders t
 Overall, Quizlet is a very interesting project that has helped us learn and improve our skills. The platform is user-friendly and offers several useful features to enhance the learning experience.<br/><br/><br/>
 
 
-Otabek Eshpo'latov, Leader of this project.
+Otabek Eshpo'latov, Leader of this project. <br/><br/>
 
 
 ![Alt Text](https://github.com/OtabekEshpulatov/quizlet-app/blob/main/Screencast%20from%2003-27-2023%2011_32_56%20PM.gif)
