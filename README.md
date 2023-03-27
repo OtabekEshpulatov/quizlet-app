@@ -10,3 +10,15 @@ Otabek Eshpo'latov, Leader of this project. <br/><br/>
 
 
 ![Alt Text](https://github.com/OtabekEshpulatov/quizlet-app/blob/main/Screencast%20from%2003-27-2023%2011_32_56%20PM.gif)
+
+<br/> creating quizlets
+
+<br/><br/>
+
+![Alt Text](https://github.com/OtabekEshpulatov/quizlet-app/blob/main/Screencast-from-03-28-2023-12541.gif)
+
+<br/>  testing
+
+
+
+
